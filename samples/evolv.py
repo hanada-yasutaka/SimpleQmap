@@ -34,7 +34,7 @@ sample=300
 tmax=300
 q = np.random.random(sample)
 p = (np.random.random(sample) -0.5) * (pmax - pmin) * 2
-with open("classical_map.dat", "w") as f:
+with open("trajectories.dat", "w") as f:
     for i in range(tmax):
         pp = p - map.func0(q)
         qq = q + map.func1(pp)

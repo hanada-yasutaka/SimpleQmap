@@ -11,6 +11,7 @@ pmin=0.0
 pmax=1.0
 TYPE=$1
 export PYTHONPATH=../SimpleQmap:${PYTHONPATH}
+
 if [ $TYPE == evolv ]; then
     python evolv.py $N $k $qmin $qmax $pmin $pmax
 elif [ $TYPE == eigen ]; then
@@ -20,26 +21,42 @@ else
     exit 1
 fi
 
+dir=StandardMap_${TYPE}_k${k}_N${N}
+test -e ${dir} || (mkdir ${dir}; mkdir ${dir}/dat )
+echo "mkdir $dir"
+echo "mkdir $dir/dat"
 
+#### transfomation from q-rep to hsm-rep
 list=('*_qrep_*.dat')
+test -e ../SimpleQmap/shared/libhsm.so
+if [ `echo $?` -eq 0 ]; then 
+    for name in ${list[@]}; do
+        test -e ${name} || (echo "NOT exists ${name}" ; break)
+        vqmin=$qmin
+        vqmax=$qmax
+        vpmin=$pmin
+        vpmax=$pmax
+        row=100
+        col=100
+        python ../SimpleQmap/qrep2hsm.py ${name} $vqmin $vqmax $vpmin $vpmax $row $col
+        echo "${name} -> ${name/qrep/hsm}"
+    done
+else
+    echo "Worning: dose not compile libhsm.so"
+fi
+mv *.dat ${dir}/dat/
+echo '*.dat file moves to ${dir}/dat/ '
 
-for name in ${list[@]}; do
-    test -e ${name} || (echo "NOT exists ${name}" ; break)
-    vqmin=$qmin
-    vqmax=$qmax
-    vpmin=$pmin
-    vpmax=$pmax
-    row=100
-    col=100
-    python ../SimpleQmap/qrep2hsm.py ${name} $vqmin $vqmax $vpmin $vpmax $row $col
-    echo "${name} -> ${name/qrep/hsm}"
-done
-
-for hsm in *_hsm*.dat; do
-    test -e ${hsm} || (echo "NOT exist ${name}" ; break)
-    map=classical_map.dat
-    echo "${hsm} -> ${hsm/.dat/.png}"
-gnuplot<<EOF
+#### hsm data plot uging gnuplot
+test -e `which gnuplot`
+if [ `echo $?` -eq 0 ]; then 
+    list=("*hsm*.dat")
+    test -e $list
+    if [ `echo $?` -eq 0 ]; then 
+        for hsm in ${list[@]}; do   
+            map=trajectories.dat
+        echo "${hsm} -> ${hsm/.dat/.png}"
+        gnuplot<<EOF
 set term png size 600, 600 font arial 16
 set output '${hsm/.dat/.png}'
 set multiplot
@@ -57,13 +74,14 @@ set xl 'q'
 set yl 'p'
 sp "$map" u 1:2:(0.0) w d lc -1 tit ''
 EOF
-done
+        done
+    test -e ${dir} || (mkdir ${dir}; mkdir ${dir}/dat )        
+    mv *.png ${dir}/png/
+    echo "mkdir $dir/png"    
+    echo '*.png file moves to ${dir}/png/ '    
+    fi
+else
+    echo "Worning: gnuplot does not exist"
+fi
 
-dir=StandardMap_${TYPE}_k${k}_N${N}
-test -e ${dir} || (mkdir ${dir}; mkdir ${dir}/dat ${dir}/png)
-
-mv *.dat ${dir}/dat/
-mv *.png ${dir}/png/
-
-echo '*.dat file moves to ${dir}/dat/ '
-echo '*.png file moves to ${dir}/png/ '
+echo "Done."
