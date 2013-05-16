@@ -211,7 +211,7 @@ class State(numpy.ndarray):
         coh_state = self._cs(q_c, p_c, long_q)
 
         vec = numpy.zeros(self.scaleinfo.dim, dtype=numpy.complex128) 
-        m = len(coh_state)/self.scaleinfo.dim
+        m = int(len(coh_state)/self.scaleinfo.dim)
         coh_state = coh_state.reshape(m,self.scaleinfo.dim)
         
         for i in range(m):
