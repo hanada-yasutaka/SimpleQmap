@@ -1,0 +1,10 @@
+*~
+*.pyc
+*_
+.DS_Store
+.project
+.pydevproject
+.settings/
+SimpleQmap/__pycache__/
+SimpleQmap/shared/
+samples/StandardMap*
