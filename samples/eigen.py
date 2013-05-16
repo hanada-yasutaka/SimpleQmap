@@ -1,8 +1,4 @@
 import sys
-import os
-
-sys.path.append("../SimpleQmap")
-import os
 from qmap import Qmap
 from maps import StandardMap
 import numpy as np

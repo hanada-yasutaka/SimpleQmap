@@ -19,14 +19,14 @@ tmax = 100
 map = StandardMap(k=k)
 domain = [[qmin,qmax],[pmin,pmax]]
 qmap = Qmap(map, dim, domain)
-init=np.zeros(dim,dtype=np.complex128)
-init[dim/2] = 1.0 + 0.j
-qmap.setInit(init)
-x = qmap.getX()
+state = qmap.getState().cs(0.5,0.5)
+#init[dim/2] = 1.0 + 0.j
+qmap.setInit(state)
+
 tmax=10
 for i in range(tmax):
-    vec = qmap.getIn()
-    qmap.saveVector("evolv_qrep_%d.dat" % i, vec)
+    state = qmap.getIn()
+    state.savetxt("evolv_qrep_%d.dat" % i)
     qmap.evol()
 
 
