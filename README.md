@@ -2,7 +2,7 @@
 
 SimpleQmap is python calculator quantum chaotic map for an introduction.
 
-#### Licence
+#### License
 SimpleQmap is distributed under the GNU LGPL license.
 
 #### Requirements

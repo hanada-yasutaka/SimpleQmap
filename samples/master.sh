@@ -3,7 +3,7 @@ if [ $# != 1 ]; then
     echo "usage $0: eigen.py (or evolv.py) " 2<&1
     exit 1
 fi
-N=10
+N=20
 k=1.0 
 qmin=0.0
 qmax=1.0

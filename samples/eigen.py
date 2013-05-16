@@ -1,5 +1,8 @@
 import sys
 import os
+
+sys.path.append("../SimpleQmap")
+import os
 from qmap import Qmap
 from maps import StandardMap
 import numpy as np
@@ -14,15 +17,18 @@ qmin = float(sys.argv[3])
 qmax = float(sys.argv[4])
 pmin = float(sys.argv[5])
 pmax = float(sys.argv[6])
+domain = [[qmin,qmax],[pmin,pmax]]
+
+#dim = 10
+#domain=[[0.0, 1.0],[-0.5,0.5]]
+#k=1.0
 
 map = StandardMap(k=k)
-domain = [[qmin,qmax],[pmin,pmax]]
 qmap = Qmap(map, dim, domain)
+
 evals, evecs = qmap.eigen()
-np.savetxt("eigen_vals.dat", np.array([evals.real, evals.imag]).transpose())
-x = qmap.getX()
-for i,evec in enumerate(evecs):
-    qmap.saveVector("eigen_qrep_%d.dat" % i, evec, evals[i])
+for i, evec in enumerate(evecs):
+    evec.savetxt("eigen_qrep_%i.dat" % i)
 
 
 sample=300

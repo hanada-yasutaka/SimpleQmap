@@ -45,8 +45,8 @@ class call_hsm_rep(object):
             )
 		hsm_data=numpy.array([data[i][j] for i in range(row) for j in range(col)])
 		hsm_imag = hsm_data.reshape(row,col)
-		x = numpy.linspace(vqmin, vqmax, dim)
-		y = numpy.linspace(vpmin, vpmax, dim)
-		X,Y = numpy.meshgrid(x,y)
+#		x = numpy.linspace(vqmin, vqmax, row)
+#		y = numpy.linspace(vpmin, vpmax, col)
+#		X,Y = numpy.meshgrid(x,y)
 
 		return hsm_imag
