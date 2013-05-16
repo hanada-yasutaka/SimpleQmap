@@ -37,4 +37,5 @@ with open("trajectories.dat", "w") as f:
         qq = q + map.func1(pp)
         q = qq - np.floor(qq)
         p = pp
-        np.savetxt(f, np.array([q, p]).transpose())
+        [ f.write("%.16e %.16e\n" % (q[i],p[i])) for i in range(sample)  ] 
+        #np.savetxt(f, np.array([q, p]).transpose())
