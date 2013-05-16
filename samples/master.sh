@@ -13,7 +13,7 @@ PYFILE=$1
 export PYTHONPATH=../SimpleQmap:${PYTHONPATH}
 
 ## python 
-python ${PYFILE} $N $k $qmin $qmax $pmin $pmax 
+python3.3 ${PYFILE} $N $k $qmin $qmax $pmin $pmax 
 
 if [ `echo $?` -ne 0 ]; then
     echo "usage $0: eigen.py (or evolv.py) "
@@ -82,7 +82,7 @@ fi
 test -e ${dir}/png || ( mkdir ${dir}/png )        
 mv *.png ${dir}/png/
 echo "mkdir $dir/png"    
-echo '*.png file moves to ${dir}/png/ '    
+echo '*.png file moves to' "${dir}/png/"
 mv *.dat ${dir}/dat/
-echo '*.dat file moves to ${dir}/dat/ '
+echo '*.dat file moves to' "${dir}/dat/"
 echo "Done."
