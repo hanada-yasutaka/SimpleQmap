@@ -1,7 +1,12 @@
-#-*- coding:utf-8 -*-
+# -*- coding:utf-8 -*-
+"""
+state.py
+
+Basic Setting and Quantum states
+"""
+
 import numpy
 twopi = 2.0*numpy.pi
-
 
         
 class ScaleInfo(object):
@@ -67,8 +72,11 @@ class State(numpy.ndarray):
 
     Examples
     ----------
-    from qmap import State, ScaleInfo
+    >>> from qmap import State, ScaleInfo
     >>> scl = ScaleInfo(10, [[0,1],[-0.5,0.5]])
+    >>> State(scl, range(10))
+    State([ 0.+0.j,  1.+0.j,  2.+0.j,  3.+0.j,  4.+0.j,  5.+0.j,  6.+0.j,
+            7.+0.j,  8.+0.j,  9.+0.j])
     >>> vec = State(scl)
     >>> print(vec)
     [ 0.+0.j  0.+0.j  0.+0.j  0.+0.j  0.+0.j  0.+0.j  0.+0.j  0.+0.j  0.+0.j
@@ -76,7 +84,7 @@ class State(numpy.ndarray):
     >>> print(vec.scaleinfo.x[0])
     [ 0.   0.1  0.2  0.3  0.4  0.5  0.6  0.7  0.8  0.9]
     >>> newvec = vec.copy()
-    >>> print newvec
+    >>> print(newvec)
     [ 0.+0.j  0.+0.j  0.+0.j  0.+0.j  0.+0.j  0.+0.j  0.+0.j  0.+0.j  0.+0.j
       0.+0.j]
     >>> print(newvec.scaleinfo.h)
@@ -88,6 +96,10 @@ class State(numpy.ndarray):
     >>> newvec
     State([ 1.+0.j,  0.+0.j,  0.+0.j,  0.+0.j,  0.+0.j,  0.+0.j,  0.+0.j,
             0.+0.j,  0.+0.j,  0.+0.j])
+    
+    See Also
+    ----------
+    Numpy Document <http://docs.scipy.org/doc/numpy/user/basics.subclassing.html>
     """
     
     def __new__(cls, scaleinfo, data=None):
@@ -101,7 +113,19 @@ class State(numpy.ndarray):
     def __array_finalize__(self, obj):
         if obj is None: return
         self.scaleinfo = getattr(obj, 'scaleinfo',None)
+
     def savetxt(self, title):
+        """ 
+        Save an state data to text file 
+        
+        Parameters
+        ----------
+        title: filename
+        
+        See Also
+        ----------
+        numpy.savetxt
+        """
         ann = self.__annotate()
         abs2 = numpy.abs(self*numpy.conj(self))
         data = numpy.array([self.scaleinfo.x[0], abs2, self.real, self.imag])
@@ -117,11 +141,31 @@ class State(numpy.ndarray):
         ann += "PMAX %s\n" % self.scaleinfo.domain[1][1]
         return ann
     
-    def one(self, index):
-        self[index] = 1.0 + 0.j
-        return self 
+    def insert(self, i, x=1.0+0.j):
+        """
+        >>> from state import State, ScaleInfo
+        >>> scl = ScaleInfo(10, [[0,1],[-0.5,0.5]])
+        >>> state = State(scl)
+        >>> state.insert(2,2.0+1.j)
+        >>> print(state)
+        [ 0.+0.j  0.+0.j  2.+1.j  0.+0.j  0.+0.j  0.+0.j  0.+0.j  0.+0.j  0.+0.j
+          0.+0.j]
+        """
+        if not isinstance(i, int): raise ValueError("excepted: integer")
+        self[i] = x
+
     
     def _cs(self, q_c, p_c, x=None):
+        """ 
+        minimum-uncertainty Gaussian wave packet centered at (q0,p0)
+        周期的境界条件を課してないので特別な理由がない限り使うな．
+        Parameters
+        ----------
+        q_c, p_c : float
+            Centroid (q_c,p_c) of wave packet
+        x : (optional) array
+            if x is None, x is replaced scaleinfo q-direction (self.scaleinfo.x[0])
+        """ 
         if x == None:
             x = self.scaleinfo.x[0]
         re = -(x - q_c)*(x - q_c)*numpy.pi/(self.scaleinfo.h)
@@ -131,7 +175,34 @@ class State(numpy.ndarray):
         return res/numpy.sqrt(norm2)
     
     # todo: like classmethod 
+
     def cs(self, q_c, p_c):
+        """ 
+        create new state which 
+        minimum-uncertainty Gaussian wave packet centered at (q_c,p_c) on periodic boundary condition.
+        
+        Parameters
+        ----------
+        q_c, p_c : float
+            Centroid (q_c,p_c) of wave packet
+        
+        Examples
+        ----------
+        >>> from state import State, ScaleInfo
+        >>> scl = ScaleInfo(10, [[0,1],[-0.5,0.5]])
+        >>> state = State(scl)
+        >>> state.cs(0.5,0.1)
+        State([ -5.19214101e-04 +4.91950621e-47j,
+                -3.55650243e-03 -2.58395027e-03j,
+                -1.22265106e-02 -3.76293303e-02j,
+                 5.88151479e-02 -1.81014412e-01j,
+                 3.95164004e-01 -2.87103454e-01j,
+                 6.68740103e-01 -8.71513377e-71j,
+                 3.95164004e-01 +2.87103454e-01j,
+                 5.88151479e-02 +1.81014412e-01j,
+                -1.22265106e-02 +3.76293303e-02j,  -3.55650243e-03 +2.58395027e-03j])
+        """         
+        
         qrange = self.scaleinfo.domain[0]
         d = qrange[1] - qrange[0]
         lqmin, lqmax = qrange[0] - 2*d, qrange[1] + 2*d
@@ -146,4 +217,12 @@ class State(numpy.ndarray):
         for i in range(m):
             vec += coh_state[i][::1]
         norm2 = numpy.dot(vec, numpy.conj(vec))
+        
         return State(self.scaleinfo, vec/numpy.sqrt(norm2))
+    
+def _test():
+    import doctest
+    doctest.testmod()
+
+if __name__ == "__main__":
+    _test()

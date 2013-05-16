@@ -58,10 +58,11 @@ class Qmap(object):
 
     def setMatrix(self):
         self.matrix = numpy.zeros([self.dim, self.dim],dtype=numpy.complex128)
-
+        
         for i in range(self.dim):
             vec = State(self.scaleinfo)
-            self.setInit(vec.one(i))
+            vec.insert(i,1.0+0j)
+            self.setInit(vec)
             self.operate()
             self.matrix[i,:] = self.stateOut
         self.matrix = numpy.transpose(self.matrix)
@@ -83,3 +84,10 @@ class Qmap(object):
         except AttributeError:
             self.setMatrix()
             return self.matrix
+
+def _test():
+    import doctest
+    doctest.testmod()
+
+if __name__ == "__main__":
+    _test() 
