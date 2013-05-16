@@ -8,13 +8,12 @@ SimpleQmap is distributed under the GNU LGPL license.
 
 #### Requirements
 * Mac OS X or Linux environment (does not support Windows)
+* SimpleQmap requires Python 2.5 or later. It has been tested with Python2.6, 2.7 and 3.3.
+* You'll need a following other package:
 
-* You'll need a following package:
-
-	1. python2.6 or python2.7
-	2. numpy
-	3. gcc (optional)
-	4. gnuplot(optioal)
+	1. numpy1.7.1 or later
+	2. gcc (optional)
+	3. gnuplot(optioal)
 
 #### Download & installation
 
