@@ -5,7 +5,6 @@
 .project
 .pydevproject
 .settings/
-docs/
 SimpleQmap/__pycache__/
 SimpleQmap/shared/
 samples/StandardMap*
