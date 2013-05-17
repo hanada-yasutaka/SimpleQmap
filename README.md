@@ -21,8 +21,6 @@ SimpleQmap is distributed under the GNU LGPL license.
 
 You can download from github website
 
-Documentation <http://simpleqmap.appspot.com/index.html>
-
 To install, unpack the SimpleQmap archive and optionally run 
 
 	cd SimpleQmap/
