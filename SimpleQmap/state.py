@@ -2,7 +2,11 @@
 """
 state.py
 
-Basic Setting and Quantum states
+author: Yasutaka Hanada (2013/05/17)
+
+Domain Setting and Quantum states.
+
+
 """
 
 import numpy
@@ -58,20 +62,30 @@ class ScaleInfo(object):
 class State(numpy.ndarray):
     """
     
-    State はScaleInfoで定義された上で複素ベクトルを提供します．
+    State はScaleInfoで定義された上で波動関数を提供します．
+    作られた波動関数の表示は`q-`表示ですが，各種変換を定義しています．
     numpy.ndarrayを継承しています．
+    
+    .. todo:: `p-`表示及び伏見表示はまだ作っていません． 
+    
     
     Parameters
     ----------
     scaleinfo : ScaleInfo instance
-
-    data: (optional) State
-        if data is None, return a new array of given scaleinfo, filled with zeros.
-        if data is not None, return a new array of given data, 
-        Note that length data must be same scaleinfo dimnsion.
-
+                input scaleinfo instance
+    data     : State, optional
+                 if data is None, return a new array of given scaleinfo, filled with zeros.
+                 if data is not None, return a new array of given data, 
+                 Note that length data must be same scaleinfo dimnsion.
+    
+    See Also
+    --------
+    numpy.ndarray : subclassing ndarray <http://docs.scipy.org/doc/numpy/user/basics.subclassing.html>
+    
+    
     Examples
     ----------
+    
     >>> from qmap import State, ScaleInfo
     >>> scl = ScaleInfo(10, [[0,1],[-0.5,0.5]])
     >>> State(scl, range(10))
@@ -97,9 +111,6 @@ class State(numpy.ndarray):
     State([ 1.+0.j,  0.+0.j,  0.+0.j,  0.+0.j,  0.+0.j,  0.+0.j,  0.+0.j,
             0.+0.j,  0.+0.j,  0.+0.j])
     
-    See Also
-    ----------
-    Numpy Document <http://docs.scipy.org/doc/numpy/user/basics.subclassing.html>
     """
     
     def __new__(cls, scaleinfo, data=None):
@@ -124,7 +135,8 @@ class State(numpy.ndarray):
         
         See Also
         ----------
-        numpy.savetxt
+        numpy.savetxt <http://docs.scipy.org/doc/numpy/reference/generated/numpy.savetxt.html>
+
         """
         ann = self.__annotate()
         abs2 = numpy.abs(self*numpy.conj(self))
@@ -143,6 +155,7 @@ class State(numpy.ndarray):
     
     def insert(self, i, x=1.0+0.j):
         """
+        
         >>> from state import State, ScaleInfo
         >>> scl = ScaleInfo(10, [[0,1],[-0.5,0.5]])
         >>> state = State(scl)
@@ -150,21 +163,31 @@ class State(numpy.ndarray):
         >>> print(state)
         [ 0.+0.j  0.+0.j  2.+1.j  0.+0.j  0.+0.j  0.+0.j  0.+0.j  0.+0.j  0.+0.j
           0.+0.j]
+        
         """
         if not isinstance(i, int): raise ValueError("excepted: integer")
         self[i] = x
 
     
-    def _cs(self, q_c, p_c, x=None):
+    def coherent(self, q_c, p_c, x=None):
         """ 
-        minimum-uncertainty Gaussian wave packet centered at (q0,p0)
-        周期的境界条件を課してないので特別な理由がない限り使うな．
+        
+        minimum-uncertainty Gaussian wave packet centered at (q_c,p_c)
+        
+        .. math:: 
+        
+            \Psi(q) = \exp[-(q-q_c)^2/2\hbar + p_c(q-q_c)/\hbar]
+            
+        .. warning: 周期的境界条件を課してないので特別な理由がない限り使わないで下さい．
+        
         Parameters
         ----------
+        
         q_c, p_c : float
-            Centroid (q_c,p_c) of wave packet
+            Centroid (q_c,p_c) of the wave packet
         x : (optional) array
             if x is None, x is replaced scaleinfo q-direction (self.scaleinfo.x[0])
+        
         """ 
         if x == None:
             x = self.scaleinfo.x[0]
@@ -174,20 +197,22 @@ class State(numpy.ndarray):
         norm2 = numpy.abs(numpy.dot(res, numpy.conj(res)))
         return res/numpy.sqrt(norm2)
     
-    # todo: like classmethod 
-
     def cs(self, q_c, p_c):
         """ 
         create new state which 
         minimum-uncertainty Gaussian wave packet centered at (q_c,p_c) on periodic boundary condition.
         
+        .. todo:: classmethod　っぽくしたい
+        
         Parameters
         ----------
+        
         q_c, p_c : float
             Centroid (q_c,p_c) of wave packet
         
         Examples
         ----------
+        
         >>> from state import State, ScaleInfo
         >>> scl = ScaleInfo(10, [[0,1],[-0.5,0.5]])
         >>> state = State(scl)
@@ -201,6 +226,11 @@ class State(numpy.ndarray):
                  3.95164004e-01 +2.87103454e-01j,
                  5.88151479e-02 +1.81014412e-01j,
                 -1.22265106e-02 +3.76293303e-02j,  -3.55650243e-03 +2.58395027e-03j])
+                
+        .. seealso:: 
+        
+            Module :state:`coherent`
+        
         """         
         
         qrange = self.scaleinfo.domain[0]
@@ -208,7 +238,7 @@ class State(numpy.ndarray):
         lqmin, lqmax = qrange[0] - 2*d, qrange[1] + 2*d
         long_q = numpy.linspace(lqmin, lqmax, 5*self.scaleinfo.dim, endpoint=False)
         
-        coh_state = self._cs(q_c, p_c, long_q)
+        coh_state = self.coherent(q_c, p_c, long_q)
 
         vec = numpy.zeros(self.scaleinfo.dim, dtype=numpy.complex128) 
         m = int(len(coh_state)/self.scaleinfo.dim)

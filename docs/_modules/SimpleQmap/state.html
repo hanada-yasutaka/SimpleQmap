@@ -1,0 +1,322 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>SimpleQmap.state &mdash; SimpleQmap  documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="SimpleQmap  documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">SimpleQmap  documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for SimpleQmap.state</h1><div class="highlight"><pre>
+<span class="c"># -*- coding:utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">state.py</span>
+
+<span class="sd">Basic Setting and Quantum states</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="n">twopi</span> <span class="o">=</span> <span class="mf">2.0</span><span class="o">*</span><span class="n">numpy</span><span class="o">.</span><span class="n">pi</span>
+
+        
+<div class="viewcode-block" id="ScaleInfo"><a class="viewcode-back" href="../../SimpleQmap.html#SimpleQmap.state.ScaleInfo">[docs]</a><span class="k">class</span> <span class="nc">ScaleInfo</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    </span>
+<span class="sd">    ScaleInfoは位相空間の定義域を設定するためのclassです．</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dim : int</span>
+<span class="sd">        Hilbert Space dimension</span>
+<span class="sd">    domain: list</span>
+<span class="sd">        domain of phase space. expected 2 by 2 list, e.g., [[qmin,qmax], [pmin, pmax]]</span>
+<span class="sd">    </span>
+<span class="sd">    Examples</span>
+<span class="sd">    ----------</span>
+<span class="sd">    &gt;&gt;&gt; from qmap import ScaleInfo</span>
+<span class="sd">    &gt;&gt;&gt; scl = ScaleInfo(10, [[0,1],[-0.5,0.5]])</span>
+<span class="sd">    &gt;&gt;&gt; print(scl.x[0])</span>
+<span class="sd">    [ 0.   0.1  0.2  0.3  0.4  0.5  0.6  0.7  0.8  0.9]</span>
+<span class="sd">    &gt;&gt;&gt; print(scl.x[1])</span>
+<span class="sd">    [-0.5 -0.4 -0.3 -0.2 -0.1  0.   0.1  0.2  0.3  0.4]</span>
+<span class="sd">    &gt;&gt;&gt; print(scl.h) # scl.getPlanck()</span>
+<span class="sd">    0.1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">domain</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">=</span> <span class="n">dim</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__setDomain</span><span class="p">(</span><span class="n">domain</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">__setDomain</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">domain</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">domain</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;qmin &gt; qmax&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">domain</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">domain</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;pmin &lt; qmax&quot;</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">domain</span> <span class="o">=</span> <span class="n">domain</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getPlanck</span><span class="p">()</span>
+
+<div class="viewcode-block" id="ScaleInfo.getPlanck"><a class="viewcode-back" href="../../SimpleQmap.html#SimpleQmap.state.ScaleInfo.getPlanck">[docs]</a>    <span class="k">def</span> <span class="nf">getPlanck</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; return effective planck constant &quot;&quot;&quot;</span>
+        <span class="n">W</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">W</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span>
+</div>
+<div class="viewcode-block" id="ScaleInfo.getX"><a class="viewcode-back" href="../../SimpleQmap.html#SimpleQmap.state.ScaleInfo.getX">[docs]</a>    <span class="k">def</span> <span class="nf">getX</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; return [q, p] &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span>
+</div></div>
+<div class="viewcode-block" id="State"><a class="viewcode-back" href="../../SimpleQmap.html#SimpleQmap.state.State">[docs]</a><span class="k">class</span> <span class="nc">State</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    </span>
+<span class="sd">    State はScaleInfoで定義された上で複素ベクトルを提供します．</span>
+<span class="sd">    numpy.ndarrayを継承しています．</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    scaleinfo : ScaleInfo instance</span>
+
+<span class="sd">    data: (optional) State</span>
+<span class="sd">        if data is None, return a new array of given scaleinfo, filled with zeros.</span>
+<span class="sd">        if data is not None, return a new array of given data, </span>
+<span class="sd">        Note that length data must be same scaleinfo dimnsion.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    ----------</span>
+<span class="sd">    &gt;&gt;&gt; from qmap import State, ScaleInfo</span>
+<span class="sd">    &gt;&gt;&gt; scl = ScaleInfo(10, [[0,1],[-0.5,0.5]])</span>
+<span class="sd">    &gt;&gt;&gt; State(scl, range(10))</span>
+<span class="sd">    State([ 0.+0.j,  1.+0.j,  2.+0.j,  3.+0.j,  4.+0.j,  5.+0.j,  6.+0.j,</span>
+<span class="sd">            7.+0.j,  8.+0.j,  9.+0.j])</span>
+<span class="sd">    &gt;&gt;&gt; vec = State(scl)</span>
+<span class="sd">    &gt;&gt;&gt; print(vec)</span>
+<span class="sd">    [ 0.+0.j  0.+0.j  0.+0.j  0.+0.j  0.+0.j  0.+0.j  0.+0.j  0.+0.j  0.+0.j</span>
+<span class="sd">      0.+0.j]</span>
+<span class="sd">    &gt;&gt;&gt; print(vec.scaleinfo.x[0])</span>
+<span class="sd">    [ 0.   0.1  0.2  0.3  0.4  0.5  0.6  0.7  0.8  0.9]</span>
+<span class="sd">    &gt;&gt;&gt; newvec = vec.copy()</span>
+<span class="sd">    &gt;&gt;&gt; print(newvec)</span>
+<span class="sd">    [ 0.+0.j  0.+0.j  0.+0.j  0.+0.j  0.+0.j  0.+0.j  0.+0.j  0.+0.j  0.+0.j</span>
+<span class="sd">      0.+0.j]</span>
+<span class="sd">    &gt;&gt;&gt; print(newvec.scaleinfo.h)</span>
+<span class="sd">    0.1</span>
+<span class="sd">    &gt;&gt;&gt; newvec[0] = 1.0+0.j</span>
+<span class="sd">    &gt;&gt;&gt; vec</span>
+<span class="sd">    State([ 0.+0.j,  0.+0.j,  0.+0.j,  0.+0.j,  0.+0.j,  0.+0.j,  0.+0.j,</span>
+<span class="sd">            0.+0.j,  0.+0.j,  0.+0.j])</span>
+<span class="sd">    &gt;&gt;&gt; newvec</span>
+<span class="sd">    State([ 1.+0.j,  0.+0.j,  0.+0.j,  0.+0.j,  0.+0.j,  0.+0.j,  0.+0.j,</span>
+<span class="sd">            0.+0.j,  0.+0.j,  0.+0.j])</span>
+<span class="sd">    </span>
+<span class="sd">    See Also</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Numpy Document &lt;http://docs.scipy.org/doc/numpy/user/basics.subclassing.html&gt;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">scaleinfo</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">scaleinfo</span> <span class="p">,</span> <span class="n">ScaleInfo</span><span class="p">):</span> <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;expected type ScaleInfo&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">scaleinfo</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">data</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">scaleinfo</span><span class="o">.</span><span class="n">dim</span><span class="p">)</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">scaleinfo</span> <span class="o">=</span> <span class="n">scaleinfo</span>
+        <span class="k">return</span> <span class="n">obj</span>
+
+    <span class="k">def</span> <span class="nf">__array_finalize__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span> <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaleinfo</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s">&#39;scaleinfo&#39;</span><span class="p">,</span><span class="bp">None</span><span class="p">)</span>
+
+<div class="viewcode-block" id="State.savetxt"><a class="viewcode-back" href="../../SimpleQmap.html#SimpleQmap.state.State.savetxt">[docs]</a>    <span class="k">def</span> <span class="nf">savetxt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">        Save an state data to text file </span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        title: filename</span>
+<span class="sd">        </span>
+<span class="sd">        See Also</span>
+<span class="sd">        ----------</span>
+<span class="sd">        numpy.savetxt</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ann</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__annotate</span><span class="p">()</span>
+        <span class="n">abs2</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">*</span><span class="n">numpy</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">scaleinfo</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">abs2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">imag</span><span class="p">])</span>
+        <span class="n">numpy</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">transpose</span><span class="p">(),</span> <span class="n">header</span><span class="o">=</span><span class="n">ann</span><span class="p">)</span>
+    </div>
+    <span class="k">def</span> <span class="nf">__annotate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">datetime</span>
+        <span class="n">ann</span> <span class="o">=</span><span class="s">&quot;DATE: </span><span class="si">%s</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+        <span class="n">ann</span> <span class="o">+=</span> <span class="s">&quot;DIM </span><span class="si">%d</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaleinfo</span><span class="o">.</span><span class="n">dim</span>
+        <span class="n">ann</span> <span class="o">+=</span> <span class="s">&quot;QMIN </span><span class="si">%s</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaleinfo</span><span class="o">.</span><span class="n">domain</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">ann</span> <span class="o">+=</span> <span class="s">&quot;QMAX </span><span class="si">%s</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaleinfo</span><span class="o">.</span><span class="n">domain</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">ann</span> <span class="o">+=</span> <span class="s">&quot;PMIN </span><span class="si">%s</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaleinfo</span><span class="o">.</span><span class="n">domain</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">ann</span> <span class="o">+=</span> <span class="s">&quot;PMAX </span><span class="si">%s</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaleinfo</span><span class="o">.</span><span class="n">domain</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">ann</span>
+    
+<div class="viewcode-block" id="State.insert"><a class="viewcode-back" href="../../SimpleQmap.html#SimpleQmap.state.State.insert">[docs]</a>    <span class="k">def</span> <span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mf">1.0</span><span class="o">+</span><span class="mf">0.j</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &gt;&gt;&gt; from state import State, ScaleInfo</span>
+<span class="sd">        &gt;&gt;&gt; scl = ScaleInfo(10, [[0,1],[-0.5,0.5]])</span>
+<span class="sd">        &gt;&gt;&gt; state = State(scl)</span>
+<span class="sd">        &gt;&gt;&gt; state.insert(2,2.0+1.j)</span>
+<span class="sd">        &gt;&gt;&gt; print(state)</span>
+<span class="sd">        [ 0.+0.j  0.+0.j  2.+1.j  0.+0.j  0.+0.j  0.+0.j  0.+0.j  0.+0.j  0.+0.j</span>
+<span class="sd">          0.+0.j]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span> <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;excepted: integer&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span>
+
+    </div>
+    <span class="k">def</span> <span class="nf">_cs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q_c</span><span class="p">,</span> <span class="n">p_c</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">        minimum-uncertainty Gaussian wave packet centered at (q0,p0)</span>
+<span class="sd">        周期的境界条件を課してないので特別な理由がない限り使うな．</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q_c, p_c : float</span>
+<span class="sd">            Centroid (q_c,p_c) of wave packet</span>
+<span class="sd">        x : (optional) array</span>
+<span class="sd">            if x is None, x is replaced scaleinfo q-direction (self.scaleinfo.x[0])</span>
+<span class="sd">        &quot;&quot;&quot;</span> 
+        <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaleinfo</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">re</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">q_c</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">q_c</span><span class="p">)</span><span class="o">*</span><span class="n">numpy</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scaleinfo</span><span class="o">.</span><span class="n">h</span><span class="p">)</span>
+        <span class="n">im</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">q_c</span><span class="p">)</span><span class="o">*</span><span class="n">p_c</span><span class="o">*</span><span class="n">twopi</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">scaleinfo</span><span class="o">.</span><span class="n">h</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">re</span><span class="o">+</span> <span class="mf">1.j</span><span class="o">*</span><span class="n">im</span><span class="p">)</span>
+        <span class="n">norm2</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">res</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="n">res</span><span class="o">/</span><span class="n">numpy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">norm2</span><span class="p">)</span>
+    
+    <span class="c"># todo: like classmethod </span>
+
+<div class="viewcode-block" id="State.cs"><a class="viewcode-back" href="../../SimpleQmap.html#SimpleQmap.state.State.cs">[docs]</a>    <span class="k">def</span> <span class="nf">cs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q_c</span><span class="p">,</span> <span class="n">p_c</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">        create new state which </span>
+<span class="sd">        minimum-uncertainty Gaussian wave packet centered at (q_c,p_c) on periodic boundary condition.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        q_c, p_c : float</span>
+<span class="sd">            Centroid (q_c,p_c) of wave packet</span>
+<span class="sd">        </span>
+<span class="sd">        Examples</span>
+<span class="sd">        ----------</span>
+<span class="sd">        &gt;&gt;&gt; from state import State, ScaleInfo</span>
+<span class="sd">        &gt;&gt;&gt; scl = ScaleInfo(10, [[0,1],[-0.5,0.5]])</span>
+<span class="sd">        &gt;&gt;&gt; state = State(scl)</span>
+<span class="sd">        &gt;&gt;&gt; state.cs(0.5,0.1)</span>
+<span class="sd">        State([ -5.19214101e-04 +4.91950621e-47j,</span>
+<span class="sd">                -3.55650243e-03 -2.58395027e-03j,</span>
+<span class="sd">                -1.22265106e-02 -3.76293303e-02j,</span>
+<span class="sd">                 5.88151479e-02 -1.81014412e-01j,</span>
+<span class="sd">                 3.95164004e-01 -2.87103454e-01j,</span>
+<span class="sd">                 6.68740103e-01 -8.71513377e-71j,</span>
+<span class="sd">                 3.95164004e-01 +2.87103454e-01j,</span>
+<span class="sd">                 5.88151479e-02 +1.81014412e-01j,</span>
+<span class="sd">                -1.22265106e-02 +3.76293303e-02j,  -3.55650243e-03 +2.58395027e-03j])</span>
+<span class="sd">        &quot;&quot;&quot;</span>         
+        
+        <span class="n">qrange</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaleinfo</span><span class="o">.</span><span class="n">domain</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">qrange</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">qrange</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">lqmin</span><span class="p">,</span> <span class="n">lqmax</span> <span class="o">=</span> <span class="n">qrange</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">d</span><span class="p">,</span> <span class="n">qrange</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">d</span>
+        <span class="n">long_q</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">lqmin</span><span class="p">,</span> <span class="n">lqmax</span><span class="p">,</span> <span class="mi">5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">scaleinfo</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+        
+        <span class="n">coh_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cs</span><span class="p">(</span><span class="n">q_c</span><span class="p">,</span> <span class="n">p_c</span><span class="p">,</span> <span class="n">long_q</span><span class="p">)</span>
+
+        <span class="n">vec</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scaleinfo</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span> 
+        <span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">coh_state</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">scaleinfo</span><span class="o">.</span><span class="n">dim</span>
+        <span class="n">coh_state</span> <span class="o">=</span> <span class="n">coh_state</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">scaleinfo</span><span class="o">.</span><span class="n">dim</span><span class="p">)</span>
+        
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+            <span class="n">vec</span> <span class="o">+=</span> <span class="n">coh_state</span><span class="p">[</span><span class="n">i</span><span class="p">][::</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">norm2</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">vec</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">vec</span><span class="p">))</span>
+        
+        <span class="k">return</span> <span class="n">State</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scaleinfo</span><span class="p">,</span> <span class="n">vec</span><span class="o">/</span><span class="n">numpy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">norm2</span><span class="p">))</span>
+    </div></div>
+<span class="k">def</span> <span class="nf">_test</span><span class="p">():</span>
+    <span class="kn">import</span> <span class="nn">doctest</span>
+    <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">_test</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">SimpleQmap  documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Author.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
