@@ -13,7 +13,7 @@ PYFILE=$1
 export PYTHONPATH=../SimpleQmap:${PYTHONPATH}
 
 ## python 
-python3.3 ${PYFILE} $N $k $qmin $qmax $pmin $pmax 
+python ${PYFILE} $N $k $qmin $qmax $pmin $pmax 
 
 if [ `echo $?` -ne 0 ]; then
     echo "usage $0: eigen.py (or evolv.py) "
