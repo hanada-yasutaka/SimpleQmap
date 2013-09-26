@@ -4,14 +4,14 @@ maps.py
 
 author: Yasutaka Hanada (2013/05/17)
 
-Difinition of systems
 
-系はハミルトニアン
-    .. math::
+系はkicked rotator
+    
+.. math::
         
-        H(q,p) = T(p) + V(q)
+    H(q,p) = T(p) + V(q)\sum_{n\in\mathbb{Z}}\delta(t-n)
         
-で定義可能とします．
+で定義します．
 
 """
 
@@ -25,26 +25,38 @@ class StandardMap(Symplectic):
     標準写像
     
     Hamiltonian
-        .. math::
+    
+    .. math::
             
-            H(q,p) = ¥frac{p^2}{2} + ¥frac{k}{2¥pi}*cos(2¥pi q) 
+        T(p) = \\frac{p^2}{2},\qquad \\frac{k}{4\pi^2}\cos(2\pi q) 
             
+
+    
+    .. figure:: ./imag/std.png
+       :scale: 50%
+
+    Phase space portrait of Standard Map with :math:`k = 1`
     
     Parameters
     ----------
     k : float
-        non-linear paramter
+    	paramter
+    	
+    	
+
+	
+    
     """
     def __init__(self, k):
         self.k = k
 
     def func0(self, x):
         """
-        return - dV(q)/dq
+        return :math:`dV(q)/dq = k\sin(2\pi q)/2\pi`
         
         Parameters
         ---------
-            x: array like (can be complex)
+            x: array like
         
         Returns
         ---------
@@ -54,11 +66,11 @@ class StandardMap(Symplectic):
         
     def func1(self, x):
         """
-        return dT(p)/dp
+        return :math:`dT(p)/dp = p`
                 
         Parameters
         ---------
-            x: array like (can be complex)
+            x: array like
         
         Returns
         ---------
@@ -69,11 +81,11 @@ class StandardMap(Symplectic):
         
     def ifunc0(self, x):
         """
-        return V(q)
+        return :math:`V(q)`
                 
         Parameters
         ---------
-            x: array like (can be complex)
+            x: array like
         
         Returns
         ---------
@@ -85,11 +97,11 @@ class StandardMap(Symplectic):
         
     def ifunc1(self, x):
         """
-        return T(p)
+        return :math:`T(p)`
                 
         Parameters
         ---------
-            x: array like (can be complex)
+            x: array like
         
         Returns
         ---------

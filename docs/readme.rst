@@ -10,8 +10,9 @@ Document http://simpleqmap.appspot.com/index.html
 License
 --------
 
-SimpleQmap is distributed under the GNU LGPL license.
+SimpleQmap is distributed under the MIT license.
 
+改変，再配布自由と言うことで．
 
 Requirements
 --------
@@ -57,11 +58,10 @@ Example
 制作者自信の研究目的に作っていません．
 研究等で用いる際には沢山testして下さい．unittestが良いと思います．
 そして，GitHubに全てのソースがあるのでDocumentやバグフィックスにご協力頂けると幸いです．
-ただ，本パッケージはあくまで教育もくてきなので，大幅に機能増大はご勘弁下さい．
 
-本パッケージ利用に伴い不利益を被る事になったとしても，制作者はいかなる責任をおいません．
 
-花田康高(2013/05/17)
+Copyright 2013 花田康高 <http://yasutaka-hanada.appspot.com>
+
 
 
 

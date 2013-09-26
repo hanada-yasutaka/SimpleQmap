@@ -7,6 +7,6 @@ SimpleQmap は量子カオス系数値計算の入門を目的として作りま
 
 
 """
-from state import ScaleInfo
-from state import State
-from qmap import Qmap
+from state import *
+from qmap import *
+from maps import *

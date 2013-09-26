@@ -62,12 +62,11 @@ class ScaleInfo(object):
 class State(numpy.ndarray):
     """
     
-    State はScaleInfoで定義された上で波動関数を提供します．
-    作られた波動関数の表示は`q-`表示ですが，各種変換を定義しています．
+    State はScaleInfoで定義された上で波動関数 :math:`| \psi\\rangle` を提供します．
+    表示は :math:`q-` 表示，すなわち :math:`\\langle q | \\psi\\rangle` を採用し，
+    各種変換を定義しています．
     numpy.ndarrayを継承しています．
-    
-    .. todo:: `p-`表示及び伏見表示はまだ作っていません． 
-    
+        
     
     Parameters
     ----------
@@ -125,13 +124,13 @@ class State(numpy.ndarray):
         if obj is None: return
         self.scaleinfo = getattr(obj, 'scaleinfo',None)
 
-    def savetxt(self, title):
+    def savetxt(self, filename):
         """ 
         Save an state data to text file 
         
         Parameters
         ----------
-        title: filename
+        filename: file name
         
         See Also
         ----------
@@ -141,7 +140,7 @@ class State(numpy.ndarray):
         ann = self.__annotate()
         abs2 = numpy.abs(self*numpy.conj(self))
         data = numpy.array([self.scaleinfo.x[0], abs2, self.real, self.imag])
-        numpy.savetxt(title, data.transpose(), header=ann)
+        numpy.savetxt(filename, data.transpose(), header=ann)
     
     def __annotate(self):
         import datetime
@@ -176,9 +175,11 @@ class State(numpy.ndarray):
         
         .. math:: 
         
-            \Psi(q) = \exp[-(q-q_c)^2/2\hbar + p_c(q-q_c)/\hbar]
+            \langle q | \psi \\rangle = \exp[-(q-q_c)^2/2\hbar + p_c(q-q_c)/\hbar]
             
-        .. warning: 周期的境界条件を課してないので特別な理由がない限り使わないで下さい．
+        .. warning::
+        
+        	周期的境界条件を課してないので特別な理由がない限り使わないで下さい．
         
         Parameters
         ----------
@@ -196,14 +197,12 @@ class State(numpy.ndarray):
         res = numpy.exp(re+ 1.j*im)
         norm2 = numpy.abs(numpy.dot(res, numpy.conj(res)))
         return res/numpy.sqrt(norm2)
-    
+
     def cs(self, q_c, p_c):
         """ 
         create new state which 
         minimum-uncertainty Gaussian wave packet centered at (q_c,p_c) on periodic boundary condition.
-        
-        .. todo:: classmethod　っぽくしたい
-        
+                
         Parameters
         ----------
         
@@ -249,6 +248,95 @@ class State(numpy.ndarray):
         norm2 = numpy.dot(vec, numpy.conj(vec))
         
         return State(self.scaleinfo, vec/numpy.sqrt(norm2))
+        
+    def qrep(self):
+    	"""
+    	return :math:`\\langle q | \\psi\\rangle`
+    	"""
+    	return State(self.scaleinfo, self)
+    	
+    def prep(self):
+    	"""
+    	return :math:`\\langle p | \\psi\\rangle`
+    	"""    
+        return State(self.scaleinfo, self.q2p())
+        
+
+    def p2q(self):
+    	"""
+    	Fourier (inverse) transformation from
+    	the momentum :math:`(p)` representation to the position :math:`(q)` representation.
+
+    	.. math::
+    	
+    		\\langle q | \\psi\\rangle = \\sum_p \\langle q | p\\rangle \\!\\langle p | \\psi \\rangle
+
+    	"""    
+    
+        data = State(self.scaleinfo, self)
+        if self.scaleinfo.domain[1][0]*self.scaleinfo.domain[1][1] < 0:
+            data = numpy.fft.fftshift(data)        
+        data = numpy.fft.ifft(data)/numpy.sqrt(self.scaleinfo.dim)        
+        return State(self.scaleinfo, data)
+    
+    def q2p(self):
+    	"""
+    	Fourier (forward) transformation from
+    	the position :math:`(q)` representation to the momentum :math:`(p)` representation. 
+    	
+    	.. math::
+    	
+            \\langle p | \\psi\\rangle = \\sum_q \\langle p | q\\rangle \\!\\langle q | \\psi \\rangle
+    	
+    	"""
+        data = numpy.fft.fft(self)/numpy.sqrt(self.scaleinfo.dim)
+        if self.scaleinfo.domain[1][0]*self.scaleinfo.domain[1][1] < 0:
+            data = numpy.fft.fftshift(data)
+        return State(self.scaleinfo, data)    	
+    	
+    def hsmrep(self, col, row, region=None):
+    	"""
+    	Husimi (phase space) representation.
+
+        Parameter
+        ----------
+        col, row: int
+            mesh grid 
+        region: 2 by 2 list
+            Husimi plot range. expected 2 by 2 list, e.g., [[qmin,qmax], [pmin, pmax]]
+    	    
+    	.. todo::
+    		
+            未デバッグ
+		
+    	"""
+
+        if region==None:
+            region = self.scaleinfo.domain
+        else:
+            region = hsm_region
+        from ctypes_wrapper import wrapper
+        import os
+        path = os.environ['PYTHONPATH'].split(":")
+        index = [p.endswith('SimpleQmap') for p in path].index(True)
+        file_path = path[index] + '/SimpleQmap/shared/libhsm.so'
+
+        cw = wrapper.call_hsm_rep(file_path)
+        hsm_imag = cw.husimi_rep(self, self.scaleinfo.dim, self.scaleinfo.domain, region, [row,col])
+
+        x = numpy.linspace(region[0][0], region[0][1], row)
+        y = numpy.linspace(region[1][0], region[1][1], col)
+
+        X,Y = numpy.meshgrid(x,y)
+        return X,Y,hsm_imag    	
+    	
+    	
+    def abs2(self):
+    	"""
+    	return :math:`|\\langle x | \\psi \\rangle|^2` where :math:`x` is :math:`q` or :math:`p` 
+    	"""
+    	data = self*numpy.conj(self)
+    	return State(self.scaleinfo, data)
     
 def _test():
     import doctest

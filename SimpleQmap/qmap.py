@@ -18,7 +18,7 @@ twopi = 2.0*numpy.pi
 class Qmap(object):
     def __init__(self, map, dim, domain):
         """
-        システムの決定を行います
+        量子論の計算手続きをまとめたclassです．
         
         Parameter
         ----------
@@ -42,8 +42,11 @@ class Qmap(object):
 
     def setOperate(self):
         """
-        時間発展演算子をsetします
-        fftの使用するため，演算順序を適当に変更しています．
+		make operators
+		
+		.. seealso::
+		
+			Module :qmap:Qmap:`op0` and Module :qmap:Qmap:`op1`
         """ 
         self.operator = [State(self.scaleinfo) for i in range(2)]
         self.op0(self.scaleinfo.x[0])
@@ -56,52 +59,91 @@ class Qmap(object):
 
     def op0(self,x):
         """
-        set operator exp(-iV(q)/hbar)
+        make operator :math:`\exp[-\\frac{i}{\hbar}V(\hat{q})]`
         """
         self.operator[0] = numpy.exp(-1.j*twopi*self.map.ifunc0(x)/self.scaleinfo.h)
     
     def op1(self,x):
         """
-        set operator exp(-iT(p)/hbar)
+        make operator :math:`\exp[-\\frac{i}{\hbar}T(\hat{p})]`        
         """
         self.operator[1] = numpy.exp(-1.j*twopi*self.map.ifunc1(x)/self.scaleinfo.h)
         
     def operate(self):
-        """ <q'|exp(-iT(p)/hbar)exp(-iV(q)/hbar)|q> <q| initial > """
+        """
+        time evolution of a given state :math:`|\psi_0\\rangle` 
+
+    	.. math::
+    	
+    		\langle q | \psi_1 \\rangle = \langle q |\hat{U} | \psi_0 \\rangle
+    		
+    	.. note::
+    	
+    		特に理由がなければ時間発展にはevolve() を使ってください．
+        
+        
+        """
         pvec = numpy.fft.fft(self.operator[0]*self.stateIn)
         qvec = numpy.fft.ifft(self.operator[1]*pvec)
         self.stateOut = State(self.scaleinfo, qvec)
         
     def setInit(self, state):
         """ 
-        初期条件尾セット
+		set initial state
+
+		Parameters
+        ----------
+        
+        state: State class instance
+        		
         """
         if not isinstance(state, State):
             raise TypeError("expected State:",type(state))
         self.stateIn = state.copy()
 
     def getState(self):
+    	""" return null state"""
         return State(self.scaleinfo)
 
     def getIn(self):
+    	""" return previous state of time evolution"""
         return self.stateIn
 
     def getOut(self):
+        """ return time evolved state"""
         return self.stateOut
 
     def pull(self):
+    	"""
+    	substitution time evolved state into previous state
+    	
+    	.. math::
+    		
+    		|\psi_0 \\rangle = |\psi_1 \\rangle 
+    	
+    	"""
         self.stateIn = self.stateOut
     
-    def evol(self):
+    def evolve(self):
         """ 
-        1step 時間発展します．
+		iteative operation of :math:`\hat{U}` for a given initial state
         """
         self.operate()
         self.pull()
 
     def setMatrix(self):
         """ 
-        make matrix :<q'|exp(-iT(p)/hbar)exp(-iV(q)/hbar)|q>
+        make time evolution operator matrix in position representation
+        
+        .. math::
+        
+        	\langle q_1 | \hat{U} | q_0\\rangle
+        
+        where 
+        
+        .. math::
+        	
+        	\hat{U} = \exp[-\\frac{i}{\hbar}T(\hat{p})]\exp[-\\frac{i}{\hbar}V(\hat{q})]
         """ 
         self.matrix = numpy.zeros([self.dim, self.dim],dtype=numpy.complex128)
         
@@ -115,8 +157,7 @@ class Qmap(object):
 
     def eigen(self):
         """
-        Return eigenvalues and eigenvectors of matrix 
-        <q'|exp(-iT(p)/hbar)exp(-iV(q)/hbar)|q>
+        return eigenvalues and eigenvectors of time evolution operator matrix 
         """ 
         try:
             evals, evecs = numpy.linalg.eig(self.matrix)
@@ -129,6 +170,9 @@ class Qmap(object):
             return evals, vecs
         
     def getMatrix(self):
+    	"""
+    	return time evolution operator matrix
+    	"""
         try:
             return self.matrix
         except AttributeError:

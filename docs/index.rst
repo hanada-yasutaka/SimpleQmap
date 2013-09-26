@@ -14,8 +14,10 @@ Getting Start
     :maxdepth: 1
     
     readme
+    sample
+    
 
-Contains
+SimpleQmap Modules Reference
 ==========
 .. toctree::
    :maxdepth: 4

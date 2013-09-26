@@ -27,7 +27,7 @@ tmax=10
 for i in range(tmax):
     state = qmap.getIn()
     state.savetxt("evolv_qrep_%d.dat" % i)
-    qmap.evol()
+    qmap.evolve()
 
 
 sample=300

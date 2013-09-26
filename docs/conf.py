@@ -25,7 +25,11 @@ import sys, os
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc', 'numpydoc']
+extensions = ['sphinx.ext.autodoc', 'numpydoc', 'sphinx.ext.mathjax', 'sphinx.ext.todo']
+
+mathjax_path = 'http://mathjax.connectmv.com/MathJax.js?config=default'
+todo_include_todos=True
+
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -41,7 +45,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'SimpleQmap'
-copyright = u'2013, Author'
+copyright = u'2013, Yasutaka Hanada'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -290,15 +294,3 @@ latex_elements = {
   "papersize": "a4paper",
   "pointsize": "12pt",
 }
-
-# sphinx.ext.todo モジュールを読み込む
-extensions += ['sphinx.ext.todo']
-
-# ToDo 項目を表示する (デフォルトは表示しない; False)
-todo_include_todos = True
-
-# sphinx.ext.jsmath モジュールを読み込む
-extensions += ['sphinx.ext.jsmath']
-
-# jsMath のパスを設定する (_static/ からの相対パス)
-jsmath_path = 'jsMath-3.6e/easy/load.js'
