@@ -1,2 +1,0 @@
-SimpleQmap tutorial
-==========

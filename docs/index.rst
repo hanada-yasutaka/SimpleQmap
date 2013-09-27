@@ -8,13 +8,13 @@ Welcome to SimpleQmap's documentation!
 
 .. automodule:: SimpleQmap
 
-Getting Start
+SimpleQmap tutorial
 ==========
 .. toctree::
-    :maxdepth: 1
+    :maxdepth: 2
     
-    readme
-    sample
+    require
+    tutorial
     
 
 SimpleQmap Modules Reference
@@ -33,4 +33,7 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
+.. toctree::
+	:maxdepth: 1
+	
+	readme

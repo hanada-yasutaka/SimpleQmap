@@ -1,4 +1,4 @@
-Getting Start
+References
 ==========
 
 Website http://hanada-yasutaka.github.io/SimpleQmap/
@@ -43,13 +43,13 @@ to work husimi-rep routine.
 Example
 --------
     
-        cd samples/
+    cd samples/
 
-        bash master.sh eigen.py # solve eigenvalue problem
+    bash master.sh eigen.py # solve eigenvalue problem
         
     or 
         
-	    bash master.sh evolv.py # solve initial value probrem
+    bash master.sh evolv.py # solve initial value probrem
 	    
 書置
 ----------

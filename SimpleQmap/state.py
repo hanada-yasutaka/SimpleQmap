@@ -276,7 +276,7 @@ class State(numpy.ndarray):
         data = State(self.scaleinfo, self)
         if self.scaleinfo.domain[1][0]*self.scaleinfo.domain[1][1] < 0:
             data = numpy.fft.fftshift(data)        
-        data = numpy.fft.ifft(data)/numpy.sqrt(self.scaleinfo.dim)        
+        data = numpy.fft.ifft(data)*numpy.sqrt(self.scaleinfo.dim)#/numpy.sqrt(self.scaleinfo.dim)        
         return State(self.scaleinfo, data)
     
     def q2p(self):
@@ -292,7 +292,7 @@ class State(numpy.ndarray):
         data = numpy.fft.fft(self)/numpy.sqrt(self.scaleinfo.dim)
         if self.scaleinfo.domain[1][0]*self.scaleinfo.domain[1][1] < 0:
             data = numpy.fft.fftshift(data)
-        return State(self.scaleinfo, data)    	
+        return State(self.scaleinfo, data) #*numpy.sqrt(self.scaleinfo.dim)
     	
     def hsmrep(self, col, row, region=None):
     	"""
@@ -336,7 +336,10 @@ class State(numpy.ndarray):
     	return :math:`|\\langle x | \\psi \\rangle|^2` where :math:`x` is :math:`q` or :math:`p` 
     	"""
     	data = self*numpy.conj(self)
-    	return State(self.scaleinfo, data)
+    	return numpy.abs(data)
+    def norm(self):
+    	norm = numpy.abs(numpy.sum(self*numpy.conj(self)))
+    	return norm
     
 def _test():
     import doctest
