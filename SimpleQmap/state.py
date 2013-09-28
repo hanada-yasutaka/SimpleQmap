@@ -124,13 +124,16 @@ class State(numpy.ndarray):
         if obj is None: return
         self.scaleinfo = getattr(obj, 'scaleinfo',None)
 
-    def savetxt(self, filename):
+    def savetxt(self, filename, rep='q'):
         """ 
         Save an state data to text file 
         
         Parameters
         ----------
-        filename: file name
+        filename: str
+        	file name
+        rep: str 
+        	'q' or 'p'
         
         See Also
         ----------
@@ -138,8 +141,15 @@ class State(numpy.ndarray):
 
         """
         ann = self.__annotate()
-        abs2 = numpy.abs(self*numpy.conj(self))
-        data = numpy.array([self.scaleinfo.x[0], abs2, self.real, self.imag])
+#        abs2 = numpy.abs(self*numpy.conj(self))
+        if rep=='q':
+            state = self
+            x = self.scaleinfo.x[0]
+        elif rep=='p':
+            state = self.q2p()
+            x = self.scaleinfo.x[1]
+        abs2 = state.abs2()
+        data = numpy.array([x, abs2, state.real, state.imag])
         numpy.savetxt(filename, data.transpose(), header=ann)
     
     def __annotate(self):
@@ -152,7 +162,7 @@ class State(numpy.ndarray):
         ann += "PMAX %s\n" % self.scaleinfo.domain[1][1]
         return ann
     
-    def insert(self, i, x=1.0+0.j):
+    def insert(self, i, x):
         """
         
         >>> from state import State, ScaleInfo
@@ -293,24 +303,20 @@ class State(numpy.ndarray):
         if self.scaleinfo.domain[1][0]*self.scaleinfo.domain[1][1] < 0:
             data = numpy.fft.fftshift(data)
         return State(self.scaleinfo, data) #*numpy.sqrt(self.scaleinfo.dim)
-    	
+        
     def hsmrep(self, col, row, region=None):
-    	"""
-    	Husimi (phase space) representation.
-
+        """
+        
+        Husimi (phase space) representation.
+        
         Parameter
         ----------
         col, row: int
             mesh grid 
         region: 2 by 2 list
             Husimi plot range. expected 2 by 2 list, e.g., [[qmin,qmax], [pmin, pmax]]
-    	    
-    	.. todo::
-    		
-            未デバッグ
-		
-    	"""
-
+        """
+        
         if region==None:
             region = self.scaleinfo.domain
         else:
@@ -332,14 +338,20 @@ class State(numpy.ndarray):
     	
     	
     def abs2(self):
-    	"""
-    	return :math:`|\\langle x | \\psi \\rangle|^2` where :math:`x` is :math:`q` or :math:`p` 
-    	"""
-    	data = self*numpy.conj(self)
-    	return numpy.abs(data)
+        """
+        return :math:`|\\langle x | \\psi \\rangle|^2` where :math:`x` is :math:`q` or :math:`p` 
+        """
+        data = self*numpy.conj(self)
+        return numpy.array(numpy.abs(data))
+
     def norm(self):
-    	norm = numpy.abs(numpy.sum(self*numpy.conj(self)))
-    	return norm
+        norm = numpy.abs(numpy.sum(self*numpy.conj(self)))
+        return numpy.float64(norm)
+
+    def inner(self, x):
+        res = numpy.sum(self*numpy.conj(x))
+        return numpy.complex128(res)
+
     
 def _test():
     import doctest

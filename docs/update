@@ -1,1 +1,1 @@
-appcfg.py update _build/
+python2.7 /usr/local/bin/appcfg.py update _build/
