@@ -126,14 +126,14 @@ class State(numpy.ndarray):
 
     def savetxt(self, filename, rep='q'):
         """ 
-        Save an state data to text file 
+        Save an state data to a text file 
         
         Parameters
         ----------
         filename: str
-        	file name
+            file name
         rep: str 
-        	'q' or 'p'
+            'q' or 'p'
         
         See Also
         ----------
@@ -189,7 +189,7 @@ class State(numpy.ndarray):
             
         .. warning::
         
-        	周期的境界条件を課してないので特別な理由がない限り使わないで下さい．
+            周期的境界条件を課してないので特別な理由がない限り使わないで下さい．
         
         Parameters
         ----------
@@ -210,7 +210,7 @@ class State(numpy.ndarray):
 
     def cs(self, q_c, p_c):
         """ 
-        create new state which 
+        create new State object which 
         minimum-uncertainty Gaussian wave packet centered at (q_c,p_c) on periodic boundary condition.
                 
         Parameters
@@ -260,45 +260,45 @@ class State(numpy.ndarray):
         return State(self.scaleinfo, vec/numpy.sqrt(norm2))
         
     def qrep(self):
-    	"""
-    	return :math:`\\langle q | \\psi\\rangle`
-    	"""
-    	return State(self.scaleinfo, self)
-    	
+        """
+        return :math:`\\langle q | \\psi\\rangle` as a State object
+        """
+        return State(self.scaleinfo, self)
+        
     def prep(self):
-    	"""
-    	return :math:`\\langle p | \\psi\\rangle`
-    	"""    
+        """
+        return :math:`\\langle p | \\psi\\rangle` as a State object
+        """
         return State(self.scaleinfo, self.q2p())
         
 
     def p2q(self):
-    	"""
-    	Fourier (inverse) transformation from
-    	the momentum :math:`(p)` representation to the position :math:`(q)` representation.
-
-    	.. math::
-    	
-    		\\langle q | \\psi\\rangle = \\sum_p \\langle q | p\\rangle \\!\\langle p | \\psi \\rangle
-
-    	"""    
-    
+        """
+        Fourier (inverse) transformation from
+        the momentum :math:`(p)` representation to the position :math:`(q)` representation.
+        
+        .. math::
+        
+            \\langle q | \\psi\\rangle = \\sum_p \\langle q | p\\rangle \\!\\langle p | \\psi \\rangle
+            
+        """
+        
         data = State(self.scaleinfo, self)
         if self.scaleinfo.domain[1][0]*self.scaleinfo.domain[1][1] < 0:
             data = numpy.fft.fftshift(data)        
         data = numpy.fft.ifft(data)*numpy.sqrt(self.scaleinfo.dim)#/numpy.sqrt(self.scaleinfo.dim)        
         return State(self.scaleinfo, data)
-    
+        
     def q2p(self):
-    	"""
-    	Fourier (forward) transformation from
-    	the position :math:`(q)` representation to the momentum :math:`(p)` representation. 
-    	
-    	.. math::
-    	
+        """
+        Fourier (forward) transformation from
+        the position :math:`(q)` representation to the momentum :math:`(p)` representation. 
+        
+        .. math::
+        
             \\langle p | \\psi\\rangle = \\sum_q \\langle p | q\\rangle \\!\\langle q | \\psi \\rangle
-    	
-    	"""
+            
+        """
         data = numpy.fft.fft(self)/numpy.sqrt(self.scaleinfo.dim)
         if self.scaleinfo.domain[1][0]*self.scaleinfo.domain[1][1] < 0:
             data = numpy.fft.fftshift(data)
@@ -335,23 +335,30 @@ class State(numpy.ndarray):
 
         X,Y = numpy.meshgrid(x,y)
         return X,Y,hsm_imag    	
-    	
-    	
+        
+        
     def abs2(self):
         """
-        return :math:`|\\langle x | \\psi \\rangle|^2` where :math:`x` is :math:`q` or :math:`p` 
+        return :math:`|\\langle x | \\psi \\rangle|^2` where :math:`x` is :math:`q` or :math:`p` as numpy.array object
         """
         data = self*numpy.conj(self)
         return numpy.array(numpy.abs(data))
 
     def norm(self):
+        """
+        return :math:`\\sum_x |\\langle x | \\psi \\rangle|^2` where 
+        :math:`x` is :math:`q` or :math:`p` as real value constant (numpy.float64)
+        """
         norm = numpy.abs(numpy.sum(self*numpy.conj(self)))
         return numpy.float64(norm)
 
-    def inner(self, x):
-        res = numpy.sum(self*numpy.conj(x))
+    def inner(self, phi):
+        """
+        return :math:`\\langle \\phi | \\psi\\rangle` as complex value constant (numpy.complex128)
+        """
+        res = numpy.sum(self*numpy.conj(phi))
         return numpy.complex128(res)
-
+    
     
 def _test():
     import doctest
