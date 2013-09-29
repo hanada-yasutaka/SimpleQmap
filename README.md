@@ -2,9 +2,8 @@
 
 SimpleQmap is python calculator quantum chaotic map for an introduction.
 
-Website <http://hanada-yasutaka.github.io/SimpleQmap/>
+Documentation <http://simpleqmap.appspot.com/index.html>
 
-Document <http://simpleqmap.appspot.com/index.html>
 #### License
 SimpleQmap is distributed under the MIT license.
 
@@ -19,20 +18,18 @@ SimpleQmap is distributed under the MIT license.
 
 #### Download & installation
 
-You can download from github website
+You can download from github website.
+SimpleQmap would not distribute under the pypi yet.
 
 To install, unpack the SimpleQmap archive and optionally run 
 
 	cd SimpleQmap/
 	bash make.sh
 
-to work husimi-rep routine.
+to work husimi-rep routine, see also [Documentation](http://simpleqmap.appspot.com/index.html) (Japanese only...).
 
-#### Example
+#### history 
 
-	cd samples/
-	bash master.sh eigen.py # solve eigenvalue problem
-
-or 
-
-	bash master.sh evolv.py # solve initial value probrem
+* version 0.1 release on May. 16, 2013
+* version 0.1.1 release on Sep. 26, 2013
+* version 0.1.2 release on Sep. 28, 2013

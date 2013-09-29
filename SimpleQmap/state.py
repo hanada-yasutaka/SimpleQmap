@@ -204,8 +204,8 @@ class State(numpy.ndarray):
             x = self.scaleinfo.x[0]
         re = -(x - q_c)*(x - q_c)*numpy.pi/(self.scaleinfo.h)
         im = (x - q_c)*p_c*twopi/self.scaleinfo.h
-        res = numpy.exp(re+ 1.j*im)
-        norm2 = numpy.abs(numpy.dot(res, numpy.conj(res)))
+        res = State(self.scaleinfo, data = numpy.exp(re+ 1.j*im))
+        norm2 = numpy.abs(res.inner(res)) 
         return res/numpy.sqrt(norm2)
 
     def cs(self, q_c, p_c):

@@ -6,10 +6,9 @@ import SimpleQmap as S
 class TestState(unittest.TestCase):
     def setUp(self):
         self.dim = int(np.random.randint(1,100)*2)
-        self.dim=2
-        xmax = np.random.random()
+        xmax = np.random.random()+1.0
         xmin = -xmax
-        ymax = np.random.random()
+        ymax = np.random.random()+1.0
         ymin = -ymax
         self.domain = [[xmin, xmax], [ymin, ymax]]
         k=np.random.random()
@@ -17,8 +16,8 @@ class TestState(unittest.TestCase):
         self.map = S.StandardMap(k=k)
         self.qmap = S.Qmap(map = self.map, dim=self.dim, domain=self.domain)
     def print_setting(self):
-    	print("")
-        print("matrix size: (%d, %d)" % (self.dim, self.dim))
+        print("")
+        print("matrix size: (%d, %d)" % (self.dim, self.dim) )
         print("domain:[%.3f, %.3f]x[%.3f, %.3f]" % (self.domain[0][0],self.domain[0][1], self.domain[1][0],self.domain[1][1]))
         print("")
         

@@ -12,7 +12,7 @@ author: Yasutaka Hanada (2013/05/17)
 """
 
 import numpy
-from state import *
+from SimpleQmap.state import *
 twopi = 2.0*numpy.pi
 
 class Qmap(object):
@@ -42,11 +42,11 @@ class Qmap(object):
 
     def setOperate(self):
         """
-		make operators
-		
-		.. seealso::
-		
-			Module :qmap:Qmap:`op0` and Module :qmap:Qmap:`op1`
+        make operators
+        
+        .. seealso::
+        
+            Module :qmap:Qmap:`op0` and Module :qmap:Qmap:`op1`
         """ 
         self.operator = [State(self.scaleinfo) for i in range(2)]
         self.op0(self.scaleinfo.x[0])
@@ -73,13 +73,13 @@ class Qmap(object):
         """
         time evolution of a given state :math:`|\psi_0\\rangle` 
 
-    	.. math::
-    	
-    		\langle q | \psi_1 \\rangle = \langle q |\hat{U} | \psi_0 \\rangle
-    		
-    	.. note::
-    	
-    		特に理由がなければ時間発展にはevolve() を使ってください．
+        .. math::
+        
+            \langle q | \psi_1 \\rangle = \langle q |\hat{U} | \psi_0 \\rangle
+        
+        .. note::
+        
+            特に理由がなければ時間発展にはevolve() を使ってください．
         
         
         """
@@ -89,61 +89,61 @@ class Qmap(object):
         
     def setInit(self, state):
         """ 
-		set initial state
-
-		Parameters
+        set initial state
+        
+        Parameters
         ----------
         
         state: State class instance
-        		
+        
         """
         if not isinstance(state, State):
             raise TypeError("expected State:",type(state))
         self.stateIn = state.copy()
-
+    
     def getState(self):
-    	""" return null state"""
+        """ return null state"""
         return State(self.scaleinfo)
-
+    
     def getIn(self):
-    	""" return previous state of time evolution"""
+        """ return previous state of time evolution"""
         return self.stateIn
-
+    
     def getOut(self):
         """ return time evolved state"""
         return self.stateOut
-
+    
     def pull(self):
-    	"""
-    	substitution time evolved state into previous state
-    	
-    	.. math::
-    		
-    		|\psi_0 \\rangle = |\psi_1 \\rangle 
-    	
-    	"""
+        """
+        substitution time evolved state into previous state
+        
+        .. math::
+        
+        |\psi_0 \\rangle = |\psi_1 \\rangle 
+        
+        """
         self.stateIn = self.stateOut
     
     def evolve(self):
         """ 
-		iteative operation of :math:`\hat{U}` for a given initial state
+        iteative operation of :math:`\hat{U}` for a given initial state
         """
         self.operate()
         self.pull()
-
+    
     def setMatrix(self):
         """ 
         make time evolution operator matrix in position representation
         
         .. math::
         
-        	\langle q_1 | \hat{U} | q_0\\rangle
+            \langle q_1 | \hat{U} | q_0\\rangle
         
         where 
         
         .. math::
-        	
-        	\hat{U} = \exp[-\\frac{i}{\hbar}T(\hat{p})]\exp[-\\frac{i}{\hbar}V(\hat{q})]
+        
+            \hat{U} = \exp[-\\frac{i}{\hbar}T(\hat{p})]\exp[-\\frac{i}{\hbar}V(\hat{q})]
         """ 
         self.matrix = numpy.zeros([self.dim, self.dim],dtype=numpy.complex128)
         
@@ -170,9 +170,9 @@ class Qmap(object):
             return evals, vecs
         
     def getMatrix(self):
-    	"""
-    	return time evolution operator matrix
-    	"""
+        """
+        return time evolution operator matrix
+        """
         try:
             return self.matrix
         except AttributeError:

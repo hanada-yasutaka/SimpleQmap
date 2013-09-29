@@ -1,4 +1,4 @@
-import os		
+import os
 import sys
 from ctypes_wrapper import wrapper
 import numpy as np

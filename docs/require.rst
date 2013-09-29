@@ -45,13 +45,13 @@ Download and Install
 
 	export PYTHONPATH=~/SimpleQmap/:${PYTHONPATH}
 
-emacs を終了し(Cntlキーを押した状態でx,cを続けて押す)設定を読み込むため，
+emacs を終了し(controlキーを押した状態でx,cを続けて押す)設定を読み込むため，
 
 .. code-block:: none
 
 	$ source ~/.bash_profile
 
-もしくはターミナルを再度開いて
+を実行して下さい．もしくはターミナルを再度開いて
 
 .. code-block:: 
 

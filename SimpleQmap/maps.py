@@ -17,6 +17,7 @@ author: Yasutaka Hanada (2013/05/17)
 
 import numpy
 twopi=2.0*numpy.pi
+
 class Symplectic(object):
     pass
         
@@ -40,11 +41,8 @@ class StandardMap(Symplectic):
     Parameters
     ----------
     k : float
-    	paramter
-    	
-    	
-
-	
+        paramter
+    
     
     """
     def __init__(self, k):
