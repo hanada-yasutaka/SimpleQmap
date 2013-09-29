@@ -10,10 +10,10 @@ SimpleQmap requires Python 2.5 or later. It has been tested with Python2.6, 2.7 
 
 You'll need a following other package:
     
-	1. numpy1.7.1 or later
-	2. gcc (optional)
-	3. gnuplot(optioal)
-	
+    1. numpy1.7.1 or later
+    2. gcc (optional)
+    3. gnuplot(optioal)
+    
 
 Download and Install
 ----------
@@ -28,7 +28,7 @@ Download and Install
 
 .. code-block:: none
 
-	$ mv ~/Downloads/hanada-yasutaka-SimpleQmap-72448f1 ~/SimpleQmap
+    $ mv ~/Downloads/hanada-yasutaka-SimpleQmap-72448f1 ~/SimpleQmap
 
 別にSimpleQmap以外の名前でもかまわないです．
 
@@ -37,27 +37,27 @@ Download and Install
 
 .. code-block:: none
 
-	$ emacs ~/.bash_profile
-	
+    $ emacs ~/.bash_profile
+    
 で，次の一文をどこでもよいので付け加えてください．
 
 .. code-block:: none
 
-	export PYTHONPATH=~/SimpleQmap/:${PYTHONPATH}
+    export PYTHONPATH=~/SimpleQmap/:${PYTHONPATH}
 
 emacs を終了し(controlキーを押した状態でx,cを続けて押す)設定を読み込むため，
 
 .. code-block:: none
 
-	$ source ~/.bash_profile
+    $ source ~/.bash_profile
 
 を実行して下さい．もしくはターミナルを再度開いて
 
-.. code-block:: 
+.. code-block:: none
 
-	$ python # or ipython
-	>>> import SimpleQmap
-	
+    $ python
+    >>> import SimpleQmap
+
 としてImportErrorが出なければSimpleQmapを利用することができます．
 
 SimpleQmapのmoduleを最大限利用するため、ターミナルで

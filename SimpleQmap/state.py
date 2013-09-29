@@ -321,7 +321,7 @@ class State(numpy.ndarray):
             region = self.scaleinfo.domain
         else:
             region = hsm_region
-        from ctypes_wrapper import wrapper
+        from SimpleQmap.ctypes_wrapper import wrapper
         import os
         path = os.environ['PYTHONPATH'].split(":")
         index = [p.endswith('SimpleQmap') for p in path].index(True)
