@@ -2,6 +2,13 @@
 Tutorial
 ==========
 
+本チュートリアルでは
+
+    1. numpy
+    2. matplotlib
+    3. SimpleQmap
+
+のパッケージを用います．
 sampleなので，参考程度と思ってください．
 
 Classical dynamics

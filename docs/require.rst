@@ -12,7 +12,6 @@ You'll need a following other package:
     
     1. numpy1.7.1 or later
     2. gcc (optional)
-    3. gnuplot(optioal)
     
 
 Download and Install
@@ -28,9 +27,9 @@ Download and Install
 
 .. code-block:: none
 
-    $ mv ~/Downloads/hanada-yasutaka-SimpleQmap-72448f1 ~/SimpleQmap
+    $ mv ~/Downloads/hanada-yasutaka-SimpleQmap-72448f1 ~/Py_modules
 
-別にSimpleQmap以外の名前でもかまわないです．
+別にPy_modules以外の名前でもかまわないです．
 
 次にSimpleQmapをpythonからimportするためにPYTHONPATHを適切に通します．
 適当なエディタで.bash_profileを開いて(例えば)
@@ -43,7 +42,7 @@ Download and Install
 
 .. code-block:: none
 
-    export PYTHONPATH=~/SimpleQmap/:${PYTHONPATH}
+    export PYTHONPATH=~/Py_modules/:${PYTHONPATH}
 
 emacs を終了し(controlキーを押した状態でx,cを続けて押す)設定を読み込むため，
 
