@@ -324,10 +324,14 @@ class State(numpy.ndarray):
         from SimpleQmap.ctypes_wrapper import wrapper
         import os
         path = os.environ['PYTHONPATH'].split(":")
-        index = [p.endswith('SimpleQmap') for p in path].index(True)
-        file_path = path[index] + '/SimpleQmap/shared/libhsm.so'
-
-        cw = wrapper.call_hsm_rep(file_path)
+        for p in path:
+            if os.path.exists(p + '/SimpleQmap/shared/libhsm.so'):
+                file_path = p + '/SimpleQmap/shared/libhsm.so'
+        try:
+            cw = wrapper.call_hsm_rep(file_path)
+        except NameError:
+            raise(RuntimeError,"libhsm.so not found.")
+            
         hsm_imag = cw.husimi_rep(self, self.scaleinfo.dim, self.scaleinfo.domain, region, [row,col])
 
         x = numpy.linspace(region[0][0], region[0][1], row)
