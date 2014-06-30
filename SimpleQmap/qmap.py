@@ -7,7 +7,7 @@ author: Yasutaka Hanada (2013/05/17)
 量子系の計算を行います．
 具体的には，
     1. 与えられた初期条件の時間発展を行います
-    2. 系の時間発展演算子の固有値及び固有ベクトルを求めます．
+    2. 系の時間発展演算子の固有値及び固有ベクトルを求めますよ．
     
 """
 
@@ -84,6 +84,7 @@ class Qmap(object):
         
         """
         pvec = numpy.fft.fft(self.operator[0]*self.stateIn)
+        print(pvec)
         qvec = numpy.fft.ifft(self.operator[1]*pvec)
         self.stateOut = State(self.scaleinfo, qvec)
         

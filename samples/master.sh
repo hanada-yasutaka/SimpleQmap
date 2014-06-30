@@ -3,7 +3,7 @@ if [ $# != 1 ]; then
     echo "usage $0: eigen.py (or evolv.py) " 2<&1
     exit 1
 fi
-N=20
+N=2
 k=1.0 
 qmin=0.0
 qmax=1.0
@@ -14,7 +14,7 @@ export PYTHONPATH=../SimpleQmap:${PYTHONPATH}
 
 ## python 
 python ${PYFILE} $N $k $qmin $qmax $pmin $pmax 
-
+exit 0
 if [ `echo $?` -ne 0 ]; then
     echo "usage $0: eigen.py (or evolv.py) "
     exit 0

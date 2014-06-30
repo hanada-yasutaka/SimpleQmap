@@ -40,12 +40,17 @@ y = np.linspace(vpmin, vpmax, col)
 X,Y = np.meshgrid(x,y)
 data = np.array([X,Y,hsm_imag])
 
-with open(file.replace("qrep","hsm"), "w") as of:
-    of.write("# DATE %s\n" % datetime.datetime.now())
-    of.write("# DIM %d\n# QMIN %f\n# QMAX %f\n" % (dim, qmin, qmax))
-    of.write("# PMIN %f\n# PMAX %f\n" % (pmin, pmax))
-    of.write("# VQMIN %f\n# VQMAX %f\n# VPMIN %f\n# VPMAX %f\n" % (vqmin, vqmax, vpmin,vpmax))
-    of.write("# ROW %d\n# COL %d\n" % (row, col))
+with open(file.replace("qrep","hsm"), "bw") as of:
+    def annotate(str=""):
+        str += "DATE %s\n" % datetime.datetime.now()
+        str += "DIM %d\nQMIN %f\nQMAX %f\n" % (dim, qmin, qmax)
+        str += "PMIN %f\nPMAX %f\n" % (pmin, pmax)
+        str += "VQMIN %f\nVQMAX %f\nVPMIN %f\nVPMAX %f\n" % (vqmin, vqmax, vpmin,vpmax)
+        str += "ROW %d\nCOL %d\n" % (row, col)
+        return str
+    np.savetxt(of,[],header=annotate())        
     for slice_data in data.transpose():
         np.savetxt(of, slice_data)
-        of.write("\n")
+        of.write(b"\n")
+
+#        of.write("\n")
