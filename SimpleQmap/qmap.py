@@ -84,7 +84,6 @@ class Qmap(object):
         
         """
         pvec = numpy.fft.fft(self.operator[0]*self.stateIn)
-        print(pvec)
         qvec = numpy.fft.ifft(self.operator[1]*pvec)
         self.stateOut = State(self.scaleinfo, qvec)
         

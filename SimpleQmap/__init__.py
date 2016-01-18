@@ -8,9 +8,11 @@ SimpleQmap は量子カオス系数値計算の入門を目的として作りま
 
 """
 
-__version__='0.1.2'
+__version__='0.2.1'
 
 
 from SimpleQmap.state import *
 from SimpleQmap.qmap import *
 from SimpleQmap.maps import *
+
+import SimpleQmap.utility

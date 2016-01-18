@@ -1,26 +1,31 @@
-==========
+================
 Getting Start
-==========
+================
 
 Requirements
---------
+-------------
 
 Mac OS X or Linux environment (does not support Windows)
-SimpleQmap requires Python 2.5 or later. It has been tested with Python2.6, 2.7 and 3.3.
+SimpleQmap requires Python3.3 or later. It has been tested with Python3.4.
+(SimpleQmap v0.2よりpython2系では動かなくなりました)
 
 You'll need a following other package:
     
     1. numpy1.7.1 or later
-    2. gcc (optional)
-    
-
+    2. gcc
+   
 Download and Install
-----------
+---------------------------------
 
-　本チュートリアルはmac os もしくはlinux環境を想定しています．python2.7以上(python3系でも動くはず)を想定しています．
 またパッケージはpypi等には登録していませんので，
 `Web site <http://hanada-yasutaka.github.io/SimpleQmap/>`_
-から最新版をDownloadし解凍して利用して下さい．
+から最新版をDownloadし解凍して下さい．
+
+インストール方法はsetup.pyを利用してインストールする方法と，インストールせずに使用する方法を説明します．
+
+setup.py を使う場合
+
+
 
 
 　ダウンロードしたフォルタ名がなんか嫌なので名前を変えるついでにホームディレクトリに移動させます．

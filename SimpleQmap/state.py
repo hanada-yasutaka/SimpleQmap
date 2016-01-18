@@ -12,6 +12,42 @@ Domain Setting and Quantum states.
 import numpy
 twopi = 2.0*numpy.pi
 
+
+def loadtxt(title,verbose=True):
+    import re
+    from SimpleQmap import State,ScaleInfo
+    with open(title, "r") as file:
+        for i, line in enumerate(file):
+            if re.search('DIM', line):
+                dim = int(line.split(" ")[2])        
+            if re.search('QMIN', line):
+                qmin = float(line.split(" ")[2])
+            if re.search('QMAX', line):
+                qmax = float(line.split(" ")[2])
+            if re.search('PMIN', line):
+                pmin = float(line.split(" ")[2])                
+            if re.search('PMAX', line):
+                pmax = float(line.split(" ")[2])
+            if re.search('REP', line):
+                rep = line.split(" ")[2].replace("\n","")
+
+    if rep not in ["q","p"]:
+        raise TypeError("must be q-rep or p-rep text file")
+    
+    data = numpy.loadtxt(title).transpose()
+    vec = data[2] + 1.j*data[3]
+    scl = ScaleInfo(dim, [[qmin,qmax], [pmin, pmax]])
+    state = State(scl, vec)
+    if rep == "p":
+        state = state.p2q()
+    if verbose:
+        t = "load:%s\n" % title
+        t += "dim:%d" % dim
+        t += "domain:[%f,%f]x[%f,%f]" % (qmin,qmax, pmin, pmax)
+        t += "representation:q" if rep =="q" else "!!Warning!!\nconvert original data (p-rep.) to q-rep.\n"
+        print(t)
+    return state
+
         
 class ScaleInfo(object):
     """
@@ -114,17 +150,18 @@ class State(numpy.ndarray):
     
     def __new__(cls, scaleinfo, data=None):
         if not isinstance(scaleinfo , ScaleInfo): raise TypeError("expected type ScaleInfo", type(scaleinfo))
-        if data == None:
+        if data is None:
             data = numpy.zeros(scaleinfo.dim)
         obj = numpy.asarray(data, dtype=numpy.complex128).view(cls)
         obj.scaleinfo = scaleinfo
+        obj.x = scaleinfo.x
         return obj
 
     def __array_finalize__(self, obj):
         if obj is None: return
         self.scaleinfo = getattr(obj, 'scaleinfo',None)
 
-    def savetxt(self, filename, rep='q'):
+    def savetxt(self, filename, rep='q',**kwargs):
         """ 
         Save an state data to a text file 
         
@@ -133,26 +170,32 @@ class State(numpy.ndarray):
         filename: str
             file name
         rep: str 
-            'q' or 'p'
+            'q', 'p' or 'hsm'
         
         See Also
         ----------
         numpy.savetxt <http://docs.scipy.org/doc/numpy/reference/generated/numpy.savetxt.html>
-
         """
-        ann = self.__annotate()
+        ann = self.__annotate(rep)            
 #        abs2 = numpy.abs(self*numpy.conj(self))
-        if rep=='q':
-            state = self
-            x = self.scaleinfo.x[0]
-        elif rep=='p':
-            state = self.q2p()
-            x = self.scaleinfo.x[1]
-        abs2 = state.abs2()
-        data = numpy.array([x, abs2, state.real, state.imag])
-        numpy.savetxt(filename, data.transpose(), header=ann)
+        if rep in ["q", "p"]:
+            x = self.scaleinfo.x[0] if rep == "q" else self.scaleinfo.x[1]
+            state = self if rep == "q" else self.q2p()
+            abs2 = state.abs2()
+            data = numpy.array([x, abs2, state.real, state.imag])
+            numpy.savetxt(filename, data.transpose(), header=ann)
+        elif rep == "hsm":
+            x,y,z = self.hsmrep(**kwargs)
+            data = numpy.array([x,y,z])
+            with open(filename, "bw") as of:
+                for slice_data in data.T:
+                    numpy.savetxt(of, slice_data)
+                    of.write(b"\n")
+        else:
+            raise TypeError('rep is "p", "q" or "hsm"')
+
     
-    def __annotate(self):
+    def __annotate(self,rep):
         import datetime
         ann ="DATE: %s\n" % datetime.datetime.now()
         ann += "DIM %d\n" % self.scaleinfo.dim
@@ -160,6 +203,8 @@ class State(numpy.ndarray):
         ann += "QMAX %s\n" % self.scaleinfo.domain[0][1]
         ann += "PMIN %s\n" % self.scaleinfo.domain[1][0]
         ann += "PMAX %s\n" % self.scaleinfo.domain[1][1]
+        ann += "PMAX %s\n" % self.scaleinfo.domain[1][1]
+        ann += "REP %s" % rep
         return ann
     
     def insert(self, i, x):
@@ -176,16 +221,15 @@ class State(numpy.ndarray):
         """
         if not isinstance(i, int): raise ValueError("excepted: integer")
         self[i] = x
-
     
-    def coherent(self, q_c, p_c, x=None):
+    def coherent(self, q_c, p_c, x):
         """ 
         
-        minimum-uncertainty Gaussian wave packet centered at (q_c,p_c)
+        minimum-uncertainty Gaussian wave packet centered at (q_c,p_c, x)
         
         .. math:: 
         
-            \langle q | \psi \\rangle = \exp[-(q-q_c)^2/2\hbar + p_c(q-q_c)/\hbar]
+            \langle x | \psi \\rangle = \exp[-(x-q_c)^2/2\hbar + p_c(x-q_c)/\hbar]
             
         .. warning::
         
@@ -195,13 +239,10 @@ class State(numpy.ndarray):
         ----------
         
         q_c, p_c : float
-            Centroid (q_c,p_c) of the wave packet
-        x : (optional) array
-            if x is None, x is replaced scaleinfo q-direction (self.scaleinfo.x[0])
-        
+            Centroid (q_c,p_c,x) of the wave packet
+        x : array
         """ 
-        if x == None:
-            x = self.scaleinfo.x[0]
+        
         re = -(x - q_c)*(x - q_c)*numpy.pi/(self.scaleinfo.h)
         im = (x - q_c)*p_c*twopi/self.scaleinfo.h
         res = State(self.scaleinfo, data = numpy.exp(re+ 1.j*im))
@@ -304,7 +345,7 @@ class State(numpy.ndarray):
             data = numpy.fft.fftshift(data)
         return State(self.scaleinfo, data) #*numpy.sqrt(self.scaleinfo.dim)
         
-    def hsmrep(self, col, row, region=None):
+    def hsmrep(self, col=50, row=50, region=None):
         """
         
         Husimi (phase space) representation.
@@ -312,25 +353,26 @@ class State(numpy.ndarray):
         Parameter
         ----------
         col, row: int
-            mesh grid 
+            mesh grid of husimi rep.
         region: 2 by 2 list
             Husimi plot range. expected 2 by 2 list, e.g., [[qmin,qmax], [pmin, pmax]]
         """
-        
         if region==None:
             region = self.scaleinfo.domain
         else:
             region = hsm_region
+        import SimpleQmap
         from SimpleQmap.ctypes_wrapper import wrapper
-        import os
-        path = os.environ['PYTHONPATH'].split(":")
-        for p in path:
-            if os.path.exists(p + '/SimpleQmap/shared/libhsm.so'):
-                file_path = p + '/SimpleQmap/shared/libhsm.so'
+        import os, glob
+        #path = os.environ['PYTHONPATH'].split(":")
+        
+        for path in glob.glob(SimpleQmap.__path__[0] + "/shared/libhsm*.so"):
+            if os.path.exists(path):
+                break
         try:
-            cw = wrapper.call_hsm_rep(file_path)
+            cw = wrapper.call_hsm_rep(path)
         except NameError:
-            raise(RuntimeError,"libhsm.so not found.")
+            raise RuntimeError("libhsm.so not found.")
             
         hsm_imag = cw.husimi_rep(self, self.scaleinfo.dim, self.scaleinfo.domain, region, [row,col])
 
@@ -363,6 +405,11 @@ class State(numpy.ndarray):
         res = numpy.sum(self*numpy.conj(phi))
         return numpy.complex128(res)
     
+    def copy(self):
+        return State(self.scaleinfo, self.toarray())
+    
+    def toarray(self):
+        return numpy.array(self.tolist())
     
 def _test():
     import doctest
