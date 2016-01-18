@@ -25,10 +25,13 @@ import sys, os
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc', 'numpydoc', 'sphinx.ext.mathjax', 'sphinx.ext.todo']
+sys.path.insert(0, os.path.abspath('.'))
+extensions = ['sphinx.ext.autodoc', 'numpydoc', 'mathjax', 'sphinx.ext.todo']
 
-mathjax_path = 'http://mathjax.connectmv.com/MathJax.js?config=default'
+#mathjax_path = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"
 todo_include_todos=True
+
+
 
 
 # Add any paths that contain templates here, relative to this directory.

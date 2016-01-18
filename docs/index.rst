@@ -8,17 +8,26 @@ Welcome to SimpleQmap's documentation!
 
 .. automodule:: SimpleQmap
 
-SimpleQmap tutorial
-==========
+はじめに
+====================
+
 .. toctree::
     :maxdepth: 2
     
     require
-    tutorial
+    
+チュートリアル
+============================
+
+.. toctree::
+    :maxdepth: 1
+    
+    tutorial/std
     
 
 SimpleQmap Modules Reference
-==========
+==============================
+
 .. toctree::
    :maxdepth: 4
 
