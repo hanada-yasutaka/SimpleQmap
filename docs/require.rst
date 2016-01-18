@@ -45,7 +45,9 @@ OSの環境破壊を最小限に留める事が可能です．
 
 SimpleQmapははpypi等に登録していないので，
 `Web site (GitHub) <http://hanada-yasutaka.github.io/SimpleQmap/>`_
-から最新版をDownloadし解凍して下さい(pipではインストールできませんし登録する気もありません)．
+からDownloadして解凍して下さい(pipではインストールできませんし登録する気もありません)．
+
+
 
 インストール方法はsetup.pyを利用してインストールする方法と，インストールせずに使用する方法を説明します．
 
