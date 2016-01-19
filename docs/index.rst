@@ -20,10 +20,14 @@ Welcome to SimpleQmap's documentation!
 ============================
 
 .. toctree::
-    :maxdepth: 1
+    :maxdepth: 2
     
     tutorial/std
-    
+    tutorial/qstd
+    tutorial/newmap
+    tutorial/saveload
+    tutorial/integ
+    tutorial/nonuni
 
 SimpleQmap Modules Reference
 ==============================

@@ -13,14 +13,14 @@ SimpleQmap is distributed under the MIT license.
 * You'll need a following other package:
 
 	1. numpy1.7.1 or later
-	2. gcc (optional)
+	2. gcc
 
 #### Download & installation
 
-You can download from github website.
-SimpleQmap would not distribute under the pypi yet.
+You can download from github (it's top of this page).
+SimpleQmap has no plan to distribute in the pypi.
 
-To install, unpack the SimpleQmap archive and optionally run 
+To install, unpack the SimpleQmap archive and run 
 
 	cd SimpleQmap/
 	python setup.py build

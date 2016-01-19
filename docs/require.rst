@@ -46,8 +46,7 @@ OSの環境破壊を最小限に留める事が可能です．
 SimpleQmapははpypi等に登録していないので，
 `Web site (GitHub) <http://hanada-yasutaka.github.io/SimpleQmap/>`_
 からDownloadして解凍して下さい(pipではインストールできませんし登録する気もありません)．
-
-
+Download ボタンは右の方に有ると思います．
 
 インストール方法はsetup.pyを利用してインストールする方法と，インストールせずに使用する方法を説明します．
 
@@ -57,10 +56,9 @@ SimpleQmapははpypi等に登録していないので，
     
     .. code-block:: bash
     
-        $ cd SimpleQmap-0.2
+        $ cd SimpleQmap-master/
         $ ls
-        PKG-INFO  README  samples  setup.py  SimpleQmap
-    
+        docs  MANIFEST  MANIFEST.in  README  samples  setup.py  SimpleQma
     
     このディレクトリで
     
@@ -70,7 +68,6 @@ SimpleQmapははpypi等に登録していないので，
         $ python setup.py install
     
     を実行すればインストール終了です．
-    build せずともinstall可能ですが，伏見表示の計算が実行できません．
     
     (i)pythonを起動し
     

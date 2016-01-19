@@ -1,4 +1,4 @@
 include SimpleQmap/source_files/libhsm/*.h
 include SimpleQmap/source_files/libhsm/make.sh
 include SimpleQmap/make.sh
-
+include SimpleQmap/samples

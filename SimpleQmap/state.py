@@ -42,8 +42,8 @@ def loadtxt(title,verbose=True):
         state = state.p2q()
     if verbose:
         t = "load:%s\n" % title
-        t += "dim:%d" % dim
-        t += "domain:[%f,%f]x[%f,%f]" % (qmin,qmax, pmin, pmax)
+        t += "dim:%d\n" % dim
+        t += "domain:[%f,%f]x[%f,%f]\n" % (qmin,qmax, pmin, pmax)
         t += "representation:q" if rep =="q" else "!!Warning!!\nconvert original data (p-rep.) to q-rep.\n"
         print(t)
     return state

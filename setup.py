@@ -17,7 +17,7 @@ setup(
     author='Yasutaka Hanada',
     author_email='hanada1985@gmail.com',
     url='http://www.abc.com',
-    packages=['SimpleQmap',"SimpleQmap.ctypes_wrapper","samples"],
+    packages=['SimpleQmap',"SimpleQmap.ctypes_wrapper"],
     ext_package='SimpleQmap.shared',
     ext_modules = [hsm_module]
 )

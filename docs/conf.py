@@ -193,6 +193,21 @@ latex_documents = [
   ('index', 'SimpleQmap.tex', u'SimpleQmap Documentation',
    u'Author', 'manual'),
 ]
+mathjax_preamble = r"""
+\newcommand{\Bra}[1]{\left( #1 \right)}                %( #1 )
+\newcommand{\BRa}[1]{\left\{#1 \right\}}                %{ #1 }
+\newcommand{\BRA}[1]{\left[ #1 \right]}                %[ #1 ]
+\newcommand{\average}[1]{\left\langle #1\right\rangle}    %< #1 >
+\newcommand{\ket}[1]{| #1 \rangle}            %| #1>
+\newcommand{\bra}[1]{\langle #1|}            % < #1| 
+\newcommand{\bracket}[2]{\langle #1 | #2 \rangle}     %<#1|#2>
+\newcommand{\abs}[1]{\right| #1 \left|}
+\newcommand{\odo}[2]{\frac{d #1}{d #2}}                %常微分
+\newcommand{\pdo}[2]{\frac{\partial #1}{\partial #2}}        %偏微分d#1/d#2
+\newcommand{\dint}[2]{\int_{#1}^{#2}}                %定積分#1→#2
+\newcommand{\1}{\mbox{1}\hspace{-0.25em}\mbox{l}}    %白抜きの1 単位行列
+\newcommand{\lambdabar}{\lambda \kern -0.5em\raise 0.5ex \hbox{--}}     %lambda bar
+"""
 
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.
