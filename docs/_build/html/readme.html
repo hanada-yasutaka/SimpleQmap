@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>References &mdash; SimpleQmap  documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="SimpleQmap  documentation" href="index.html" />
+    <link rel="prev" title="qmap" href="qmap.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="qmap.html" title="qmap"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">SimpleQmap  documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div id="preamble" style="display:none">\(
+\newcommand{\Bra}[1]{\left( #1 \right)}                %( #1 )
+\newcommand{\BRa}[1]{\left\{#1 \right\}}                %{ #1 }
+\newcommand{\BRA}[1]{\left[ #1 \right]}                %[ #1 ]
+\newcommand{\average}[1]{\left\langle #1\right\rangle}    %< #1 >
+\newcommand{\ket}[1]{| #1 \rangle}            %| #1>
+\newcommand{\bra}[1]{\langle #1|}            % < #1| 
+\newcommand{\bracket}[2]{\langle #1 | #2 \rangle}     %<#1|#2>
+\newcommand{\abs}[1]{\right| #1 \left|}
+\newcommand{\odo}[2]{\frac{d #1}{d #2}}                %常微分
+\newcommand{\pdo}[2]{\frac{\partial #1}{\partial #2}}        %偏微分d#1/d#2
+\newcommand{\dint}[2]{\int_{#1}^{#2}}                %定積分#1→#2
+\newcommand{\1}{\mbox{1}\hspace{-0.25em}\mbox{l}}    %白抜きの1 単位行列
+\newcommand{\lambdabar}{\lambda \kern -0.5em\raise 0.5ex \hbox{--}}     %lambda bar
+\)</div>
+<div class="section" id="references">
+<h1>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h1>
+<p>Website <a class="reference external" href="http://hanada-yasutaka.github.io/SimpleQmap/">http://hanada-yasutaka.github.io/SimpleQmap/</a></p>
+<p>Sorces <a class="reference external" href="https://github.com/hanada-yasutaka/SimpleQmap">https://github.com/hanada-yasutaka/SimpleQmap</a></p>
+<p>Document <a class="reference external" href="http://simpleqmap.appspot.com/index.html">http://simpleqmap.appspot.com/index.html</a></p>
+<div class="section" id="license">
+<h2>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
+<p>SimpleQmap is distributed under the MIT license.</p>
+<p>改変，再配布自由と言うことで．</p>
+</div>
+<div class="section" id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<p>Mac OS X or Linux environment (does not support Windows)
+SimpleQmap requires Python 2.5 or later. It has been tested with Python2.6, 2.7 and 3.3.</p>
+<p>You&#8217;ll need a following other package:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>numpy1.7.1 or later</li>
+<li>gcc (optional)</li>
+<li>gnuplot(optioal)</li>
+</ol>
+</div></blockquote>
+</div>
+<div class="section" id="download-installation">
+<h2>Download &amp; installation<a class="headerlink" href="#download-installation" title="Permalink to this headline">¶</a></h2>
+<p>You can download from github website</p>
+<p>Documentation &lt;<a class="reference external" href="http://simpleqmap.appspot.com/index.html">http://simpleqmap.appspot.com/index.html</a>&gt;</p>
+<p>To install, unpack the SimpleQmap archive and optionally run</p>
+<blockquote>
+<div>cd SimpleQmap/
+bash make.sh</div></blockquote>
+<p>to work husimi-rep routine.</p>
+</div>
+<div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>cd samples/</p>
+<p>bash master.sh eigen.py # solve eigenvalue problem</p>
+<p>or</p>
+<p>bash master.sh evolv.py # solve initial value probrem</p>
+</div></blockquote>
+</div>
+<div class="section" id="id1">
+<h2>書置<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>本パッケージは量子カオス入門として作りましたが，ほとんどtestしていません．
+制作者自信の研究目的に作っていません．
+研究等で用いる際には沢山testして下さい．unittestが良いと思います．
+そして，GitHubに全てのソースがあるのでDocumentやバグフィックスにご協力頂けると幸いです．</p>
+<p>Copyright 2013 花田康高 &lt;<a class="reference external" href="http://yasutaka-hanada.appspot.com">http://yasutaka-hanada.appspot.com</a>&gt;</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">References</a><ul>
+<li><a class="reference internal" href="#license">License</a></li>
+<li><a class="reference internal" href="#requirements">Requirements</a></li>
+<li><a class="reference internal" href="#download-installation">Download &amp; installation</a></li>
+<li><a class="reference internal" href="#example">Example</a></li>
+<li><a class="reference internal" href="#id1">書置</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="qmap.html"
+                        title="previous chapter"><code class="docutils literal"><span class="pre">qmap</span></code></a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/readme.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="qmap.html" title="qmap"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">SimpleQmap  documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2013, Yasutaka Hanada.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>

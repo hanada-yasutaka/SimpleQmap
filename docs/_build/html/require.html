@@ -1,0 +1,266 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>はじめに &mdash; SimpleQmap  documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="SimpleQmap  documentation" href="index.html" />
+    <link rel="next" title="古典写像" href="tutorial/std.html" />
+    <link rel="prev" title="Welcome to SimpleQmap’s documentation!" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="tutorial/std.html" title="古典写像"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to SimpleQmap’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">SimpleQmap  documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div id="preamble" style="display:none">\(
+\newcommand{\Bra}[1]{\left( #1 \right)}                %( #1 )
+\newcommand{\BRa}[1]{\left\{#1 \right\}}                %{ #1 }
+\newcommand{\BRA}[1]{\left[ #1 \right]}                %[ #1 ]
+\newcommand{\average}[1]{\left\langle #1\right\rangle}    %< #1 >
+\newcommand{\ket}[1]{| #1 \rangle}            %| #1>
+\newcommand{\bra}[1]{\langle #1|}            % < #1| 
+\newcommand{\bracket}[2]{\langle #1 | #2 \rangle}     %<#1|#2>
+\newcommand{\abs}[1]{\right| #1 \left|}
+\newcommand{\odo}[2]{\frac{d #1}{d #2}}                %常微分
+\newcommand{\pdo}[2]{\frac{\partial #1}{\partial #2}}        %偏微分d#1/d#2
+\newcommand{\dint}[2]{\int_{#1}^{#2}}                %定積分#1→#2
+\newcommand{\1}{\mbox{1}\hspace{-0.25em}\mbox{l}}    %白抜きの1 単位行列
+\newcommand{\lambdabar}{\lambda \kern -0.5em\raise 0.5ex \hbox{--}}     %lambda bar
+\)</div>
+<div class="section" id="id1">
+<h1>はじめに<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>動作環境<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>Mac OS X か 一般的なLinux (windows機を持っていないので未検証)
+Python 3系でないと動きません．テストはpython3.4で行っています．</p>
+<p>(SimpleQmap v0.2よりpython2系では動かなくなりました)</p>
+<p>You&#8217;ll need a following other package:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>numpy1.7.1 or later</li>
+<li>gcc</li>
+</ol>
+</div></blockquote>
+<p>チュートリアルを実行するためにはこの他に</p>
+<blockquote>
+<div><ul class="simple">
+<li>matplotlib</li>
+</ul>
+</div></blockquote>
+<p>をインストールして下さい．</p>
+<p>pythonの事を何も知らないのであれば python の free distributionである
+<a class="reference external" href="https://www.continuum.io/downloads#_unix">anaconda</a>
+をインストールすることをおすすめします．</p>
+<p>上記numpy及びmatplotlibはanacondaに同梱されています．
+ユーザー(非管理者)権限で python環境を構築することができる為
+OSの環境破壊を最小限に留める事が可能です．
+その気になればUSBに環境を構築することもできます．</p>
+<p>ちなみに公開されているpackageはpipを使ってinstallすることができます</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>pip search mpmath <span class="c"># パッケージの検索</span>
+<span class="nv">$ </span>pip install mpmath <span class="c"># パッケージのイントール</span>
+</pre></div>
+</div>
+<p>詳しくはgoogle等で検索して下さい．</p>
+</div>
+<div class="section" id="id3">
+<h2>ダウンロード &amp; インストール<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>SimpleQmapははpypi等に登録していないので，
+<a class="reference external" href="http://hanada-yasutaka.github.io/SimpleQmap/">Web site (GitHub)</a>
+からDownloadして解凍して下さい(pipではインストールできませんし登録する気もありません)．
+Download ボタンは右の方に有ると思います．</p>
+<p>インストール方法はsetup.pyを利用してインストールする方法と，インストールせずに使用する方法を説明します．</p>
+<ul>
+<li><p class="first">setup.py を使う場合</p>
+<blockquote>
+<div><p>ダウンロードしたパッケージを解凍しsetup.pyの置いてあるディレクトリに移動します．</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd </span>SimpleQmap-master/
+<span class="nv">$ </span>ls
+docs  MANIFEST  MANIFEST.in  README  samples  setup.py  SimpleQma
+</pre></div>
+</div>
+<p>このディレクトリで</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>python setup.py build
+<span class="nv">$ </span>python setup.py install
+</pre></div>
+</div>
+<p>を実行すればインストール終了です．</p>
+<p>(i)pythonを起動し</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">SimpleQmap</span>
+</pre></div>
+</div>
+<p>でエラーが出なければインストールは成功です．ちなみにインストール先とバージョンの確認方法は次の通りです</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">SimpleQmap</span><span class="o">.</span><span class="n">__path__</span>
+<span class="go">[&#39;/home/hanada/anaconda3/lib/python3.4/site-packages/SimpleQmap&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">SimpleQmap</span><span class="o">.</span><span class="n">__version__</span>
+<span class="go">&#39;0.2.1&#39;</span>
+</pre></div>
+</div>
+<p>アンインストールする場合は site-package/ まで潜って SimpleQmap のディレクトリとegg-info
+(SimpleQmap-0.2-py3.4.egg-info みたいなファイル)を削除して下さい．</p>
+<div class="admonition-todo admonition" id="index-0">
+<p class="first admonition-title">Todo</p>
+<p class="last">python setup.py instal した際に古いversionのeff-infoを自動的に消すように設定したい</p>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">インストールせずに使う場合</p>
+<blockquote>
+<div><p>上記方法でインストールするのはソースパスが深い場所に潜ってしまうので，
+SimpleQmapのソースコードをじかに編集したい場合すこし面倒になります．
+インストールせずに使いたい場合は
+展開したzipファイル内にあるSimpleQmapをディレクトリを
+PYTHONPATHに設定して下さい．</p>
+<p>例えばホームディレクトにPyModulesを作ったとして，そこにSimpleQmapを置く場合を例示にあげると，
+展開したzipファイルの中にあるSimpleQmapを</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>unzip SimpleQmap-0.2.zip
+<span class="nv">$ </span>mv SimpleQmap ~/PyModules/
+</pre></div>
+</div>
+<p>PYTHONPATHの設定はbashの場合</p>
+<div class="highlight-python"><div class="highlight"><pre>$ export PYTHONPATH=~/PyModules:${PYTHONPATH}
+</pre></div>
+</div>
+<p>とすれば設定できます．
+(~/.bash_profile or ~/.bashrc に上記命令を記述すればターミナルを開くたびに自動でPYTHONPATHが設定されます．$は記述しないでくだい)．</p>
+<p>更に伏見表示の計算を行う為に</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> ~/SimpleQmap
+<span class="nv">$ </span>bash make.sh
+</pre></div>
+</div>
+<p>を実行して下さい．ls を実行して shared/libhsm.so ファイルが作られていれば成功です．</p>
+<p>PyModules のディレクトとは <strong>異なる</strong> ディレクトにに移動して(i)pythonを起動し</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">SimpleQmap</span>
+</pre></div>
+</div>
+<p>を実行して何も出力されなければ設定完了です．もちろんpathは</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">SimpleQmap</span><span class="o">.</span><span class="n">__path__</span>
+<span class="go">[&#39;/home/hanada/PyModules/SimpleQmap&#39;]</span>
+</pre></div>
+</div>
+<p>です．</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">SimpleQmap</span>
+<span class="gp">...</span>
+<span class="go">ImportError: No module named &#39;SimpleQmap&#39;</span>
+</pre></div>
+</div>
+<p>となる場合はPYTHONPATHにホームディレクトリの短縮形(~/)を使わずにフルパスで設定してみて下さい．</p>
+<div class="highlight-python"><div class="highlight"><pre>export PYTHONPATH=/home/youraccountname/PyModules:${PYTHONPATH} # for linux
+export PYTHONPATH=/Users/youraccountname/PyModules:${PYTHONPATH} # for mac
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">はじめに</a><ul>
+<li><a class="reference internal" href="#id2">動作環境</a></li>
+<li><a class="reference internal" href="#id3">ダウンロード &amp; インストール</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to SimpleQmap&#8217;s documentation!</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="tutorial/std.html"
+                        title="next chapter">古典写像</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/require.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="tutorial/std.html" title="古典写像"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to SimpleQmap’s documentation!"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">SimpleQmap  documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2013, Yasutaka Hanada.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,480 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>非ユニタリー系 &mdash; SimpleQmap  documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="SimpleQmap  documentation" href="../index.html" />
+    <link rel="next" title="state" href="../state.html" />
+    <link rel="prev" title="可積分極限" href="integ.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../state.html" title="state"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="integ.html" title="可積分極限"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">SimpleQmap  documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div id="preamble" style="display:none">\(
+\newcommand{\Bra}[1]{\left( #1 \right)}                %( #1 )
+\newcommand{\BRa}[1]{\left\{#1 \right\}}                %{ #1 }
+\newcommand{\BRA}[1]{\left[ #1 \right]}                %[ #1 ]
+\newcommand{\average}[1]{\left\langle #1\right\rangle}    %< #1 >
+\newcommand{\ket}[1]{| #1 \rangle}            %| #1>
+\newcommand{\bra}[1]{\langle #1|}            % < #1| 
+\newcommand{\bracket}[2]{\langle #1 | #2 \rangle}     %<#1|#2>
+\newcommand{\abs}[1]{\right| #1 \left|}
+\newcommand{\odo}[2]{\frac{d #1}{d #2}}                %常微分
+\newcommand{\pdo}[2]{\frac{\partial #1}{\partial #2}}        %偏微分d#1/d#2
+\newcommand{\dint}[2]{\int_{#1}^{#2}}                %定積分#1→#2
+\newcommand{\1}{\mbox{1}\hspace{-0.25em}\mbox{l}}    %白抜きの1 単位行列
+\newcommand{\lambdabar}{\lambda \kern -0.5em\raise 0.5ex \hbox{--}}     %lambda bar
+\)</div>
+<div class="section" id="id1">
+<h1>非ユニタリー系<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>時間発展<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>散乱問題等で吸収の効果，すなわち特定の領域に存在している波動関数の存在確率を減衰(もしくはゼロ)にしたいと考える場合がある．</p>
+<p>簡単のため
+<span class="math">\(0&lt;q&lt;0.2\)</span>の領域に到達した波動関数の存在確率をゼロにする作用素<span class="math">\(\hat{P}\)</span>を考える．
+つまり</p>
+<div class="math">
+\[\begin{split}\hat{P} = \begin{cases}
+0, \quad (0&lt;q&lt;0.2)\\
+1, \quad (else)
+\end{cases}\end{split}\]</div>
+<p>として，<span class="math">\(\hat{U}^{(o)}=\hat{P}\hat{U}\)</span>による時間発展を考える．</p>
+<div class="code python highlight-python"><div class="highlight"><pre># 次の命令は無視して下さい
+%matplotlib inline
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">SimpleQmap</span> <span class="kn">as</span> <span class="nn">sq</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+<span class="n">dim</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">k</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">qmin</span><span class="p">,</span> <span class="n">qmax</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
+<span class="n">pmin</span><span class="p">,</span> <span class="n">pmax</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span>
+
+<span class="n">tmax</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">cmap</span> <span class="o">=</span> <span class="n">sq</span><span class="o">.</span><span class="n">StandardMap</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+
+<span class="n">domain</span> <span class="o">=</span> <span class="p">[[</span><span class="n">qmin</span><span class="p">,</span><span class="n">qmax</span><span class="p">],[</span><span class="n">pmin</span><span class="p">,</span><span class="n">pmax</span><span class="p">]]</span>
+<span class="n">qmap</span> <span class="o">=</span> <span class="n">sq</span><span class="o">.</span><span class="n">Qmap</span><span class="p">(</span><span class="n">cmap</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">domain</span><span class="p">)</span> <span class="c"># defines the quantum system</span>
+<span class="n">state</span> <span class="o">=</span> <span class="n">qmap</span><span class="o">.</span><span class="n">getState</span><span class="p">()</span><span class="o">.</span><span class="n">cs</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="n">qmap</span><span class="o">.</span><span class="n">setInit</span><span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="c"># set intial condition</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="o">*</span><span class="mi">2</span><span class="p">),</span><span class="n">sharex</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">sharey</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c">## ---- closed system ----</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">tmax</span><span class="p">):</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">qmap</span><span class="o">.</span><span class="n">getIn</span><span class="p">()</span> <span class="c"># return | phi_0&gt;</span>
+    <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">hsmrep</span><span class="p">()</span>
+    <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">sq</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">hsm_cmap</span><span class="p">)</span>
+    <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%d</span><span class="s"> step&quot;</span> <span class="o">%</span> <span class="n">i</span><span class="p">)</span>
+
+    <span class="n">qmap</span><span class="o">.</span><span class="n">evolve</span><span class="p">()</span> <span class="c"># calculate: | psi_1 &gt; = U | psi_0 &gt; then  |phi_0&gt; = |phi_1&gt;</span>
+
+<span class="c">## ------ open system -------</span>
+<span class="n">state</span> <span class="o">=</span> <span class="n">qmap</span><span class="o">.</span><span class="n">getState</span><span class="p">()</span><span class="o">.</span><span class="n">cs</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="n">qmap</span><span class="o">.</span><span class="n">setInit</span><span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="c"># set intial condition</span>
+
+<span class="n">abs_border</span> <span class="o">=</span> <span class="mf">0.2</span>
+<span class="n">abs_index</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">abs_border</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">tmax</span><span class="p">):</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">qmap</span><span class="o">.</span><span class="n">getIn</span><span class="p">()</span> <span class="c"># return | phi_0&gt;</span>
+    <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">hsmrep</span><span class="p">()</span>
+    <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">sq</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">hsm_cmap</span><span class="p">)</span>
+    <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%d</span><span class="s"> step&quot;</span> <span class="o">%</span> <span class="n">i</span><span class="p">)</span>
+    <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">abs_border</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s">&#39;0.8&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">qmap</span><span class="o">.</span><span class="n">evolve</span><span class="p">()</span> <span class="c"># calculate: | psi_1 &gt; = U | psi_0 &gt; then  |phi_0&gt; = |phi_1&gt;</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">qmap</span><span class="o">.</span><span class="n">getOut</span><span class="p">()</span> <span class="c"># return | phi_1&gt;</span>
+    <span class="n">state</span><span class="p">[</span><span class="n">abs_index</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">qmap</span><span class="o">.</span><span class="n">setInit</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">h_pad</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>/home/hanada/anaconda3/lib/python3.4/site-packages/matplotlib/collections.py:590: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
+  if self._edgecolors == str(&#39;face&#39;):
+</pre></div>
+</div>
+<img alt="../_images/nonuni_2_1.png" src="../_images/nonuni_2_1.png" />
+<p>吸収によって波動関数のノルムが1より小さくなっていくことに注意して下さい．
+上記例題では定義していませんが，<span class="math">\(q\)</span>
+-表示の吸収ポテンシャルは階段関数です．陽的に定義すると．</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">step_abs</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">border</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span> <span class="k">if</span> <span class="n">xx</span> <span class="o">&lt;</span> <span class="n">border</span> <span class="k">else</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">x</span><span class="p">])</span>
+
+<span class="n">absfunc</span> <span class="o">=</span> <span class="n">step_abs</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">abs_border</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">absfunc</span><span class="p">,</span><span class="s">&quot;-&quot;</span><span class="p">,</span><span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">1.1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../_images/nonuni_4_0.png" src="../_images/nonuni_4_0.png" />
+<p>波動は微分が不連続である点に触れると回折が生じるため，吸収をなめらかに行いたいと思う事も有る用のような場合は以下の様に自作すれば良い．
+尚 吸収作用素は<span class="math">\(0\le P \le1\)</span>に取らなければならない．</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">tanh_abs</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">x_c</span><span class="p">,</span><span class="n">beta</span><span class="p">):</span>
+    <span class="n">xx</span> <span class="o">=</span> <span class="n">beta</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">x_c</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">xx</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+
+<span class="k">def</span> <span class="nf">exp_abs</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_c</span><span class="p">,</span><span class="n">beta</span><span class="p">,</span><span class="n">alpha</span><span class="p">):</span>
+    <span class="n">x1</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">x_c</span><span class="p">)</span>
+    <span class="n">x2</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="n">theta0</span><span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">x1</span><span class="o">*</span><span class="n">beta</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">theta1</span><span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">x2</span><span class="o">*</span><span class="n">beta</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="p">(</span><span class="n">x1</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">theta0</span> <span class="o">+</span><span class="n">x2</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">theta1</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">w</span><span class="o">/</span><span class="n">alpha</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">p</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+
+<span class="n">abs_border</span> <span class="o">=</span> <span class="mf">0.2</span>
+<span class="n">smoothness</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">absfunc</span> <span class="o">=</span> <span class="n">tanh_abs</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">abs_border</span><span class="p">,</span><span class="n">smoothness</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">absfunc</span><span class="p">,</span><span class="s">&quot;-&quot;</span><span class="p">,</span><span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">1.1</span><span class="p">)</span>
+
+<span class="n">abs_border</span> <span class="o">=</span> <span class="mf">0.2</span>
+<span class="n">beta</span><span class="p">,</span><span class="n">alpha</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span><span class="mf">0.01</span>
+<span class="n">absfunc</span> <span class="o">=</span> <span class="n">exp_abs</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">abs_border</span><span class="p">,</span><span class="n">beta</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">absfunc</span><span class="p">,</span><span class="s">&quot;-&quot;</span><span class="p">,</span><span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">1.1</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../_images/nonuni_6_0.png" src="../_images/nonuni_6_0.png" />
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="o">*</span><span class="mi">2</span><span class="p">),</span><span class="n">sharex</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">sharey</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c"># ---- tanh case ----</span>
+
+<span class="c"># -- soft absorber</span>
+<span class="n">state</span> <span class="o">=</span> <span class="n">qmap</span><span class="o">.</span><span class="n">getState</span><span class="p">()</span><span class="o">.</span><span class="n">cs</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="n">qmap</span><span class="o">.</span><span class="n">setInit</span><span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="c"># set intial condition</span>
+<span class="n">abs_border</span> <span class="o">=</span> <span class="mf">0.2</span>
+<span class="n">beta</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">absfunc</span> <span class="o">=</span> <span class="n">tanh_abs</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">abs_border</span><span class="p">,</span><span class="n">beta</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">tmax</span><span class="p">):</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">qmap</span><span class="o">.</span><span class="n">getIn</span><span class="p">()</span> <span class="c"># return | phi_0&gt;</span>
+    <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">hsmrep</span><span class="p">()</span>
+    <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">sq</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">hsm_cmap</span><span class="p">)</span>
+    <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%d</span><span class="s"> step&quot;</span> <span class="o">%</span> <span class="n">i</span><span class="p">)</span>
+    <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">abs_border</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s">&#39;0.8&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">qmap</span><span class="o">.</span><span class="n">evolve</span><span class="p">()</span> <span class="c"># calculate: | psi_1 &gt; = U | psi_0 &gt; then  |phi_0&gt; = |phi_1&gt;</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">qmap</span><span class="o">.</span><span class="n">getOut</span><span class="p">()</span> <span class="c"># return | phi_1&gt;</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">absfunc</span><span class="o">*</span><span class="n">state</span>
+    <span class="n">qmap</span><span class="o">.</span><span class="n">setInit</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+
+<span class="c">## -- sharp absorber</span>
+
+<span class="n">state</span> <span class="o">=</span> <span class="n">qmap</span><span class="o">.</span><span class="n">getState</span><span class="p">()</span><span class="o">.</span><span class="n">cs</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="n">qmap</span><span class="o">.</span><span class="n">setInit</span><span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="c"># set intial condition</span>
+<span class="n">abs_border</span> <span class="o">=</span> <span class="mf">0.2</span>
+<span class="n">beta</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">absfunc</span> <span class="o">=</span> <span class="n">tanh_abs</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">abs_border</span><span class="p">,</span><span class="n">beta</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">tmax</span><span class="p">):</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">qmap</span><span class="o">.</span><span class="n">getIn</span><span class="p">()</span> <span class="c"># return | phi_0&gt;</span>
+    <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">hsmrep</span><span class="p">()</span>
+    <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">sq</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">hsm_cmap</span><span class="p">)</span>
+    <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%d</span><span class="s"> step&quot;</span> <span class="o">%</span> <span class="n">i</span><span class="p">)</span>
+    <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">abs_border</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s">&#39;0.8&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">qmap</span><span class="o">.</span><span class="n">evolve</span><span class="p">()</span> <span class="c"># calculate: | psi_1 &gt; = U | psi_0 &gt; then  |phi_0&gt; = |phi_1&gt;</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">qmap</span><span class="o">.</span><span class="n">getOut</span><span class="p">()</span> <span class="c"># return | phi_1&gt;</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">absfunc</span><span class="o">*</span><span class="n">state</span>
+    <span class="n">qmap</span><span class="o">.</span><span class="n">setInit</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+
+
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">h_pad</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>/home/hanada/anaconda3/lib/python3.4/site-packages/matplotlib/collections.py:590: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
+  if self._edgecolors == str(&#39;face&#39;):
+</pre></div>
+</div>
+<img alt="../_images/nonuni_7_1.png" src="../_images/nonuni_7_1.png" />
+</div>
+<div class="section" id="qmap">
+<h2>Qmap の継承<a class="headerlink" href="#qmap" title="Permalink to this headline">¶</a></h2>
+<p>ここまでくるともはやQmapを継承してevolve関数を上書きしたほうが良いかもしれない．</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">SimpleQmap</span> <span class="kn">as</span> <span class="nn">sq</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+<span class="k">class</span> <span class="nc">OpenQmap</span><span class="p">(</span><span class="n">sq</span><span class="o">.</span><span class="n">Qmap</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">set_absorber</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">absorber</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">absorber</span> <span class="o">=</span> <span class="n">absorber</span>
+    <span class="k">def</span> <span class="nf">operate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">pvec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">stateIn</span><span class="p">)</span>
+        <span class="n">qvec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifft</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">pvec</span><span class="p">)</span>
+        <span class="n">qvec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">absorber</span><span class="o">*</span><span class="n">qvec</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stateOut</span> <span class="o">=</span> <span class="n">sq</span><span class="o">.</span><span class="n">State</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scaleinfo</span><span class="p">,</span> <span class="n">qvec</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">tanh_abs</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">,</span><span class="n">beta</span><span class="p">):</span>
+    <span class="n">xx1</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">x1</span><span class="p">)</span><span class="o">*</span><span class="n">beta</span>
+    <span class="n">xx2</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">x2</span><span class="p">)</span><span class="o">*</span><span class="n">beta</span>
+    <span class="k">return</span> <span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">xx1</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span><span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">xx2</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span>
+
+<span class="k">def</span> <span class="nf">exp_abs</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">,</span><span class="n">alpha</span><span class="p">,</span><span class="n">beta</span><span class="p">):</span>
+    <span class="n">x1</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">x1</span><span class="p">)</span>
+    <span class="n">x2</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">x2</span><span class="p">)</span>
+    <span class="n">theta0</span><span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">x1</span><span class="o">*</span><span class="n">beta</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">theta1</span><span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">x2</span><span class="o">*</span><span class="n">beta</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="p">(</span><span class="n">x1</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">theta0</span> <span class="o">+</span><span class="n">x2</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">theta1</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">w</span><span class="o">/</span><span class="n">alpha</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">p</span>
+
+<span class="n">dim</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">k</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">qmin</span><span class="p">,</span> <span class="n">qmax</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
+<span class="n">pmin</span><span class="p">,</span> <span class="n">pmax</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span>
+
+<span class="n">tmax</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">cmap</span> <span class="o">=</span> <span class="n">sq</span><span class="o">.</span><span class="n">StandardMap</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+
+<span class="n">domain</span> <span class="o">=</span> <span class="p">[[</span><span class="n">qmin</span><span class="p">,</span><span class="n">qmax</span><span class="p">],[</span><span class="n">pmin</span><span class="p">,</span><span class="n">pmax</span><span class="p">]]</span>
+<span class="n">qmap</span> <span class="o">=</span> <span class="n">OpenQmap</span><span class="p">(</span><span class="n">cmap</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">domain</span><span class="p">)</span> <span class="c"># defines the quantum system</span>
+<span class="n">state</span> <span class="o">=</span> <span class="n">qmap</span><span class="o">.</span><span class="n">getState</span><span class="p">()</span><span class="o">.</span><span class="n">cs</span><span class="p">(</span><span class="mf">0.7</span><span class="p">,</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="n">qmap</span><span class="o">.</span><span class="n">setInit</span><span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="c"># set intial condition</span>
+
+
+<span class="c">## ---- tanh absorber  ----</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="o">*</span><span class="mi">2</span><span class="p">),</span><span class="n">sharex</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">sharey</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="n">abs_x1</span><span class="o">=</span> <span class="mf">0.25</span>
+<span class="n">abs_x2</span> <span class="o">=</span> <span class="mf">0.75</span>
+<span class="n">beta</span><span class="o">=</span><span class="mi">100</span>
+<span class="n">absfunc</span> <span class="o">=</span> <span class="n">tanh_abs</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">abs_x1</span><span class="p">,</span> <span class="n">abs_x2</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
+<span class="n">qmap</span><span class="o">.</span><span class="n">set_absorber</span><span class="p">(</span><span class="n">absfunc</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">tmax</span><span class="p">):</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">qmap</span><span class="o">.</span><span class="n">getIn</span><span class="p">()</span> <span class="c"># return | phi_0&gt;</span>
+    <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">hsmrep</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">absfunc</span><span class="p">)</span>
+        <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">1.1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">sq</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">hsm_cmap</span><span class="p">)</span>
+        <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%d</span><span class="s"> step&quot;</span> <span class="o">%</span> <span class="n">i</span><span class="p">)</span>
+        <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">abs_x1</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s">&#39;0.8&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span><span class="n">abs_x2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s">&#39;0.8&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="n">qmap</span><span class="o">.</span><span class="n">evolve</span><span class="p">()</span>
+
+<span class="c">## ------ exp absorber  -------</span>
+<span class="n">state</span> <span class="o">=</span> <span class="n">qmap</span><span class="o">.</span><span class="n">getState</span><span class="p">()</span><span class="o">.</span><span class="n">cs</span><span class="p">(</span><span class="mf">0.7</span><span class="p">,</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="n">qmap</span><span class="o">.</span><span class="n">setInit</span><span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="c"># set intial condition</span>
+<span class="n">beta</span><span class="p">,</span><span class="n">alpha</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span><span class="mf">0.01</span>
+<span class="n">absfunc</span> <span class="o">=</span> <span class="n">exp_abs</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">abs_x1</span><span class="p">,</span><span class="n">abs_x2</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span><span class="n">beta</span><span class="p">)</span>
+<span class="n">qmap</span><span class="o">.</span><span class="n">set_absorber</span><span class="p">(</span><span class="n">absfunc</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">tmax</span><span class="p">):</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">qmap</span><span class="o">.</span><span class="n">getIn</span><span class="p">()</span> <span class="c"># return | phi_0&gt;</span>
+    <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">hsmrep</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">absfunc</span><span class="p">)</span>
+        <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">1.1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">sq</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">hsm_cmap</span><span class="p">)</span>
+        <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%d</span><span class="s"> step&quot;</span> <span class="o">%</span> <span class="n">i</span><span class="p">)</span>
+        <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">abs_x1</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s">&#39;0.8&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span><span class="n">abs_x2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s">&#39;0.8&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="n">qmap</span><span class="o">.</span><span class="n">evolve</span><span class="p">()</span>
+
+
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">h_pad</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>/home/hanada/anaconda3/lib/python3.4/site-packages/matplotlib/collections.py:590: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
+  if self._edgecolors == str(&#39;face&#39;):
+</pre></div>
+</div>
+<img alt="../_images/nonuni_9_1.png" src="../_images/nonuni_9_1.png" />
+</div>
+<div class="section" id="id3">
+<h2>固有状態<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>次に <span class="math">\(\hat{U}^{(o)}\)</span>の固有値問題を考える． Qmap
+のoperatateを吸収作用素付きの時間発展を定義すればそのまま固有関数が求まる様になっている．</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">SimpleQmap</span> <span class="kn">as</span> <span class="nn">sq</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+<span class="k">class</span> <span class="nc">OpenQmap</span><span class="p">(</span><span class="n">sq</span><span class="o">.</span><span class="n">Qmap</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">set_absorber</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">absorber</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">absorber</span> <span class="o">=</span> <span class="n">absorber</span>
+    <span class="k">def</span> <span class="nf">operate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">pvec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">stateIn</span><span class="p">)</span>
+        <span class="n">qvec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifft</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">pvec</span><span class="p">)</span>
+        <span class="n">qvec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">absorber</span><span class="o">*</span><span class="n">qvec</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stateOut</span> <span class="o">=</span> <span class="n">sq</span><span class="o">.</span><span class="n">State</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scaleinfo</span><span class="p">,</span> <span class="n">qvec</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">tanh_abs</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">,</span><span class="n">beta</span><span class="p">):</span>
+    <span class="n">xx1</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">x1</span><span class="p">)</span><span class="o">*</span><span class="n">beta</span>
+    <span class="n">xx2</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">x2</span><span class="p">)</span><span class="o">*</span><span class="n">beta</span>
+    <span class="k">return</span> <span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">xx1</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span><span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">xx2</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span>
+
+<span class="k">def</span> <span class="nf">exp_abs</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">,</span><span class="n">alpha</span><span class="p">,</span><span class="n">beta</span><span class="p">):</span>
+    <span class="n">x1</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">x1</span><span class="p">)</span>
+    <span class="n">x2</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">x2</span><span class="p">)</span>
+    <span class="n">theta0</span><span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">x1</span><span class="o">*</span><span class="n">beta</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">theta1</span><span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">x2</span><span class="o">*</span><span class="n">beta</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="p">(</span><span class="n">x1</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">theta0</span> <span class="o">+</span><span class="n">x2</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">theta1</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">w</span><span class="o">/</span><span class="n">alpha</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">p</span>
+
+<span class="n">dim</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">k</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">qmin</span><span class="p">,</span> <span class="n">qmax</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
+<span class="n">pmin</span><span class="p">,</span> <span class="n">pmax</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span>
+
+<span class="n">tmax</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">cmap</span> <span class="o">=</span> <span class="n">sq</span><span class="o">.</span><span class="n">StandardMap</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+
+<span class="n">domain</span> <span class="o">=</span> <span class="p">[[</span><span class="n">qmin</span><span class="p">,</span><span class="n">qmax</span><span class="p">],[</span><span class="n">pmin</span><span class="p">,</span><span class="n">pmax</span><span class="p">]]</span>
+<span class="n">qmap</span> <span class="o">=</span> <span class="n">OpenQmap</span><span class="p">(</span><span class="n">cmap</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">domain</span><span class="p">)</span> <span class="c"># defines the quantum system</span>
+
+<span class="c">## ---- tanh absorber  ----</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+
+<span class="n">abs_x1</span><span class="o">=</span> <span class="mf">0.25</span>
+<span class="n">abs_x2</span> <span class="o">=</span> <span class="mf">0.75</span>
+<span class="n">beta</span><span class="o">=</span><span class="mi">100</span>
+<span class="n">absfunc</span> <span class="o">=</span> <span class="n">tanh_abs</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">abs_x1</span><span class="p">,</span> <span class="n">abs_x2</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
+<span class="n">qmap</span><span class="o">.</span><span class="n">set_absorber</span><span class="p">(</span><span class="n">absfunc</span><span class="p">)</span>
+<span class="n">evals</span><span class="p">,</span> <span class="n">evecs</span> <span class="o">=</span> <span class="n">qmap</span><span class="o">.</span><span class="n">eigen</span><span class="p">()</span>
+
+<span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mf">1.j</span><span class="o">*</span><span class="n">theta</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">z</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="s">&#39;-g&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">evals</span><span class="o">.</span><span class="n">real</span><span class="p">,</span><span class="n">evals</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="s">&#39;o&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">evec</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">evecs</span><span class="p">):</span>
+    <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span> <span class="o">=</span> <span class="n">evec</span><span class="o">.</span><span class="n">hsmrep</span><span class="p">()</span>
+    <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="n">cmap</span><span class="o">=</span><span class="n">sq</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">hsm_cmap</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;=</span><span class="mi">4</span><span class="p">:</span>
+        <span class="k">break</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>/home/hanada/anaconda3/lib/python3.4/site-packages/matplotlib/collections.py:590: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
+  if self._edgecolors == str(&#39;face&#39;):
+</pre></div>
+</div>
+<img alt="../_images/nonuni_11_1.png" src="../_images/nonuni_11_1.png" />
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">非ユニタリー系</a><ul>
+<li><a class="reference internal" href="#id2">時間発展</a></li>
+<li><a class="reference internal" href="#qmap">Qmap の継承</a></li>
+<li><a class="reference internal" href="#id3">固有状態</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="integ.html"
+                        title="previous chapter">可積分極限</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../state.html"
+                        title="next chapter"><code class="docutils literal"><span class="pre">state</span></code></a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/tutorial/nonuni.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../state.html" title="state"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="integ.html" title="可積分極限"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">SimpleQmap  documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2013, Yasutaka Hanada.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>

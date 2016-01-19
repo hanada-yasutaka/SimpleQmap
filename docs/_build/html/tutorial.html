@@ -1,0 +1,392 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Classical dynamics &mdash; SimpleQmap  documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://mathjax.connectmv.com/MathJax.js?config=default"></script>
+    <link rel="top" title="SimpleQmap  documentation" href="index.html" />
+    <link rel="next" title="&lt;no title&gt;" href="tutorial/std.html" />
+    <link rel="prev" title="はじめに" href="require.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="tutorial/std.html" title="&lt;no title&gt;"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="require.html" title="はじめに"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">SimpleQmap  documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <p>本チュートリアルでは</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>numpy</li>
+<li>matplotlib</li>
+<li>SimpleQmap</li>
+</ol>
+</div></blockquote>
+<p>のパッケージを用います．
+sampleなので，参考程度と思ってください．</p>
+<div class="section" id="classical-dynamics">
+<h1>Classical dynamics<a class="headerlink" href="#classical-dynamics" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul class="simple">
+</ul>
+</div>
+<p>標準写像を用いた時間発展は</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">SimpleQmap</span> <span class="kn">as</span> <span class="nn">S</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+<span class="k">def</span> <span class="nf">evolv</span><span class="p">(</span><span class="n">q</span><span class="p">,</span><span class="n">p</span><span class="p">,</span> <span class="n">Map</span><span class="p">):</span>
+    <span class="n">pp</span> <span class="o">=</span> <span class="n">p</span> <span class="o">-</span> <span class="n">Map</span><span class="o">.</span><span class="n">func0</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+    <span class="n">qq</span> <span class="o">=</span> <span class="n">q</span> <span class="o">+</span> <span class="n">Map</span><span class="o">.</span><span class="n">func1</span><span class="p">(</span><span class="n">pp</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">qq</span><span class="p">,</span> <span class="n">pp</span>
+
+<span class="n">k</span><span class="o">=</span><span class="mf">1.0</span>
+<span class="n">Map</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span class="n">StandardMap</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+<span class="n">sample</span><span class="o">=</span><span class="mi">100</span>
+<span class="nb">iter</span> <span class="o">=</span> <span class="mi">500</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">q</span><span class="p">,</span><span class="n">p</span><span class="p">):</span>
+    <span class="n">q</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">traj</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]),</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">iter</span><span class="p">):</span>
+        <span class="n">q</span><span class="p">,</span><span class="n">p</span> <span class="o">=</span> <span class="n">evolv</span><span class="p">(</span><span class="n">q</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="n">Map</span><span class="p">)</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">q</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">p</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="n">q</span><span class="p">,</span><span class="n">p</span><span class="p">]):</span>
+            <span class="n">traj</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">traj</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">x</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">traj</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">traj</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s">&#39;.&#39;</span><span class="p">,</span><span class="n">markersize</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;q&#39;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">22</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;p&#39;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">22</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s">&quot;std.png&quot;</span><span class="p">)</span>
+<span class="c">#plt.show()</span>
+</pre></div>
+</div>
+<p>で行っている．位相空間中の軌道群をplotすると，このような結果が得られるはずである．</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/std1.png"><img alt="_images/std1.png" src="_images/std1.png" style="width: 400.0px; height: 400.0px;" /></a>
+</div>
+</div>
+<div class="section" id="quantum-dynamics-initial-value-problem">
+<h1>Quantum dynamics: initial value problem<a class="headerlink" href="#quantum-dynamics-initial-value-problem" title="Permalink to this headline">¶</a></h1>
+<p>与えられた状態の時間発展を解く．
+いま初期条件として</p>
+<div class="math">
+\[\langle p | \psi_0 \rangle = \delta(p)\]</div>
+<p>を与える．SimpleQmapにおける時間発展は</p>
+<div class="math">
+\[\hat{U} = \exp[-\frac{i}{\hbar}T(\hat{p})] \exp[-\frac{i}{\hbar}V(\hat{q})]\]</div>
+<p>の演算順序で行われているので，初期条件をsetする際にFouier 逆変換を用いて</p>
+<div class="math">
+\[\langle q | \psi_0 \rangle = \sum_q \langle p | q \rangle \! \langle q | \psi_0 \rangle\]</div>
+<p><span class="math">\(q\)</span> -表示に変換している．Sample コードは以下の通りである．</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">SimpleQmap</span> <span class="kn">import</span> <span class="n">Qmap</span><span class="p">,</span> <span class="n">StandardMap</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="n">dim</span> <span class="o">=</span> <span class="mi">70</span>
+<span class="n">k</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">qmin</span><span class="p">,</span> <span class="n">qmax</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span>
+<span class="n">pmin</span><span class="p">,</span> <span class="n">pmax</span> <span class="o">=</span> <span class="o">-</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">2.0</span>
+
+<span class="n">tmax</span> <span class="o">=</span> <span class="mi">7</span>
+<span class="nb">map</span> <span class="o">=</span> <span class="n">StandardMap</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+<span class="n">domain</span> <span class="o">=</span> <span class="p">[[</span><span class="n">qmin</span><span class="p">,</span><span class="n">qmax</span><span class="p">],[</span><span class="n">pmin</span><span class="p">,</span><span class="n">pmax</span><span class="p">]]</span>
+<span class="n">qmap</span> <span class="o">=</span> <span class="n">Qmap</span><span class="p">(</span><span class="nb">map</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">domain</span><span class="p">)</span>
+<span class="c">#state = qmap.getState().cs(0.5,0.5)</span>
+<span class="n">state</span> <span class="o">=</span> <span class="n">qmap</span><span class="o">.</span><span class="n">getState</span><span class="p">()</span>
+<span class="n">state</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">dim</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span> <span class="mf">1.0</span><span class="o">+</span><span class="mf">0.j</span><span class="p">)</span>
+<span class="n">init</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">p2q</span><span class="p">()</span>
+
+<span class="n">qmap</span><span class="o">.</span><span class="n">setInit</span><span class="p">(</span><span class="n">init</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tmax</span><span class="p">):</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">qmap</span><span class="o">.</span><span class="n">getIn</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%d</span><span class="s">-th step&quot;</span> <span class="o">%</span> <span class="n">i</span><span class="p">,</span> <span class="n">state</span><span class="o">.</span><span class="n">norm</span><span class="p">())</span>    
+    <span class="n">pvec</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">prep</span><span class="p">()</span>
+    <span class="n">zero_index</span> <span class="o">=</span> <span class="p">(</span><span class="n">pvec</span><span class="o">.</span><span class="n">abs2</span><span class="p">()</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">)</span>
+    <span class="n">pvec</span><span class="p">[</span><span class="n">zero_index</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e-32</span> <span class="o">+</span> <span class="mf">0.0j</span>
+    <span class="n">par</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">*</span><span class="n">i</span><span class="o">/</span><span class="n">tmax</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">scaleinfo</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">pvec</span><span class="o">.</span><span class="n">abs2</span><span class="p">(),</span> <span class="s">&#39;-&#39;</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">jet</span><span class="p">(</span><span class="n">par</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s">&#39;</span><span class="si">%d</span><span class="s"> step&#39;</span> <span class="o">%</span> <span class="n">i</span><span class="p">)</span>
+<span class="c">#    state.savetxt(&quot;evolv_qrep_%d.dat&quot; % i)</span>
+    <span class="n">qmap</span><span class="o">.</span><span class="n">evolve</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mf">1e-28</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">r&quot;$|\psi_n(p)|^2$&quot;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">28</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">r&quot;$p$&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">28</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s">&quot;evolv_prep.png&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>計算結果は</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/evolv_prep.png"><img alt="_images/evolv_prep.png" src="_images/evolv_prep.png" style="width: 400.0px; height: 400.0px;" /></a>
+</div>
+<p>となる．より詳しい解説は <a class="reference external" href="http://japanichaos.appspot.com/Quantum.html#id1">http://japanichaos.appspot.com/Quantum.html#id1</a> を参考にしてほしい．
+(x軸のscaleは <span class="math">\(2\pi\)</span> 倍すれば同一の結果である)</p>
+</div>
+<div class="section" id="quantum-dynamics-eigen-value-problem">
+<h1>Quantum dynamics: eigen value problem<a class="headerlink" href="#quantum-dynamics-eigen-value-problem" title="Permalink to this headline">¶</a></h1>
+<p>　次に時間発展演算子 <span class="math">\(\hat{U}\)</span> の固有値問題，</p>
+<div class="math">
+\[\hat{U} | \Psi_n\rangle = u_n | \Psi_n\rangle\]</div>
+<p>を解く．
+ここで， <span class="math">\(|\Psi_n\rangle\)</span> は(擬)固有状態，であり，
+<span class="math">\(u_n\)</span> は固有値である．
+Floquet の定理より</p>
+<div class="math">
+\[u_n = e^{-i\epsilon_n}\]</div>
+<p>として与えられ，
+<span class="math">\(\epsilon_n \in \mathbb{R}\)</span> は(擬)固有位相と呼ばれる．</p>
+<p>　Sampleコードは以下の通りである．</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">SimpleQmap</span> <span class="kn">import</span> <span class="n">Qmap</span><span class="p">,</span> <span class="n">StandardMap</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="n">dim</span> <span class="o">=</span> <span class="mi">70</span>
+<span class="n">k</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">qmin</span><span class="p">,</span> <span class="n">qmax</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span>
+<span class="n">pmin</span><span class="p">,</span> <span class="n">pmax</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span>
+<span class="n">domain</span> <span class="o">=</span> <span class="p">[[</span><span class="n">qmin</span><span class="p">,</span><span class="n">qmax</span><span class="p">],[</span><span class="n">pmin</span><span class="p">,</span><span class="n">pmax</span><span class="p">]]</span>
+
+<span class="nb">map</span> <span class="o">=</span> <span class="n">StandardMap</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+<span class="n">qmap</span> <span class="o">=</span> <span class="n">Qmap</span><span class="p">(</span><span class="nb">map</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">domain</span><span class="p">)</span>
+
+<span class="n">evals</span><span class="p">,</span> <span class="n">evecs</span> <span class="o">=</span> <span class="n">qmap</span><span class="o">.</span><span class="n">eigen</span><span class="p">()</span> <span class="c"># get eigen value and eigen vectors</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">&quot;is unitary?&quot;</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">evals</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">evals</span><span class="p">))</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">dim</span><span class="p">))</span><span class="o">&lt;</span><span class="mf">1e-12</span><span class="p">))</span>
+
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">1.j</span><span class="o">*</span><span class="n">theta</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">evals</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">evals</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="s">&#39;o&#39;</span><span class="p">,</span><span class="n">markersize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">z</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="s">&#39;-k&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">1.1</span><span class="p">,</span><span class="mf">1.1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">1.1</span><span class="p">,</span><span class="mf">1.1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">r&quot;$Re[u_n]$&quot;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">r&quot;$Im[u_n]$&quot;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s">&quot;eigen_values.png&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c">#for i, evec in enumerate(evecs):</span>
+<span class="c">#    evec.savetxt(&quot;eigen_qrep_%i.dat&quot; % i)</span>
+</pre></div>
+</div>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/eigen_values.png"><img alt="_images/eigen_values.png" src="_images/eigen_values.png" style="width: 400.0px; height: 400.0px;" /></a>
+</div>
+</div>
+<div class="section" id="quantum-dynamics-phase-space-representation">
+<h1>Quantum dynamics: phase space representation<a class="headerlink" href="#quantum-dynamics-phase-space-representation" title="Permalink to this headline">¶</a></h1>
+<p>　前節で固有値について説明したので，次に固有関数について調べる．
+固有関数 <span class="math">\(|\Psi_n \rangle\)</span> はq-表示やp-表示を用いることが慣例的であるが，
+古典力学(位相空間)との対応を考える上で伏見表示(擬位相空間分布)も重要になる．
+詳細な伏見表示定義はここでは説明しない．言葉で説明すると
+位相空間上を適当にgridを切り格子点にCoherent stateとの内積の絶対値2乗を取ることで位相空間における
+確率密度を測る方法である．</p>
+<p>　Sample コードは次の通りであるが，<a class="reference internal" href="require.html"><em>はじめに</em></a> の最後の bash make.sh を実行する必要がある．</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">SimpleQmap</span> <span class="kn">import</span> <span class="n">Qmap</span><span class="p">,</span> <span class="n">StandardMap</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib.ticker</span> <span class="kn">import</span> <span class="n">NullFormatter</span>
+
+<span class="n">nullfmt</span> <span class="o">=</span> <span class="n">NullFormatter</span><span class="p">()</span> 
+
+<span class="k">def</span> <span class="nf">frame</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">)):</span>
+	<span class="n">left</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.5</span>
+	<span class="n">bottom</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.5</span>
+	<span class="n">bottom_h</span> <span class="o">=</span> <span class="n">left_h</span> <span class="o">=</span> <span class="n">left</span><span class="o">+</span><span class="n">width</span><span class="o">+</span><span class="mf">0.02</span>
+
+	<span class="n">r1</span> <span class="o">=</span> <span class="p">[</span><span class="n">left</span><span class="p">,</span> <span class="n">bottom</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">]</span>
+	<span class="n">r2</span> <span class="o">=</span> <span class="p">[</span><span class="n">left</span><span class="p">,</span> <span class="n">bottom_h</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">]</span>
+	<span class="n">r3</span> <span class="o">=</span> <span class="p">[</span><span class="n">left_h</span><span class="o">+</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">bottom</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="n">height</span><span class="p">]</span>
+
+	<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
+	<span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">(</span><span class="n">r1</span><span class="p">)</span>
+	<span class="n">ax2</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">(</span><span class="n">r2</span><span class="p">)</span>
+	<span class="n">ax3</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">(</span><span class="n">r3</span><span class="p">)</span>
+	<span class="n">ax2</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">nullfmt</span><span class="p">)</span>
+	<span class="n">ax3</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">nullfmt</span><span class="p">)</span>
+	<span class="n">ax</span> <span class="o">=</span> <span class="p">[</span><span class="n">ax1</span><span class="p">,</span><span class="n">ax2</span><span class="p">,</span><span class="n">ax3</span><span class="p">]</span>
+	<span class="k">return</span> <span class="n">ax</span>
+	
+<span class="k">def</span> <span class="nf">cmap</span><span class="p">(</span><span class="n">q</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="n">Map</span><span class="p">):</span>
+	<span class="n">pp</span> <span class="o">=</span> <span class="n">p</span> <span class="o">-</span> <span class="n">Map</span><span class="o">.</span><span class="n">func0</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+	<span class="n">qq</span> <span class="o">=</span> <span class="n">q</span> <span class="o">+</span> <span class="n">Map</span><span class="o">.</span><span class="n">func1</span><span class="p">(</span><span class="n">pp</span><span class="p">)</span>
+	<span class="k">return</span> <span class="n">qq</span><span class="p">,</span> <span class="n">pp</span>
+	
+<span class="k">def</span> <span class="nf">trajectory</span><span class="p">(</span><span class="n">Map</span><span class="p">,</span> <span class="n">sample</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span><span class="nb">iter</span><span class="o">=</span><span class="mi">500</span><span class="p">):</span>
+	<span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+	<span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+	<span class="n">traj</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([]),</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([])]</span>
+	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">iter</span><span class="p">):</span>
+		<span class="n">q</span><span class="p">,</span><span class="n">p</span> <span class="o">=</span> <span class="n">cmap</span><span class="p">(</span><span class="n">q</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="n">Map</span><span class="p">)</span>
+		<span class="n">q</span> <span class="o">=</span> <span class="n">q</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+		<span class="n">p</span> <span class="o">=</span> <span class="n">p</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+		<span class="k">for</span> <span class="n">j</span><span class="p">,</span><span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="n">q</span><span class="p">,</span><span class="n">p</span><span class="p">]):</span>
+			<span class="n">traj</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">traj</span><span class="p">[</span><span class="n">j</span><span class="p">],</span><span class="n">x</span><span class="p">)</span>
+	<span class="k">return</span> <span class="n">traj</span>
+	
+<span class="n">dim</span> <span class="o">=</span> <span class="mi">70</span>
+<span class="n">k</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">qmin</span><span class="p">,</span> <span class="n">qmax</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span>
+<span class="n">pmin</span><span class="p">,</span> <span class="n">pmax</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span>
+<span class="n">domain</span> <span class="o">=</span> <span class="p">[[</span><span class="n">qmin</span><span class="p">,</span><span class="n">qmax</span><span class="p">],[</span><span class="n">pmin</span><span class="p">,</span><span class="n">pmax</span><span class="p">]]</span>
+
+<span class="nb">map</span> <span class="o">=</span> <span class="n">StandardMap</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+<span class="n">qmap</span> <span class="o">=</span> <span class="n">Qmap</span><span class="p">(</span><span class="nb">map</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">domain</span><span class="p">)</span>
+
+<span class="n">evals</span><span class="p">,</span> <span class="n">evecs</span> <span class="o">=</span> <span class="n">qmap</span><span class="o">.</span><span class="n">eigen</span><span class="p">()</span> <span class="c"># get eigen value and eigen vectors</span>
+<span class="n">traj</span> <span class="o">=</span> <span class="n">trajectory</span><span class="p">(</span><span class="nb">map</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">evec</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">evecs</span><span class="p">):</span>
+	<span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+	<span class="n">ax</span> <span class="o">=</span> <span class="n">frame</span><span class="p">()</span>
+	<span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">Z</span> <span class="o">=</span> <span class="n">evec</span><span class="o">.</span><span class="n">hsmrep</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+	<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">Z</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">jet</span><span class="p">)</span>
+	<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">traj</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">traj</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="s">&#39;,&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s">&#39;#bebebe&#39;</span><span class="p">)</span>		
+	<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">&quot;q&quot;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+	<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">&quot;p&quot;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+	
+	<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">evec</span><span class="o">.</span><span class="n">scaleinfo</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">evec</span><span class="o">.</span><span class="n">qrep</span><span class="p">()</span><span class="o">.</span><span class="n">abs2</span><span class="p">())</span>
+	<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%d</span><span class="s">-th eigen state&quot;</span> <span class="o">%</span> <span class="n">i</span><span class="p">)</span>	
+	<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">r&quot;$|\Psi_n(q)|^2$&quot;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+
+	<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">evec</span><span class="o">.</span><span class="n">prep</span><span class="p">()</span><span class="o">.</span><span class="n">abs2</span><span class="p">(),</span><span class="n">evec</span><span class="o">.</span><span class="n">scaleinfo</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+	<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">r&quot;$|\Psi_n(p)|^2$&quot;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>	
+	<span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">get_xticks</span><span class="p">(),</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+	<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s">&quot;eigen_state_</span><span class="si">%d</span><span class="s">.png&quot;</span> <span class="o">%</span> <span class="n">i</span><span class="p">)</span>
+	<span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+	
+	<span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+		<span class="k">break</span>
+<span class="c">#	plt.show()</span>
+</pre></div>
+</div>
+<p>典型的な計算結果は</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="_images/eigen_state_0.png"><img alt="hsm1" src="_images/eigen_state_0.png" style="width: 360.0px; height: 360.0px;" /></a></td>
+<td><a class="reference internal" href="_images/eigen_state_1.png"><img alt="hsm2" src="_images/eigen_state_1.png" style="width: 360.0px; height: 360.0px;" /></a></td>
+</tr>
+</tbody>
+</table>
+<p>となる．</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Classical dynamics</a></li>
+<li><a class="reference internal" href="#quantum-dynamics-initial-value-problem">Quantum dynamics: initial value problem</a></li>
+<li><a class="reference internal" href="#quantum-dynamics-eigen-value-problem">Quantum dynamics: eigen value problem</a></li>
+<li><a class="reference internal" href="#quantum-dynamics-phase-space-representation">Quantum dynamics: phase space representation</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="require.html"
+                        title="previous chapter">はじめに</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="tutorial/std.html"
+                        title="next chapter">&lt;no title&gt;</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/tutorial.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="tutorial/std.html" title="&lt;no title&gt;"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="require.html" title="はじめに"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">SimpleQmap  documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2013, Yasutaka Hanada.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>

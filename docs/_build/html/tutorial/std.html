@@ -1,0 +1,337 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>古典写像系 &mdash; SimpleQmap  documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="SimpleQmap  documentation" href="../index.html" />
+    <link rel="next" title="量子写像系" href="qstd.html" />
+    <link rel="prev" title="はじめに" href="../require.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="qstd.html" title="量子写像系"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../require.html" title="はじめに"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">SimpleQmap  documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div id="preamble" style="display:none">\(
+\newcommand{\Bra}[1]{\left( #1 \right)}                %( #1 )
+\newcommand{\BRa}[1]{\left\{#1 \right\}}                %{ #1 }
+\newcommand{\BRA}[1]{\left[ #1 \right]}                %[ #1 ]
+\newcommand{\average}[1]{\left\langle #1\right\rangle}    %< #1 >
+\newcommand{\ket}[1]{| #1 \rangle}            %| #1>
+\newcommand{\bra}[1]{\langle #1|}            % < #1| 
+\newcommand{\bracket}[2]{\langle #1 | #2 \rangle}     %<#1|#2>
+\newcommand{\abs}[1]{\right| #1 \left|}
+\newcommand{\odo}[2]{\frac{d #1}{d #2}}                %常微分
+\newcommand{\pdo}[2]{\frac{\partial #1}{\partial #2}}        %偏微分d#1/d#2
+\newcommand{\dint}[2]{\int_{#1}^{#2}}                %定積分#1→#2
+\newcommand{\1}{\mbox{1}\hspace{-0.25em}\mbox{l}}    %白抜きの1 単位行列
+\newcommand{\lambdabar}{\lambda \kern -0.5em\raise 0.5ex \hbox{--}}     %lambda bar
+\)</div>
+<div class="section" id="id1">
+<h1>古典写像系<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>次の時間に依存するハミルトニアン</p>
+<div class="math">
+\[H(q,p,t) = T(p) + V(q)\sum_{n=-\infty}^{\infty}\delta(t-n) \tag{1}\]</div>
+<p>を考えます．第二項はポテンシャル項による摂動が時刻<span class="math">\(t=n (n=\cdots,-1,0,1,\cdots)\)</span>
+にのみ離散的に印加されていることを表しています．
+(1)のハミルトンの運動方程式(ニュートン方程式)は</p>
+<div class="math">
+\[\begin{split}\begin{split}
+p_{n+1}  &amp;= p_{n} - V'(q_{n})\\
+q_{n+1}  &amp;= q_{n} + T'(p_{n+1})
+\end{split}\end{split}\]</div>
+<p>によって記述されます．
+ここで<span class="math">\(V'(q), T'(p)\)</span>はそれぞれ<span class="math">\(\frac{dV}{dq}, \frac{dT}{dp}\)</span>．
+添字の<span class="math">\(n\)</span>は<span class="math">\(n\)</span>回目の撃力印加を意味します．写像の式の下段の<span class="math">\(p_{n+1}\)</span>の添字がであることに注意して下さい．</p>
+<div class="section" id="id2">
+<h2>標準写像<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p><span class="math">\(T(p)=p^2/2, V(q) = k\cos(2\pi q)/(2\pi)^2\)</span> とすると写像は</p>
+<div class="math">
+\[\begin{split}\begin{split}
+q' &amp; = q + \frac{k}{2\pi} \sin(2\pi q)\\
+p' &amp; = p + q'
+\end{split}\end{split}\]</div>
+<p>で与えられます．この写像は
+<a class="reference external" href="http://www.scholarpedia.org/article/Chirikov_standard_map">標準写像</a>
+と呼ばれます．</p>
+</div>
+<div class="section" id="id3">
+<h2>例題 1<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>手始めにSimpleQmapを用いずに標準写像によって与えられる軌道列を計算してみる
+なお，本ページはipython
+notebookを用いて作られているため，コードを実行する際には %matplotlib
+inline を無視しして下さい．</p>
+<div class="code python highlight-python"><div class="highlight"><pre>%matplotlib inline
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+<span class="n">twopi</span> <span class="o">=</span> <span class="mf">2.0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+<span class="c"># 写像の定義</span>
+<span class="k">def</span> <span class="nf">Map</span><span class="p">(</span><span class="n">q</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="n">k</span><span class="p">):</span>
+    <span class="n">pp</span> <span class="o">=</span> <span class="n">p</span> <span class="o">+</span> <span class="n">k</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">q</span><span class="o">*</span><span class="n">twopi</span><span class="p">)</span><span class="o">/</span><span class="n">twopi</span>
+    <span class="n">qq</span> <span class="o">=</span> <span class="n">q</span> <span class="o">+</span> <span class="n">pp</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">qq</span><span class="p">,</span><span class="n">pp</span><span class="p">]</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">sample</span><span class="o">=</span><span class="mi">50</span>
+<span class="n">tmax</span> <span class="o">=</span> <span class="mi">500</span>
+<span class="n">k</span><span class="o">=</span><span class="mi">1</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+<span class="n">traj</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]),</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tmax</span><span class="p">):</span>
+    <span class="n">q</span><span class="p">,</span><span class="n">p</span> <span class="o">=</span> <span class="n">Map</span><span class="p">(</span><span class="n">q</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">q</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">p</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">traj</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">traj</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">q</span><span class="p">)</span>
+    <span class="n">traj</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">traj</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">p</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">traj</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">traj</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="s">&#39;,k&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../_images/std_3_0.png" src="../_images/std_3_0.png" />
+</div>
+<div class="section" id="id4">
+<h2>例題 2<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>SimpleQmapは標準写像のみデフォルトで定義されておりソースコードは
+SimpleQmap/maps.py にある．
+ソースコードを見れば分かる通りごちゃごちゃ書かれているがコメント部分を取り除くと基本的に次の通りである</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span>
+<span class="n">twopi</span><span class="o">=</span><span class="mf">2.0</span><span class="o">*</span><span class="n">numpy</span><span class="o">.</span><span class="n">pi</span>
+
+<span class="k">class</span> <span class="nc">Symplectic</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="k">class</span> <span class="nc">StandardMap</span><span class="p">(</span><span class="n">Symplectic</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="n">k</span>
+
+    <span class="k">def</span> <span class="nf">func0</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="o">*</span><span class="n">numpy</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">twopi</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="o">/</span><span class="n">twopi</span>
+
+    <span class="k">def</span> <span class="nf">func1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">x</span>
+
+    <span class="k">def</span> <span class="nf">ifunc0</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="o">*</span><span class="n">numpy</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">twopi</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">twopi</span><span class="o">*</span><span class="n">twopi</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">ifunc1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">x</span>
+</pre></div>
+</div>
+<p>python のclass
+については公式を参照して下さい(<a class="reference external" href="http://docs.python.jp/3.5/tutorial/classes.html">http://docs.python.jp/3.5/tutorial/classes.html</a>)</p>
+<p>上記でで意義されたSymplectic
+のclassは基本的に意味の無いクラスなので無視して下さい．
+StandardMapのクラスは func0, func1, ifunc0,
+ifunc1のmethodが定義されています． それぞれ(1)式のハミルトニアンの</p>
+<p>func0: <span class="math">\(\frac{dV(q)}{dq}\)</span></p>
+<p>func1: <span class="math">\(\frac{dT(p)}{dp}\)</span></p>
+<p>ifunc0: <span class="math">\(V(q)\)</span></p>
+<p>ifunc1: <span class="math">\(T(p)\)</span></p>
+<p>に対応します．無理にこのクラスを使う必要はありませんが，SimpleQmapを使って上のプログラムと同じモノを書くと次のようになる．</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">SimpleQmap</span> <span class="kn">as</span> <span class="nn">sq</span>
+
+<span class="n">twopi</span> <span class="o">=</span> <span class="mf">2.0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+
+<span class="k">def</span> <span class="nf">Map</span><span class="p">(</span><span class="n">q</span><span class="p">,</span><span class="n">p</span><span class="p">,</span> <span class="n">cmap</span><span class="p">):</span>
+    <span class="n">pp</span> <span class="o">=</span> <span class="n">p</span> <span class="o">-</span> <span class="n">cmap</span><span class="o">.</span><span class="n">func0</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+    <span class="n">qq</span> <span class="o">=</span> <span class="n">q</span> <span class="o">+</span> <span class="n">cmap</span><span class="o">.</span><span class="n">func1</span><span class="p">(</span><span class="n">pp</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">qq</span><span class="p">,</span><span class="n">pp</span><span class="p">]</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">sample</span><span class="o">=</span><span class="mi">50</span>
+<span class="n">tmax</span> <span class="o">=</span> <span class="mi">500</span>
+<span class="n">k</span><span class="o">=</span><span class="mi">1</span>
+<span class="n">cmap</span> <span class="o">=</span> <span class="n">sq</span><span class="o">.</span><span class="n">StandardMap</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+<span class="n">traj</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]),</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tmax</span><span class="p">):</span>
+    <span class="n">q</span><span class="p">,</span><span class="n">p</span> <span class="o">=</span> <span class="n">Map</span><span class="p">(</span><span class="n">q</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="n">cmap</span><span class="p">)</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">q</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">p</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">traj</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">traj</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">q</span><span class="p">)</span>
+    <span class="n">traj</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">traj</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">p</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">traj</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">traj</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="s">&#39;,k&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../_images/std_7_0.png" src="../_images/std_7_0.png" />
+</div>
+<div class="section" id="id5">
+<h2>継承の例<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>SimpleQmapでは標準写像しか定義されていませんが，実際には異なる写像を定義したい場合があるでしょう．
+ここでは例題としてStandardMap のclassを継承してHarperMapを定義します．</p>
+<p>Harper写像は</p>
+<div class="math">
+\[\begin{split}\begin{split}
+p_{n+1} &amp;= q_{n} + k\sin(2\pi q_n)/(2\pi)\\
+q_{n+1} &amp; = q_{n} + a\sin(2\pi p_{n+1})/(2\pi)
+\end{split}\end{split}\]</div>
+<p>と定義します．そうすると
+<span class="math">\(V(q)\)</span>の定義が標準写像と共通する為，T(p)の定義を書き換える(オーバーライド)するだけですみます．
+プログラムは例えば以下の様になります．</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">SimpleQmap</span> <span class="kn">as</span> <span class="nn">sq</span>
+
+<span class="n">twopi</span> <span class="o">=</span> <span class="mf">2.0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+<span class="k">class</span> <span class="nc">HarperMap</span><span class="p">(</span><span class="n">sq</span><span class="o">.</span><span class="n">StandardMap</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span><span class="n">a</span><span class="p">):</span>
+        <span class="n">sq</span><span class="o">.</span><span class="n">StandardMap</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">a</span>
+    <span class="k">def</span> <span class="nf">func1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">a</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">twopi</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="o">/</span><span class="n">twopi</span>
+    <span class="k">def</span> <span class="nf">ifunc1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="o">-</span><span class="n">a</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">twopi</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="o">/</span><span class="n">twopi</span><span class="o">/</span><span class="n">twopi</span>
+
+<span class="k">def</span> <span class="nf">Map</span><span class="p">(</span><span class="n">q</span><span class="p">,</span><span class="n">p</span><span class="p">,</span> <span class="n">cmap</span><span class="p">):</span>
+    <span class="n">pp</span> <span class="o">=</span> <span class="n">p</span> <span class="o">-</span> <span class="n">cmap</span><span class="o">.</span><span class="n">func0</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+    <span class="n">qq</span> <span class="o">=</span> <span class="n">q</span> <span class="o">+</span> <span class="n">cmap</span><span class="o">.</span><span class="n">func1</span><span class="p">(</span><span class="n">pp</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">qq</span><span class="p">,</span><span class="n">pp</span><span class="p">]</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">sample</span><span class="o">=</span><span class="mi">50</span>
+<span class="n">tmax</span> <span class="o">=</span> <span class="mi">500</span>
+<span class="n">k</span><span class="p">,</span><span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span>
+<span class="n">cmap</span> <span class="o">=</span> <span class="n">HarperMap</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">a</span><span class="p">)</span>
+<span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+<span class="n">traj</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]),</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tmax</span><span class="p">):</span>
+    <span class="n">q</span><span class="p">,</span><span class="n">p</span> <span class="o">=</span> <span class="n">Map</span><span class="p">(</span><span class="n">q</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="n">cmap</span><span class="p">)</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">q</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">p</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">traj</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">traj</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">q</span><span class="p">)</span>
+    <span class="n">traj</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">traj</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">p</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">traj</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">traj</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="s">&#39;,k&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../_images/std_9_0.png" src="../_images/std_9_0.png" />
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">古典写像系</a><ul>
+<li><a class="reference internal" href="#id2">標準写像</a></li>
+<li><a class="reference internal" href="#id3">例題 1</a></li>
+<li><a class="reference internal" href="#id4">例題 2</a></li>
+<li><a class="reference internal" href="#id5">継承の例</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../require.html"
+                        title="previous chapter">はじめに</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="qstd.html"
+                        title="next chapter">量子写像系</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/tutorial/std.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="qstd.html" title="量子写像系"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../require.html" title="はじめに"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">SimpleQmap  documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2013, Yasutaka Hanada.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>
