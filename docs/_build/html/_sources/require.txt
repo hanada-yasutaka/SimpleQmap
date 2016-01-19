@@ -22,7 +22,7 @@ You'll need a following other package:
 をインストールして下さい．
 
 pythonの事を何も知らないのであれば python の free distributionである 
-`anaconda <https://www.continuum.io/downloads#_unix>`_
+`anaconda <https://www.continuum.io/downloads>`_
 をインストールすることをおすすめします．
 
 上記numpy及びmatplotlibはanacondaに同梱されています．
@@ -44,7 +44,7 @@ OSの環境破壊を最小限に留める事が可能です．
 ---------------------------------
 
 SimpleQmapははpypi等に登録していないので，
-`Web site (GitHub) <http://hanada-yasutaka.github.io/SimpleQmap/>`_
+`Web site (GitHub) <https://github.com/hanada-yasutaka/SimpleQmap>`_
 からDownloadして解凍して下さい(pipではインストールできませんし登録する気もありません)．
 Download ボタンは右の方に有ると思います．
 

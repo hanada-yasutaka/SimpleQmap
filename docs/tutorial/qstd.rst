@@ -38,8 +38,8 @@ SimpleQmapを使って量子化された標準写像における状態の時間�
 
     %matplotlib inline
 
-(上記%matplotlib
-inlineは本ページを作る都合で記載していますので無視して下さい)
+(上記%matplotlib inlineは本ページを作る都合(ipython
+notebookを利用)で記載していますので無視して下さい)
 
 .. code:: python
 
@@ -76,6 +76,11 @@ inlineは本ページを作る都合で記載していますので無視して�
     axs[1].set_title(r"$|\langle p | \phi_n\rangle|^2$")
     fig.suptitle("%d step" % i)
     plt.show()
+
+
+
+.. image:: qstd_files/qstd_3_0.png
+
 
 波動関数を保存する場合savetxt関数を使う事をおすすめします． 1step
 毎にデータを確認したいならば， fig.axs = plt.subplot(1,2)
@@ -386,14 +391,17 @@ SimpleQmapでは固有値，及び固有ベクトルの取得は以下のよう�
     vec = evolve(6, init, evals, evecs)
     
     axs[0].plot(vec.x[0], vec.qrep().abs2() ,'-k',lw=3)
+    axs[0].set_title("q-rep")
     axs[0].semilogy()
     
     axs[1].plot(vec.x[0], vec.prep().abs2() ,'-k',lw=3)
+    axs[1].set_title("p-rep")
     axs[1].semilogy()
     
     x,y,z= vec.hsmrep(col=100,row=100)
     axs[2].contour(x,y,z,100)
     axs[2].plot(traj[0],traj[1], ',k')
+    axs[2].set_title("hsm-rep")
     
     plt.show()
 

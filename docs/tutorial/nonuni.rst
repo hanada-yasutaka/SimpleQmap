@@ -42,7 +42,7 @@
     
     domain = [[qmin,qmax],[pmin,pmax]]
     qmap = sq.Qmap(cmap, dim, domain) # defines the quantum system
-    state = qmap.getState().cs(0.8,0.0) 
+    state = qmap.getState().cs(0.9,0.0) 
     qmap.setInit(state) # set intial condition
     
     fig, axs = plt.subplots(2,6,figsize=(6*3,3*2),sharex=True,sharey=True)
@@ -153,7 +153,7 @@
     # ---- tanh case ----
     
     # -- soft absorber
-    state = qmap.getState().cs(0.8,0.0)
+    state = qmap.getState().cs(0.9,0.0)
     qmap.setInit(state) # set intial condition
     abs_border = 0.2
     beta = 10
@@ -246,7 +246,7 @@ Qmap の継承
     
     domain = [[qmin,qmax],[pmin,pmax]]
     qmap = OpenQmap(cmap, dim, domain) # defines the quantum system
-    state = qmap.getState().cs(0.7,0.0)
+    state = qmap.getState().cs(0.8,0.0)
     qmap.setInit(state) # set intial condition
     
     
@@ -308,6 +308,67 @@ Qmap の継承
 .. image:: nonuni_files/nonuni_9_1.png
 
 
+.. code:: python
+
+    class OpenQmap(sq.Qmap):
+        def set_absorber(self, absorber):
+            self.absorber = sq.State(self.scaleinfo, absorber)
+        def operate(self):
+            pvec = np.fft.fft(self.operator[0]*self.stateIn)
+            qvec = np.fft.ifft(self.operator[1]*pvec)
+            qvec = sq.State(self.scaleinfo, qvec)
+            pvec = self.absorber*qvec.q2p()
+            qvec = pvec.p2q()
+            self.stateOut = sq.State(self.scaleinfo, qvec)
+    
+    dim = 50
+    k = 1
+    qmin, qmax = 0, 1
+    pmin, pmax = -0.5,0.5
+    
+    tmax = 6
+    cmap = sq.StandardMap(k=k)
+    
+    domain = [[qmin,qmax],[pmin,pmax]]
+    qmap = OpenQmap(cmap, dim, domain) # defines the quantum system
+    state = qmap.getState().cs(0.9,0.0)
+    qmap.setInit(state) # set intial condition
+    
+    
+    ## ---- tanh absorber  ----
+    fig, axs = plt.subplots(1,6,figsize=(6*3,3),sharex=False,sharey=False)
+    
+    abs_x1= -0.3
+    abs_x2 = 0.3
+    beta=100
+    absfunc = tanh_abs(state.x[1], abs_x1, abs_x2, beta)
+    qmap.set_absorber(absfunc)
+    for i in range(0,tmax):
+        state = qmap.getIn() # return | phi_0>
+        x,y,z = state.hsmrep()
+        if i == 0:
+            axs[i].plot(state.x[1], absfunc)
+            axs[i].set_ylim(-0.1,1.1)
+        else:
+            axs[i].contourf(x,y,z, 100, cmap=sq.utility.hsm_cmap)
+            axs[i].set_title("%d step" % i)
+            axs[i].axhspan(pmin, abs_x1, facecolor='0.8', alpha=0.5)
+            axs[i].axhspan(abs_x2,pmax, facecolor='0.8', alpha=0.5)
+    
+        qmap.evolve()
+    plt.show()
+
+
+.. parsed-literal::
+
+    /home/hanada/anaconda3/lib/python3.4/site-packages/matplotlib/collections.py:590: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
+      if self._edgecolors == str('face'):
+
+
+
+.. image:: nonuni_files/nonuni_10_1.png
+
+
 固有状態
 ~~~~~~~~
 
@@ -343,17 +404,16 @@ Qmap の継承
         p = np.exp(-w/alpha)
         return p
     
-    dim = 50
+    dim = 70
     k = 1
     qmin, qmax = 0, 1
     pmin, pmax = -0.5,0.5
     
-    tmax = 6
     cmap = sq.StandardMap(k=k)
     
     domain = [[qmin,qmax],[pmin,pmax]]
     qmap = OpenQmap(cmap, dim, domain) # defines the quantum system
-    
+    state = qmap.getState()
     ## ---- tanh absorber  ----
     fig, axs = plt.subplots(1,6,figsize=(6*3,3))
     
@@ -368,10 +428,13 @@ Qmap の継承
     z = np.exp(1.j*theta)
     axs[0].plot(z.real, z.imag, '-g')
     axs[0].plot(evals.real,evals.imag, 'o')
-    
+    axs[0].set_xlim(-1.1,1.1)
+    axs[0].set_ylim(-1.1,1.1)
     for i, evec in enumerate(evecs):
+        lx, = axs[0].plot(evals[i].real, evals[i].imag, 'o',markersize=10)
         x,y,z = evec.hsmrep()
         axs[i+1].contourf(x,y,z,100,cmap=sq.utility.hsm_cmap)
+        axs[i+1].set_title("color=%s" % lx.get_color())
         if i >=4:
             break
     plt.show()
@@ -384,6 +447,6 @@ Qmap の継承
 
 
 
-.. image:: nonuni_files/nonuni_11_1.png
+.. image:: nonuni_files/nonuni_12_1.png
 
 
