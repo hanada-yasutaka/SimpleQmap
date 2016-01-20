@@ -1,4 +1,6 @@
 
+本ページのipython notebookのデータは :download:`ここ <std.ipynb>` からダウンロードできます
+
 古典写像系
 ==========
 
@@ -87,7 +89,7 @@ inline を無視しして下さい．
 
 
 
-.. image:: std_files/std_3_0.png
+.. image:: std_files/std_4_0.png
 
 
 例題 2
@@ -173,7 +175,7 @@ ifunc1: :math:`T(p)`
 
 
 
-.. image:: std_files/std_7_0.png
+.. image:: std_files/std_8_0.png
 
 
 継承の例
@@ -238,6 +240,6 @@ Harper写像は
 
 
 
-.. image:: std_files/std_9_0.png
+.. image:: std_files/std_10_0.png
 
 

@@ -119,7 +119,7 @@ todo_include_todos = True
 html_theme = 'alabaster'
 html_theme_options = {
     'link_hover':True,
-    'page_width':"80%",
+    'page_width':"90%",
     'logo':'logo.png',
     'github_button':True,
     'github_user': 'hanada-yasutaka',

@@ -1,11 +1,14 @@
 
-写像系を定義し量子論の計算をおこなう
-------------------------------------
+本ページの ipython notebook は :download:`ここ <newmap.ipynb>` からダウンロードできます
 
-古典写像系で示した様SimpleQmapをHarperMapに拡張する．
+新しい写像を定義し量子論の計算
+------------------------------
+
+古典写像系で示した様SimpleQmapをHarperMapに拡張し，量子論の計算を行う．
 
 .. code:: python
 
+    # ipython notebookを使わない場合は次の命令は無視して下さい
     %matplotlib inline
 
 .. code:: python
@@ -73,6 +76,6 @@
 
 
 
-.. image:: newmap_files/newmap_2_0.png
+.. image:: newmap_files/newmap_3_0.png
 
 

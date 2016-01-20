@@ -1,4 +1,6 @@
 
+本ページの ipython notebook は :download:`ここ <qstd.ipynb>` からダウンロードできます
+
 量子写像系
 ==========
 
@@ -77,7 +79,7 @@ SimpleQmapを使って量子化された標準写像における状態の時間�
 
 
 
-.. image:: qstd_files/qstd_2_0.png
+.. image:: qstd_files/qstd_3_0.png
 
 
 波動関数を保存する場合savetxt関数を使う事をおすすめします． 1step
@@ -189,7 +191,7 @@ Wigner表示は実装していないのでここでは伏見表示のみ説明�
 
 
 
-.. image:: qstd_files/qstd_6_0.png
+.. image:: qstd_files/qstd_7_0.png
 
 
 一応
@@ -355,7 +357,7 @@ SimpleQmapでは固有値，及び固有ベクトルの取得は以下のよう�
 
 
 
-.. image:: qstd_files/qstd_10_0.png
+.. image:: qstd_files/qstd_11_0.png
 
 
 固有値が求まっているので，時間発展は次のようにして求めれば良いであろう．
@@ -391,7 +393,7 @@ SimpleQmapでは固有値，及び固有ベクトルの取得は以下のよう�
 
 
 
-.. image:: qstd_files/qstd_12_0.png
+.. image:: qstd_files/qstd_13_0.png
 
 
 numpy では数値対角化(lapack)は比較的容易に提供されており，

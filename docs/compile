@@ -1,1 +1,1 @@
-sphinx-build -b html -D pngmath_latex=/opt/local/bin/latex . _build/html
+(cd tutorial ; ipython nbconvert --to rst *.ipynb ; cd ../) && sphinx-build -b html -D pngmath_latex=/opt/local/bin/latex . _build/html

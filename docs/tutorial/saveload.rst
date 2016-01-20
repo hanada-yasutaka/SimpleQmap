@@ -1,4 +1,6 @@
 
+本ページの ipython notebook は :download:`ここ <saveload.ipynb>` からダウンロードできます
+
 波動関数の保存及び読み込み
 --------------------------
 
@@ -56,7 +58,7 @@
 
 
 
-.. image:: saveload_files/saveload_3_0.png
+.. image:: saveload_files/saveload_4_0.png
 
 
 rep = "q" もしくは rep = "p"を指定して， savetxtを用いて波動関数
@@ -111,7 +113,7 @@ SimpleQmap で定義されたloadtxtを使う事を勧める．
 
 
 
-.. image:: saveload_files/saveload_5_1.png
+.. image:: saveload_files/saveload_6_1.png
 
 
 .. code:: python
@@ -127,7 +129,7 @@ SimpleQmap で定義されたloadtxtを使う事を勧める．
 
 
 
-.. image:: saveload_files/saveload_6_0.png
+.. image:: saveload_files/saveload_7_0.png
 
 
 伏見表示は
@@ -142,6 +144,6 @@ SimpleQmap で定義されたloadtxtを使う事を勧める．
 
 
 
-.. image:: saveload_files/saveload_8_0.png
+.. image:: saveload_files/saveload_9_0.png
 
 

@@ -27,7 +27,7 @@
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="SimpleQmap 0.2[alpha] ドキュメント" href="../index.html" />
     <link rel="next" title="可積分極限" href="integ.html" />
-    <link rel="prev" title="写像系を定義し量子論の計算をおこなう" href="newmap.html" />
+    <link rel="prev" title="新しい写像を定義し量子論の計算" href="newmap.html" />
    
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
@@ -55,6 +55,7 @@
 \newcommand{\1}{\mbox{1}\hspace{-0.25em}\mbox{l}}    %白抜きの1 単位行列
 \newcommand{\lambdabar}{\lambda \kern -0.5em\raise 0.5ex \hbox{--}}     %lambda bar
 \)</div>
+<p>本ページの ipython notebook は <a class="reference download internal" href="../_downloads/saveload.ipynb"><code class="xref download docutils literal"><span class="pre">ここ</span></code></a> からダウンロードできます</p>
 <div class="section" id="id1">
 <h1>波動関数の保存及び読み込み<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <div class="code python highlight-python"><div class="highlight"><pre># ipython notebook を使用しない場合は下記コマンドは無視して下さい
@@ -106,7 +107,7 @@
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="../_images/saveload_3_0.png" src="../_images/saveload_3_0.png" />
+<img alt="../_images/saveload_4_0.png" src="../_images/saveload_4_0.png" />
 <p>rep = &#8220;q&#8221; もしくは rep = &#8220;p&#8221;を指定して， savetxtを用いて波動関数
 <span class="math">\(\ket{\phi}\)</span> を保存した場合，保存データは次のようになる．</p>
 <p><span class="math">\(x\)</span>を指定した座標として</p>
@@ -144,7 +145,7 @@ domain:[0.000000,1.000000]x[-0.500000,0.500000]
 convert original data (p-rep.) to q-rep.
 </pre></div>
 </div>
-<img alt="../_images/saveload_5_1.png" src="../_images/saveload_5_1.png" />
+<img alt="../_images/saveload_6_1.png" src="../_images/saveload_6_1.png" />
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
 
 <span class="n">vec1</span> <span class="o">=</span> <span class="n">sq</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s">&quot;eigen_qrep_0.dat&quot;</span><span class="p">,</span><span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
@@ -155,7 +156,7 @@ convert original data (p-rep.) to q-rep.
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="../_images/saveload_6_0.png" src="../_images/saveload_6_0.png" />
+<img alt="../_images/saveload_7_0.png" src="../_images/saveload_7_0.png" />
 <p>伏見表示は</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
 
@@ -164,7 +165,7 @@ convert original data (p-rep.) to q-rep.
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="../_images/saveload_8_0.png" src="../_images/saveload_8_0.png" />
+<img alt="../_images/saveload_9_0.png" src="../_images/saveload_9_0.png" />
 </div>
 
 
@@ -197,7 +198,7 @@ convert original data (p-rep.) to q-rep.
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="std.html">古典写像系</a></li>
 <li class="toctree-l1"><a class="reference internal" href="qstd.html">量子写像系</a></li>
-<li class="toctree-l1"><a class="reference internal" href="newmap.html">写像系を定義し量子論の計算をおこなう</a></li>
+<li class="toctree-l1"><a class="reference internal" href="newmap.html">新しい写像を定義し量子論の計算</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">波動関数の保存及び読み込み</a></li>
 <li class="toctree-l1"><a class="reference internal" href="integ.html">可積分極限</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nonuni.html">非ユニタリー系</a></li>

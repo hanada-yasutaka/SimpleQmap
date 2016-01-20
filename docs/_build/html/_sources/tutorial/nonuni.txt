@@ -1,4 +1,6 @@
 
+本ページの ipython notebook は :download:`ここ <nonuni.ipynb>` からダウンロードできます
+
 非ユニタリー系
 --------------
 
@@ -79,7 +81,7 @@ S
 
 
 
-.. image:: nonuni_files/nonuni_2_0.png
+.. image:: nonuni_files/nonuni_3_0.png
 
 
 吸収によって波動関数のノルムが1より小さくなっていくことに注意して下さい．
@@ -99,7 +101,7 @@ S
 
 
 
-.. image:: nonuni_files/nonuni_4_0.png
+.. image:: nonuni_files/nonuni_5_0.png
 
 
 波動は微分が不連続である点に触れると回折が生じるため，吸収をなめらかに行いたいと思う事も有る用のような場合は以下の様に自作すれば良い．
@@ -138,7 +140,7 @@ S
 
 
 
-.. image:: nonuni_files/nonuni_6_0.png
+.. image:: nonuni_files/nonuni_7_0.png
 
 
 .. code:: python
@@ -188,7 +190,7 @@ S
 
 
 
-.. image:: nonuni_files/nonuni_7_0.png
+.. image:: nonuni_files/nonuni_8_0.png
 
 
 Qmap の継承
@@ -288,10 +290,10 @@ Qmap の継承
 
 
 
-.. image:: nonuni_files/nonuni_9_0.png
+.. image:: nonuni_files/nonuni_10_0.png
 
 
-
+:math:`p` -方向に吸収を入れたい場合は次のようにすると良いだろう．
 
 .. code:: python
 
@@ -345,7 +347,7 @@ Qmap の継承
 
 
 
-.. image:: nonuni_files/nonuni_11_0.png
+.. image:: nonuni_files/nonuni_12_0.png
 
 
 固有状態
@@ -420,6 +422,6 @@ Qmap の継承
 
 
 
-.. image:: nonuni_files/nonuni_13_0.png
+.. image:: nonuni_files/nonuni_14_0.png
 
 

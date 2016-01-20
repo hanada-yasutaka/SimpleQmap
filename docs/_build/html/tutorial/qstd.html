@@ -26,7 +26,7 @@
     <script type="text/javascript" src="../_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="SimpleQmap 0.2[alpha] ドキュメント" href="../index.html" />
-    <link rel="next" title="写像系を定義し量子論の計算をおこなう" href="newmap.html" />
+    <link rel="next" title="新しい写像を定義し量子論の計算" href="newmap.html" />
     <link rel="prev" title="古典写像系" href="std.html" />
    
   
@@ -55,6 +55,7 @@
 \newcommand{\1}{\mbox{1}\hspace{-0.25em}\mbox{l}}    %白抜きの1 単位行列
 \newcommand{\lambdabar}{\lambda \kern -0.5em\raise 0.5ex \hbox{--}}     %lambda bar
 \)</div>
+<p>本ページの ipython notebook は <a class="reference download internal" href="../_downloads/qstd.ipynb"><code class="xref download docutils literal"><span class="pre">ここ</span></code></a> からダウンロードできます</p>
 <div class="section" id="id1">
 <h1>量子写像系<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p>次の時間に依存する量子化されたハミルトニアン</p>
@@ -114,7 +115,7 @@ SimpleQmapを使って量子化された標準写像における状態の時間�
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="../_images/qstd_2_0.png" src="../_images/qstd_2_0.png" />
+<img alt="../_images/qstd_3_0.png" src="../_images/qstd_3_0.png" />
 <p>波動関数を保存する場合savetxt関数を使う事をおすすめします． 1step
 毎にデータを確認したいならば， fig.axs = plt.subplot(1,2)
 以降の行を次の様に置き換えればよいでしょう．
@@ -207,7 +208,7 @@ Wigner表示は実装していないのでここでは伏見表示のみ説明�
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="../_images/qstd_6_0.png" src="../_images/qstd_6_0.png" />
+<img alt="../_images/qstd_7_0.png" src="../_images/qstd_7_0.png" />
 <p>一応
 SimpleQmapでは伏見表示及びq,p表示を同時に表示する方法も提供しています．
 サンプルプログラムは以下の通りです(ipython notebook
@@ -356,7 +357,7 @@ SimpleQmapでは伏見表示及びq,p表示を同時に表示する方法も提�
     <span class="k">break</span>
 </pre></div>
 </div>
-<img alt="../_images/qstd_10_0.png" src="../_images/qstd_10_0.png" />
+<img alt="../_images/qstd_11_0.png" src="../_images/qstd_11_0.png" />
 <p>固有値が求まっているので，時間発展は次のようにして求めれば良いであろう．</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">evolve</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">init</span><span class="p">,</span> <span class="n">evals</span><span class="p">,</span> <span class="n">evecs</span><span class="p">):</span>
     <span class="n">coeff</span> <span class="o">=</span><span class="p">[</span><span class="n">init</span><span class="o">.</span><span class="n">inner</span><span class="p">(</span><span class="n">psi</span><span class="p">)</span> <span class="k">for</span> <span class="n">psi</span> <span class="ow">in</span> <span class="n">evecs</span><span class="p">]</span> <span class="c"># list of &lt;psi_j | init&gt;</span>
@@ -385,7 +386,7 @@ SimpleQmapでは伏見表示及びq,p表示を同時に表示する方法も提�
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="../_images/qstd_12_0.png" src="../_images/qstd_12_0.png" />
+<img alt="../_images/qstd_13_0.png" src="../_images/qstd_13_0.png" />
 <p>numpy では数値対角化(lapack)は比較的容易に提供されており，
 固有ベクトルの取得は容易ですが，行列の次元が増大すると対角化に要する時間が大きくなります．
 また，数値的に固有ベクトルが求まったっとしても固有ベクトルの解釈が単純ではありません．
@@ -430,7 +431,7 @@ SimpleQmapでは伏見表示及びq,p表示を同時に表示する方法も提�
 <li class="toctree-l2"><a class="reference internal" href="#id4">例題2: 固有値問題</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="newmap.html">写像系を定義し量子論の計算をおこなう</a></li>
+<li class="toctree-l1"><a class="reference internal" href="newmap.html">新しい写像を定義し量子論の計算</a></li>
 <li class="toctree-l1"><a class="reference internal" href="saveload.html">波動関数の保存及び読み込み</a></li>
 <li class="toctree-l1"><a class="reference internal" href="integ.html">可積分極限</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nonuni.html">非ユニタリー系</a></li>

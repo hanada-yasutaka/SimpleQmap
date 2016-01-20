@@ -1,4 +1,6 @@
 
+本ページの ipython notebook は :download:`ここ <integ.ipynb>` からダウンロードできます．
+
 可積分極限
 ==========
 
@@ -72,6 +74,7 @@ kicked rotator
 
 .. code:: python
 
+    # ipython notebookを使わない場合は次の命令は無視して下さい
     %matplotlib inline
 
 例題
@@ -147,19 +150,19 @@ kicked rotator
 
 
 
-.. image:: integ_files/integ_3_0.png
+.. image:: integ_files/integ_4_0.png
 
 
 
-.. image:: integ_files/integ_3_1.png
+.. image:: integ_files/integ_4_1.png
 
 
 
-.. image:: integ_files/integ_3_2.png
+.. image:: integ_files/integ_4_2.png
 
 
 
-.. image:: integ_files/integ_3_3.png
+.. image:: integ_files/integ_4_3.png
 
 
 固有状態の並び替え
@@ -203,11 +206,11 @@ kicked rotator
 
 
 
-.. image:: integ_files/integ_5_0.png
+.. image:: integ_files/integ_6_0.png
 
 
 
-.. image:: integ_files/integ_5_1.png
+.. image:: integ_files/integ_6_1.png
 
 
 例2
@@ -257,10 +260,10 @@ kicked rotator
 
 
 
-.. image:: integ_files/integ_7_0.png
+.. image:: integ_files/integ_8_0.png
 
 
 
-.. image:: integ_files/integ_7_1.png
+.. image:: integ_files/integ_8_1.png
 
 

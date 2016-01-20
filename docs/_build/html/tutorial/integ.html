@@ -55,6 +55,7 @@
 \newcommand{\1}{\mbox{1}\hspace{-0.25em}\mbox{l}}    %白抜きの1 単位行列
 \newcommand{\lambdabar}{\lambda \kern -0.5em\raise 0.5ex \hbox{--}}     %lambda bar
 \)</div>
+<p>本ページの ipython notebook は <a class="reference download internal" href="../_downloads/integ.ipynb"><code class="xref download docutils literal"><span class="pre">ここ</span></code></a> からダウンロードできます．</p>
 <div class="section" id="id1">
 <h1>可積分極限<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <div class="section" id="id2">
@@ -94,7 +95,8 @@ q_{n+1} &amp; = q_{n} + T'(p_{n+1})\tau\end{split}\]</div>
 <div class="math">
 \[e^{-\frac{i}{\hbar}\hat{H}\tau} =  e^{-\frac{i}{\hbar}T(\hat{p})\tau}e^{-\frac{i}{\hbar}V(\hat{q})\tau} + O(\tau^2)\]</div>
 <p>となっている．</p>
-<div class="code python highlight-python"><div class="highlight"><pre>%matplotlib inline
+<div class="code python highlight-python"><div class="highlight"><pre># ipython notebookを使わない場合は次の命令は無視して下さい
+%matplotlib inline
 </pre></div>
 </div>
 <div class="section" id="id4">
@@ -164,10 +166,10 @@ q_{n+1} &amp; = q_{n} + T'(p_{n+1})\tau\end{split}\]</div>
     <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span> <span class="k">break</span>
 </pre></div>
 </div>
-<img alt="../_images/integ_3_0.png" src="../_images/integ_3_0.png" />
-<img alt="../_images/integ_3_1.png" src="../_images/integ_3_1.png" />
-<img alt="../_images/integ_3_2.png" src="../_images/integ_3_2.png" />
-<img alt="../_images/integ_3_3.png" src="../_images/integ_3_3.png" />
+<img alt="../_images/integ_4_0.png" src="../_images/integ_4_0.png" />
+<img alt="../_images/integ_4_1.png" src="../_images/integ_4_1.png" />
+<img alt="../_images/integ_4_2.png" src="../_images/integ_4_2.png" />
+<img alt="../_images/integ_4_3.png" src="../_images/integ_4_3.png" />
 </div>
 </div>
 <div class="section" id="id5">
@@ -204,8 +206,8 @@ q_{n+1} &amp; = q_{n} + T'(p_{n+1})\tau\end{split}\]</div>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="../_images/integ_5_0.png" src="../_images/integ_5_0.png" />
-<img alt="../_images/integ_5_1.png" src="../_images/integ_5_1.png" />
+<img alt="../_images/integ_6_0.png" src="../_images/integ_6_0.png" />
+<img alt="../_images/integ_6_1.png" src="../_images/integ_6_1.png" />
 </div>
 <div class="section" id="id7">
 <h3>例2<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h3>
@@ -244,8 +246,8 @@ q_{n+1} &amp; = q_{n} + T'(p_{n+1})\tau\end{split}\]</div>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="../_images/integ_7_0.png" src="../_images/integ_7_0.png" />
-<img alt="../_images/integ_7_1.png" src="../_images/integ_7_1.png" />
+<img alt="../_images/integ_8_0.png" src="../_images/integ_8_0.png" />
+<img alt="../_images/integ_8_1.png" src="../_images/integ_8_1.png" />
 </div>
 </div>
 </div>
@@ -280,7 +282,7 @@ q_{n+1} &amp; = q_{n} + T'(p_{n+1})\tau\end{split}\]</div>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="std.html">古典写像系</a></li>
 <li class="toctree-l1"><a class="reference internal" href="qstd.html">量子写像系</a></li>
-<li class="toctree-l1"><a class="reference internal" href="newmap.html">写像系を定義し量子論の計算をおこなう</a></li>
+<li class="toctree-l1"><a class="reference internal" href="newmap.html">新しい写像を定義し量子論の計算</a></li>
 <li class="toctree-l1"><a class="reference internal" href="saveload.html">波動関数の保存及び読み込み</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">可積分極限</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id2">自由粒子極限</a></li>
