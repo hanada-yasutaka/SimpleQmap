@@ -48,7 +48,45 @@ def loadtxt(title,verbose=True):
         print(t)
     return state
 
+class HilbertSpace(object):
+    def __init__(self, dim, domain):
+        """
+    Base class for state class 
+    
+    Parameters
+    ----------
+    dim : positive int
+        Hilbert dimension
+    domain: 2x2 list such as [[qmin, qmax], [pmin,pmax]]
+        qmin, qmax: domain of q-direction
+        pmin, pmax: domain of p-direction
         
+        """
+        self.dim = self._setDim(dim)
+        self.domain = self._setDomain(domain)
+        self.h = self._setPlanck()
+        self.x = [numpy.linspace(self.domain[0][0], self.domain[0][1], self.dim, endpoint=False),
+                  numpy.linspace(self.domain[1][0], self.domain[1][1], self.dim, endpoint=False)]
+
+    def _setDim(self, dim):
+        if (dim <= 0) or not isinstance(dim, int):
+            raise AttributeError("Hilbert dimension must be positive integer")
+        return dim
+        
+    def _setDomain(self, domain):
+        qr, pr  = domain[0], domain[1]
+
+        if (qr[0] >= qr[1]):
+            raise AttributeError("qmin > qmax (%f,%f)" % (qr[0],qr[1]))
+        if (pr[0] >= pr[1]):
+            raise AttributeError("pmin > pmax (%f,%f)" % (pr[0],pr[1]))
+        return domain
+        
+    def _setPlanck(self):
+        qr, pr = self.domain
+        return (pr[1] - pr[0])*(qr[1] - qr[0])/self.dim
+
+
 class ScaleInfo(object):
     """
     
