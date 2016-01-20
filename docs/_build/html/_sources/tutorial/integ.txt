@@ -146,12 +146,8 @@ kicked rotator
         
 
 
-.. parsed-literal::
 
-    /home/hanada/anaconda3/lib/python3.4/site-packages/matplotlib/collections.py:650: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
-      if self._edgecolors_original != str('face'):
-    /home/hanada/anaconda3/lib/python3.4/site-packages/matplotlib/collections.py:590: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
-      if self._edgecolors == str('face'):
+.. image:: integ_files/integ_3_0.png
 
 
 
@@ -164,10 +160,6 @@ kicked rotator
 
 
 .. image:: integ_files/integ_3_3.png
-
-
-
-.. image:: integ_files/integ_3_4.png
 
 
 固有状態の並び替え
@@ -210,18 +202,12 @@ kicked rotator
 
 
 
-.. parsed-literal::
 
-    /home/hanada/anaconda3/lib/python3.4/site-packages/matplotlib/collections.py:590: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
-      if self._edgecolors == str('face'):
+.. image:: integ_files/integ_5_0.png
 
 
 
 .. image:: integ_files/integ_5_1.png
-
-
-
-.. image:: integ_files/integ_5_2.png
 
 
 例2
@@ -270,17 +256,11 @@ kicked rotator
     plt.show()        
 
 
-.. parsed-literal::
 
-    /home/hanada/anaconda3/lib/python3.4/site-packages/matplotlib/collections.py:590: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
-      if self._edgecolors == str('face'):
+.. image:: integ_files/integ_7_0.png
 
 
 
 .. image:: integ_files/integ_7_1.png
-
-
-
-.. image:: integ_files/integ_7_2.png
 
 

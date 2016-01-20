@@ -52,6 +52,7 @@ inline を無視しして下さい．
 
 .. code:: python
 
+    # ipython notebook を使用しない場合は下記コマンドは無視して下さい
     %matplotlib inline
 
 .. code:: python

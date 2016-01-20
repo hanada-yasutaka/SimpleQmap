@@ -4,6 +4,7 @@
 
 .. code:: python
 
+    # ipython notebook を使用しない場合は下記コマンドは無視して下さい
     %matplotlib inline
 
 波動関数の保存は savetxtで行う事ができる．
@@ -26,8 +27,6 @@
     evals, evecs = qmap.eigen() # return eigenvalues and list of eigenvector of the system. 
     
     fig, axs = plt.subplots(2,2,figsize=(8,8))
-    
-    print(axs)
     
     vec = evecs[0] # 0-th eigen vector
     
@@ -56,16 +55,8 @@
     plt.show()
 
 
-.. parsed-literal::
 
-    [[<matplotlib.axes._subplots.AxesSubplot object at 0x7fb91ec9e048>
-      <matplotlib.axes._subplots.AxesSubplot object at 0x7fb91ec79208>]
-     [<matplotlib.axes._subplots.AxesSubplot object at 0x7fb91ec82320>
-      <matplotlib.axes._subplots.AxesSubplot object at 0x7fb91ec021d0>]]
-
-
-
-.. image:: saveload_files/saveload_3_1.png
+.. image:: saveload_files/saveload_3_0.png
 
 
 rep = "q" もしくは rep = "p"を指定して， savetxtを用いて波動関数
@@ -91,6 +82,8 @@ SimpleQmap で定義されたloadtxtを使う事を勧める．
 -表示波動関数をSimpleQmapのloadtxtで読み込んだ場合，自動的に:math:`q`
 -表示に変換されるので注意して欲しい．
 
+なお，伏見表示に関するloadtxtは準備していません．
+
 .. code:: python
 
     fig, axs = plt.subplots(1,2,figsize=(8,4))
@@ -100,6 +93,7 @@ SimpleQmap で定義されたloadtxtを使う事を勧める．
     
     axs[0].plot(q,vec1.abs2(), '-') 
     axs[1].plot(p,vec2.abs2(), '-') # wrong 
+    plt.show()
 
 
 .. parsed-literal::
@@ -117,15 +111,7 @@ SimpleQmap で定義されたloadtxtを使う事を勧める．
 
 
 
-
-.. parsed-literal::
-
-    [<matplotlib.lines.Line2D at 0x7fb91e7bd550>]
-
-
-
-
-.. image:: saveload_files/saveload_5_2.png
+.. image:: saveload_files/saveload_5_1.png
 
 
 .. code:: python
@@ -137,18 +123,11 @@ SimpleQmap で定義されたloadtxtを使う事を勧める．
     
     axs[0].plot(q,vec1.qrep().abs2(), '-') 
     axs[1].plot(p,vec2.prep().abs2(), '-') # good
+    plt.show()
 
 
 
-
-.. parsed-literal::
-
-    [<matplotlib.lines.Line2D at 0x7fb91e35e8d0>]
-
-
-
-
-.. image:: saveload_files/saveload_6_1.png
+.. image:: saveload_files/saveload_6_0.png
 
 
 伏見表示は
@@ -159,29 +138,10 @@ SimpleQmap で定義されたloadtxtを使う事を勧める．
     
     x,y,z = vec1.hsmrep(col=100,row=100)
     axs.contour(x,y,z,100) 
-
-
-.. parsed-literal::
-
-    /home/hanada/anaconda3/lib/python3.4/site-packages/matplotlib/collections.py:650: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
-      if self._edgecolors_original != str('face'):
+    plt.show()
 
 
 
-
-.. parsed-literal::
-
-    <matplotlib.contour.QuadContourSet at 0x7fb91eb3cc18>
-
-
-
-.. parsed-literal::
-
-    /home/hanada/anaconda3/lib/python3.4/site-packages/matplotlib/collections.py:590: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
-      if self._edgecolors == str('face'):
-
-
-
-.. image:: saveload_files/saveload_8_3.png
+.. image:: saveload_files/saveload_8_0.png
 
 

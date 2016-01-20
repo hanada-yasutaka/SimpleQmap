@@ -36,10 +36,8 @@ SimpleQmapを使って量子化された標準写像における状態の時間�
 
 .. code:: python
 
+    # ipython notebook を使用しない場合は下記コマンドは無視して下さい
     %matplotlib inline
-
-(上記%matplotlib inlineは本ページを作る都合(ipython
-notebookを利用)で記載していますので無視して下さい)
 
 .. code:: python
 
@@ -79,7 +77,7 @@ notebookを利用)で記載していますので無視して下さい)
 
 
 
-.. image:: qstd_files/qstd_3_0.png
+.. image:: qstd_files/qstd_2_0.png
 
 
 波動関数を保存する場合savetxt関数を使う事をおすすめします． 1step
@@ -190,21 +188,14 @@ Wigner表示は実装していないのでここでは伏見表示のみ説明�
     plt.show()
 
 
-.. parsed-literal::
 
-    /home/hanada/anaconda3/lib/python3.4/site-packages/matplotlib/collections.py:650: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
-      if self._edgecolors_original != str('face'):
-    /home/hanada/anaconda3/lib/python3.4/site-packages/matplotlib/collections.py:590: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
-      if self._edgecolors == str('face'):
+.. image:: qstd_files/qstd_6_0.png
 
 
-
-.. image:: qstd_files/qstd_7_1.png
-
-
-(上記 FutherWarning は気にしないで下さい) 一応
+一応
 SimpleQmapでは伏見表示及びq,p表示を同時に表示する方法も提供しています．
-サンプルプログラムは以下の通りです．
+サンプルプログラムは以下の通りです(ipython notebook
+環境では動かないとおもいます)．
 
 .. code:: python
 
@@ -363,19 +354,11 @@ SimpleQmapでは固有値，及び固有ベクトルの取得は以下のよう�
         break 
 
 
-.. parsed-literal::
 
-    /home/hanada/anaconda3/lib/python3.4/site-packages/matplotlib/collections.py:650: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
-      if self._edgecolors_original != str('face'):
-    /home/hanada/anaconda3/lib/python3.4/site-packages/matplotlib/collections.py:590: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
-      if self._edgecolors == str('face'):
+.. image:: qstd_files/qstd_10_0.png
 
 
-
-.. image:: qstd_files/qstd_11_1.png
-
-
-固有値が求まったので，時間発展は次のようにして求めれば良いであろう．
+固有値が求まっているので，時間発展は次のようにして求めれば良いであろう．
 
 .. code:: python
 
@@ -407,16 +390,8 @@ SimpleQmapでは固有値，及び固有ベクトルの取得は以下のよう�
 
 
 
-.. parsed-literal::
 
-    /home/hanada/anaconda3/lib/python3.4/site-packages/matplotlib/collections.py:650: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
-      if self._edgecolors_original != str('face'):
-    /home/hanada/anaconda3/lib/python3.4/site-packages/matplotlib/collections.py:590: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
-      if self._edgecolors == str('face'):
-
-
-
-.. image:: qstd_files/qstd_13_1.png
+.. image:: qstd_files/qstd_12_0.png
 
 
 numpy では数値対角化(lapack)は比較的容易に提供されており，

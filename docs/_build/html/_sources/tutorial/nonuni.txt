@@ -16,14 +16,15 @@
 
    \hat{P} = \begin{cases}
    0, \quad (0<q<0.2)\\
-   1, \quad (else)
+   1, \quad (\text{else})
    \end{cases}
 
 として，\ :math:`\hat{U}^{(o)}=\hat{P}\hat{U}`\ による時間発展を考える．
+S
 
 .. code:: python
 
-    # 次の命令は無視して下さい
+    # ipython notebookを使わない場合は次の命令は無視して下さい
     %matplotlib inline
 
 .. code:: python
@@ -57,7 +58,7 @@
         qmap.evolve() # calculate: | psi_1 > = U | psi_0 > then  |phi_0> = |phi_1>
     
     ## ------ open system -------
-    state = qmap.getState().cs(0.8,0.0) 
+    state = qmap.getState().cs(0.9,0.0) 
     qmap.setInit(state) # set intial condition
     
     abs_border = 0.2
@@ -77,14 +78,8 @@
     plt.show()
 
 
-.. parsed-literal::
 
-    /home/hanada/anaconda3/lib/python3.4/site-packages/matplotlib/collections.py:590: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
-      if self._edgecolors == str('face'):
-
-
-
-.. image:: nonuni_files/nonuni_2_1.png
+.. image:: nonuni_files/nonuni_2_0.png
 
 
 吸収によって波動関数のノルムが1より小さくなっていくことに注意して下さい．
@@ -171,7 +166,7 @@
     
     ## -- sharp absorber
     
-    state = qmap.getState().cs(0.8,0.0)
+    state = qmap.getState().cs(0.9,0.0)
     qmap.setInit(state) # set intial condition
     abs_border = 0.2
     beta = 100
@@ -192,20 +187,14 @@
     plt.show()
 
 
-.. parsed-literal::
 
-    /home/hanada/anaconda3/lib/python3.4/site-packages/matplotlib/collections.py:590: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
-      if self._edgecolors == str('face'):
-
-
-
-.. image:: nonuni_files/nonuni_7_1.png
+.. image:: nonuni_files/nonuni_7_0.png
 
 
 Qmap の継承
 ~~~~~~~~~~~
 
-ここまでくるともはやQmapを継承してevolve関数を上書きしたほうが良いかもしれない．
+ここまでくるともはやQmapを継承してevolve関数で使用しているoperateメソットを上書きしたほうが良いかもしれない．
 
 .. code:: python
 
@@ -255,7 +244,7 @@ Qmap の継承
     
     abs_x1= 0.25
     abs_x2 = 0.75
-    beta=100
+    beta=30
     absfunc = tanh_abs(state.x[0], abs_x1, abs_x2, beta)
     qmap.set_absorber(absfunc)
     for i in range(0,tmax):
@@ -273,7 +262,7 @@ Qmap の継承
         qmap.evolve()
     
     ## ------ exp absorber  -------
-    state = qmap.getState().cs(0.7,0.0)
+    state = qmap.getState().cs(0.8,0.0)
     qmap.setInit(state) # set intial condition
     beta,alpha = 200,0.01
     absfunc = exp_abs(state.x[0], abs_x1,abs_x2, alpha,beta)
@@ -298,14 +287,10 @@ Qmap の継承
     plt.show()
 
 
-.. parsed-literal::
 
-    /home/hanada/anaconda3/lib/python3.4/site-packages/matplotlib/collections.py:590: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
-      if self._edgecolors == str('face'):
+.. image:: nonuni_files/nonuni_9_0.png
 
 
-
-.. image:: nonuni_files/nonuni_9_1.png
 
 
 .. code:: python
@@ -359,14 +344,8 @@ Qmap の継承
     plt.show()
 
 
-.. parsed-literal::
 
-    /home/hanada/anaconda3/lib/python3.4/site-packages/matplotlib/collections.py:590: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
-      if self._edgecolors == str('face'):
-
-
-
-.. image:: nonuni_files/nonuni_10_1.png
+.. image:: nonuni_files/nonuni_11_0.png
 
 
 固有状態
@@ -440,13 +419,7 @@ Qmap の継承
     plt.show()
 
 
-.. parsed-literal::
 
-    /home/hanada/anaconda3/lib/python3.4/site-packages/matplotlib/collections.py:590: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
-      if self._edgecolors == str('face'):
-
-
-
-.. image:: nonuni_files/nonuni_12_1.png
+.. image:: nonuni_files/nonuni_13_0.png
 
 

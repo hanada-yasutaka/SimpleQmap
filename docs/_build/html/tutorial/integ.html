@@ -6,15 +6,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>可積分極限 &mdash; SimpleQmap  documentation</title>
+    <title>可積分極限 &mdash; SimpleQmap 0.2[alpha] ドキュメント</title>
     
-    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '',
+        VERSION:     '0.2[alpha]',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,30 +23,17 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="SimpleQmap  documentation" href="../index.html" />
+    <link rel="top" title="SimpleQmap 0.2[alpha] ドキュメント" href="../index.html" />
     <link rel="next" title="非ユニタリー系" href="nonuni.html" />
-    <link rel="prev" title="波動関数の保存及び読み込み" href="saveload.html" /> 
+    <link rel="prev" title="波動関数の保存及び読み込み" href="saveload.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
   </head>
-  <body role="document">
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="nonuni.html" title="非ユニタリー系"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="saveload.html" title="波動関数の保存及び読み込み"
-             accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">SimpleQmap  documentation</a> &raquo;</li> 
-      </ul>
-    </div>  
+  <body role="document">  
 
     <div class="document">
       <div class="documentwrapper">
@@ -69,9 +56,9 @@
 \newcommand{\lambdabar}{\lambda \kern -0.5em\raise 0.5ex \hbox{--}}     %lambda bar
 \)</div>
 <div class="section" id="id1">
-<h1>可積分極限<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<h1>可積分極限<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <div class="section" id="id2">
-<h2>自由粒子極限<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<h2>自由粒子極限<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>kicked rotator</p>
 <div class="math">
 \[H(q,p,t)  = T(p) + \varepsilon V(q)\sum_{n\in\mathbb{Z}}\delta(t-n)\]</div>
@@ -86,7 +73,7 @@ q_{n+1} &amp; = q_{n} + T'(p_{n+1})\end{split}\]</div>
 <p>は運動量<span class="math">\(p\)</span>を保存し，古典運動にカオスは出現しない．</p>
 </div>
 <div class="section" id="id3">
-<h2>連続時間極限<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<h2>連続時間極限<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>写像に新しいパラメーターとして <span class="math">\(\tau\)</span>を導入する</p>
 <div class="math">
 \[\begin{split}p_{n+1} &amp; = p_{n} + \varepsilon V'(q_{n})\tau \\
@@ -111,7 +98,7 @@ q_{n+1} &amp; = q_{n} + T'(p_{n+1})\tau\end{split}\]</div>
 </pre></div>
 </div>
 <div class="section" id="id4">
-<h3>例題<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<h3>例題<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p><span class="math">\(T(p)=\frac{p^2}{2}\)</span>, <span class="math">\(V(q)=\varepsilon\cos q\)</span>
 として連続時間極限をSimpleQmap(あまり賢くない方法)で計算する．</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">SimpleQmap</span> <span class="kn">as</span> <span class="nn">sq</span>
@@ -177,22 +164,16 @@ q_{n+1} &amp; = q_{n} + T'(p_{n+1})\tau\end{split}\]</div>
     <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span> <span class="k">break</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>/home/hanada/anaconda3/lib/python3.4/site-packages/matplotlib/collections.py:650: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
-  if self._edgecolors_original != str(&#39;face&#39;):
-/home/hanada/anaconda3/lib/python3.4/site-packages/matplotlib/collections.py:590: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
-  if self._edgecolors == str(&#39;face&#39;):
-</pre></div>
-</div>
+<img alt="../_images/integ_3_0.png" src="../_images/integ_3_0.png" />
 <img alt="../_images/integ_3_1.png" src="../_images/integ_3_1.png" />
 <img alt="../_images/integ_3_2.png" src="../_images/integ_3_2.png" />
 <img alt="../_images/integ_3_3.png" src="../_images/integ_3_3.png" />
-<img alt="../_images/integ_3_4.png" src="../_images/integ_3_4.png" />
 </div>
 </div>
 <div class="section" id="id5">
-<h2>固有状態の並び替え<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<h2>固有状態の並び替え<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="section" id="id6">
-<h3>例1<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<h3>例1<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>ユニタリー行列の固有値<span class="math">\(u_n = e^{-\frac{i}{\hbar}E_n\tau}\)</span>は単位円に乗っているためエルミート行列の様に一意的に(エネルギーの小さい準に)番号付けすることができない．
 素朴な方法ではあるが<span class="math">\(\tau\)</span>が十分小さく上の例のように単位円で擬固有エネルギー<span class="math">\(E_n\)</span>の順番付け可能な場合，
 次の様にして，並べ替える良いであろう．</p>
@@ -223,15 +204,11 @@ q_{n+1} &amp; = q_{n} + T'(p_{n+1})\tau\end{split}\]</div>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>/home/hanada/anaconda3/lib/python3.4/site-packages/matplotlib/collections.py:590: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
-  if self._edgecolors == str(&#39;face&#39;):
-</pre></div>
-</div>
+<img alt="../_images/integ_5_0.png" src="../_images/integ_5_0.png" />
 <img alt="../_images/integ_5_1.png" src="../_images/integ_5_1.png" />
-<img alt="../_images/integ_5_2.png" src="../_images/integ_5_2.png" />
 </div>
 <div class="section" id="id7">
-<h3>例2<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<h3>例2<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>上記方法は<span class="math">\(\tau\)</span>(もしくはヒルベルト次元が小さい)小さい場合のみ成功するが，<span class="math">\(\tau\)</span>が小さくなると計算上精度が悪くなるためあまり賢い方法ではない．
 多くの場合ユニタリー行列の固有値を並び替える際には工夫しなければならない．
 上記の例で，固有状態の番号付けは<span class="math">\((q,p)=(\pi,0)\)</span>を中心として徐々に広がっていく番号付けが自然である．
@@ -267,12 +244,8 @@ q_{n+1} &amp; = q_{n} + T'(p_{n+1})\tau\end{split}\]</div>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>/home/hanada/anaconda3/lib/python3.4/site-packages/matplotlib/collections.py:590: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
-  if self._edgecolors == str(&#39;face&#39;):
-</pre></div>
-</div>
+<img alt="../_images/integ_7_0.png" src="../_images/integ_7_0.png" />
 <img alt="../_images/integ_7_1.png" src="../_images/integ_7_1.png" />
-<img alt="../_images/integ_7_2.png" src="../_images/integ_7_2.png" />
 </div>
 </div>
 </div>
@@ -283,46 +256,59 @@ q_{n+1} &amp; = q_{n} + T'(p_{n+1})\tau\end{split}\]</div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">可積分極限</a><ul>
-<li><a class="reference internal" href="#id2">自由粒子極限</a></li>
-<li><a class="reference internal" href="#id3">連続時間極限</a><ul>
-<li><a class="reference internal" href="#id4">例題</a></li>
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=hanada-yasutaka&repo=SimpleQmap&type=watch&count=true&size=large"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../require.html">はじめに</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="std.html">古典写像系</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qstd.html">量子写像系</a></li>
+<li class="toctree-l1"><a class="reference internal" href="newmap.html">写像系を定義し量子論の計算をおこなう</a></li>
+<li class="toctree-l1"><a class="reference internal" href="saveload.html">波動関数の保存及び読み込み</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">可積分極限</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">自由粒子極限</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">連続時間極限</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">固有状態の並び替え</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id5">固有状態の並び替え</a><ul>
-<li><a class="reference internal" href="#id6">例1</a></li>
-<li><a class="reference internal" href="#id7">例2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nonuni.html">非ユニタリー系</a></li>
 </ul>
-</li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../state.html"><code class="docutils literal"><span class="pre">state</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../maps.html"><code class="docutils literal"><span class="pre">maps</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../qmap.html"><code class="docutils literal"><span class="pre">qmap</span></code></a></li>
 </ul>
-</li>
+<ul class="simple">
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="saveload.html"
-                        title="previous chapter">波動関数の保存及び読み込み</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="nonuni.html"
-                        title="next chapter">非ユニタリー系</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/tutorial/integ.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
+
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3>クイック検索</h3>
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <input type="submit" value="検索" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
     <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
+    モジュール、クラス、または関数名を入力してください
     </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
@@ -330,27 +316,20 @@ q_{n+1} &amp; = q_{n} + T'(p_{n+1})\tau\end{split}\]</div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="nonuni.html" title="非ユニタリー系"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="saveload.html" title="波動関数の保存及び読み込み"
-             >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">SimpleQmap  documentation</a> &raquo;</li> 
-      </ul>
+    <div class="footer">
+      &copy;2013, Yasutaka Hanada.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="../_sources/tutorial/integ.txt"
+          rel="nofollow">Page source</a>
     </div>
-    <div class="footer" role="contentinfo">
-        &copy; Copyright 2013, Yasutaka Hanada.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
-    </div>
+
+    
+
+    
   </body>
 </html>

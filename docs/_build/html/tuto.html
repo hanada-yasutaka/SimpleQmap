@@ -6,15 +6,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Classical dynamics &mdash; SimpleQmap  documentation</title>
+    <title>Classical dynamics &mdash; SimpleQmap 0.2[alpha] ドキュメント</title>
     
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '',
+        VERSION:     '0.2[alpha]',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,22 +23,15 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="SimpleQmap  documentation" href="index.html" /> 
+    <link rel="top" title="SimpleQmap 0.2[alpha] ドキュメント" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
   </head>
-  <body role="document">
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">SimpleQmap  documentation</a> &raquo;</li> 
-      </ul>
-    </div>  
+  <body role="document">  
 
     <div class="document">
       <div class="documentwrapper">
@@ -71,7 +64,7 @@
 <p>のパッケージを用います．
 sampleなので，参考程度と思ってください．</p>
 <div class="section" id="classical-dynamics">
-<h1>Classical dynamics<a class="headerlink" href="#classical-dynamics" title="Permalink to this headline">¶</a></h1>
+<h1>Classical dynamics<a class="headerlink" href="#classical-dynamics" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p>標準写像を用いた時間発展は</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">SimpleQmap</span> <span class="kn">as</span> <span class="nn">S</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
@@ -106,11 +99,11 @@ sampleなので，参考程度と思ってください．</p>
 </div>
 <p>で行っている．位相空間中の軌道群をplotすると，このような結果が得られるはずである．</p>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/std1.png"><img alt="_images/std1.png" src="_images/std1.png" style="width: 400.0px; height: 400.0px;" /></a>
+<a class="reference internal image-reference" href="_images/std.png"><img alt="_images/std.png" src="_images/std.png" style="width: 400.0px; height: 400.0px;" /></a>
 </div>
 </div>
 <div class="section" id="quantum-dynamics-initial-value-problem">
-<h1>Quantum dynamics: initial value problem<a class="headerlink" href="#quantum-dynamics-initial-value-problem" title="Permalink to this headline">¶</a></h1>
+<h1>Quantum dynamics: initial value problem<a class="headerlink" href="#quantum-dynamics-initial-value-problem" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p>与えられた状態の時間発展を解く．
 いま初期条件として</p>
 <div class="math">
@@ -171,7 +164,7 @@ sampleなので，参考程度と思ってください．</p>
 (x軸のscaleは <span class="math">\(2\pi\)</span> 倍すれば同一の結果である)</p>
 </div>
 <div class="section" id="quantum-dynamics-eigen-value-problem">
-<h1>Quantum dynamics: eigen value problem<a class="headerlink" href="#quantum-dynamics-eigen-value-problem" title="Permalink to this headline">¶</a></h1>
+<h1>Quantum dynamics: eigen value problem<a class="headerlink" href="#quantum-dynamics-eigen-value-problem" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p>　次に時間発展演算子 <span class="math">\(\hat{U}\)</span> の固有値問題，</p>
 <div class="math">
 \[\hat{U} | \Psi_n\rangle = u_n | \Psi_n\rangle\]</div>
@@ -225,7 +218,7 @@ Floquet の定理より</p>
 </div>
 </div>
 <div class="section" id="quantum-dynamics-phase-space-representation">
-<h1>Quantum dynamics: phase space representation<a class="headerlink" href="#quantum-dynamics-phase-space-representation" title="Permalink to this headline">¶</a></h1>
+<h1>Quantum dynamics: phase space representation<a class="headerlink" href="#quantum-dynamics-phase-space-representation" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p>　前節で固有値について説明したので，次に固有関数について調べる．
 固有関数 <span class="math">\(|\Psi_n \rangle\)</span> はq-表示やp-表示を用いることが慣例的であるが，
 古典力学(位相空間)との対応を考える上で伏見表示(擬位相空間分布)も重要になる．
@@ -331,31 +324,54 @@ Floquet の定理より</p>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Classical dynamics</a></li>
-<li><a class="reference internal" href="#quantum-dynamics-initial-value-problem">Quantum dynamics: initial value problem</a></li>
-<li><a class="reference internal" href="#quantum-dynamics-eigen-value-problem">Quantum dynamics: eigen value problem</a></li>
-<li><a class="reference internal" href="#quantum-dynamics-phase-space-representation">Quantum dynamics: phase space representation</a></li>
+<p class="logo">
+  <a href="index.html">
+    <img class="logo" src="_static/logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=hanada-yasutaka&repo=SimpleQmap&type=watch&count=true&size=large"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="require.html">はじめに</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/std.html">古典写像系</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/qstd.html">量子写像系</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/newmap.html">写像系を定義し量子論の計算をおこなう</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/saveload.html">波動関数の保存及び読み込み</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/integ.html">可積分極限</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/nonuni.html">非ユニタリー系</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="state.html"><code class="docutils literal"><span class="pre">state</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="maps.html"><code class="docutils literal"><span class="pre">maps</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="qmap.html"><code class="docutils literal"><span class="pre">qmap</span></code></a></li>
+</ul>
+<ul class="simple">
 </ul>
 
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/tuto.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
+
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3>クイック検索</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <input type="submit" value="検索" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
     <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
+    モジュール、クラス、または関数名を入力してください
     </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
@@ -363,21 +379,20 @@ Floquet の定理より</p>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">SimpleQmap  documentation</a> &raquo;</li> 
-      </ul>
+    <div class="footer">
+      &copy;2013, Yasutaka Hanada.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="_sources/tuto.txt"
+          rel="nofollow">Page source</a>
     </div>
-    <div class="footer" role="contentinfo">
-        &copy; Copyright 2013, Yasutaka Hanada.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
-    </div>
+
+    
+
+    
   </body>
 </html>

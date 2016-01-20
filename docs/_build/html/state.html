@@ -6,15 +6,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>state &mdash; SimpleQmap  documentation</title>
+    <title>state &mdash; SimpleQmap 0.2[alpha] ドキュメント</title>
     
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '',
+        VERSION:     '0.2[alpha]',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,30 +23,17 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="SimpleQmap  documentation" href="index.html" />
+    <link rel="top" title="SimpleQmap 0.2[alpha] ドキュメント" href="index.html" />
     <link rel="next" title="maps" href="maps.html" />
-    <link rel="prev" title="波動関数の保存及び読み込み" href="tutorial/saveload.html" /> 
+    <link rel="prev" title="非ユニタリー系" href="tutorial/nonuni.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
   </head>
-  <body role="document">
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="maps.html" title="maps"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="tutorial/saveload.html" title="波動関数の保存及び読み込み"
-             accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">SimpleQmap  documentation</a> &raquo;</li> 
-      </ul>
-    </div>  
+  <body role="document">  
 
     <div class="document">
       <div class="documentwrapper">
@@ -69,16 +56,16 @@
 \newcommand{\lambdabar}{\lambda \kern -0.5em\raise 0.5ex \hbox{--}}     %lambda bar
 \)</div>
 <div class="section" id="state">
-<h1><code class="xref py py-mod docutils literal"><span class="pre">state</span></code><a class="headerlink" href="#state" title="Permalink to this headline">¶</a></h1>
+<h1><code class="xref py py-mod docutils literal"><span class="pre">state</span></code><a class="headerlink" href="#state" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <span class="target" id="module-SimpleQmap.state"></span><p>state.py</p>
 <p>author: Yasutaka Hanada (2013/05/17)</p>
 <p>Domain Setting and Quantum states.</p>
 <div class="section" id="scaleinfo">
-<h2><a class="reference internal" href="#SimpleQmap.state.ScaleInfo" title="SimpleQmap.state.ScaleInfo"><code class="xref py py-class docutils literal"><span class="pre">ScaleInfo</span></code></a><a class="headerlink" href="#scaleinfo" title="Permalink to this headline">¶</a></h2>
+<h2><a class="reference internal" href="SimpleQmap.html#SimpleQmap.state.ScaleInfo" title="SimpleQmap.state.ScaleInfo"><code class="xref py py-class docutils literal"><span class="pre">ScaleInfo</span></code></a><a class="headerlink" href="#scaleinfo" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <dl class="class">
 <dt id="SimpleQmap.state.ScaleInfo">
-<em class="property">class </em><code class="descclassname">SimpleQmap.state.</code><code class="descname">ScaleInfo</code><span class="sig-paren">(</span><em>dim</em>, <em>domain</em><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.state.ScaleInfo" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<em class="property">class </em><code class="descclassname">SimpleQmap.state.</code><code class="descname">ScaleInfo</code><span class="sig-paren">(</span><em>dim</em>, <em>domain</em><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.state.ScaleInfo" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>ベースクラス: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>ScaleInfoは位相空間の定義域を設定するためのclassです．</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -110,13 +97,13 @@
 <p class="rubric">Methods</p>
 <dl class="method">
 <dt id="SimpleQmap.state.ScaleInfo.getPlanck">
-<code class="descname">getPlanck</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.state.ScaleInfo.getPlanck" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getPlanck</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.state.ScaleInfo.getPlanck" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>return effective planck constant</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="SimpleQmap.state.ScaleInfo.getX">
-<code class="descname">getX</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.state.ScaleInfo.getX" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getX</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.state.ScaleInfo.getX" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>return [q, p]</p>
 </dd></dl>
 
@@ -124,11 +111,11 @@
 
 </div>
 <div class="section" id="id1">
-<h2><a class="reference internal" href="#SimpleQmap.state.State" title="SimpleQmap.state.State"><code class="xref py py-class docutils literal"><span class="pre">State</span></code></a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<h2><a class="reference internal" href="SimpleQmap.html#SimpleQmap.state.State" title="SimpleQmap.state.State"><code class="xref py py-class docutils literal"><span class="pre">State</span></code></a><a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <dl class="class">
 <dt id="SimpleQmap.state.State">
-<em class="property">class </em><code class="descclassname">SimpleQmap.state.</code><code class="descname">State</code><a class="headerlink" href="#SimpleQmap.state.State" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></p>
+<em class="property">class </em><code class="descclassname">SimpleQmap.state.</code><code class="descname">State</code><a class="headerlink" href="#SimpleQmap.state.State" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>ベースクラス: <code class="xref py py-class docutils literal"><span class="pre">numpy.ndarray</span></code></p>
 <p>State はScaleInfoで定義された上で波動関数 <span class="math">\(| \psi\rangle\)</span> を提供します．
 表示は <span class="math">\(q-\)</span> 表示，すなわち <span class="math">\(\langle q | \psi\rangle\)</span> を採用し，
 各種変換を定義しています．
@@ -152,7 +139,7 @@ Note that length data must be same scaleinfo dimnsion.</p>
 </tbody>
 </table>
 <div class="admonition seealso">
-<p class="first admonition-title">See also</p>
+<p class="first admonition-title">参考</p>
 <dl class="last docutils">
 <dt><code class="xref py py-obj docutils literal"><span class="pre">numpy.ndarray</span></code></dt>
 <dd>subclassing ndarray &lt;<a class="reference external" href="http://docs.scipy.org/doc/numpy/user/basics.subclassing.html">http://docs.scipy.org/doc/numpy/user/basics.subclassing.html</a>&gt;</dd>
@@ -189,18 +176,18 @@ Note that length data must be same scaleinfo dimnsion.</p>
 <p class="rubric">Methods</p>
 <dl class="method">
 <dt id="SimpleQmap.state.State.abs2">
-<code class="descname">abs2</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.state.State.abs2" title="Permalink to this definition">¶</a></dt>
+<code class="descname">abs2</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.state.State.abs2" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>return <span class="math">\(|\langle x | \psi \rangle|^2\)</span> where <span class="math">\(x\)</span> is <span class="math">\(q\)</span> or <span class="math">\(p\)</span> as numpy.array object</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="SimpleQmap.state.State.coherent">
-<code class="descname">coherent</code><span class="sig-paren">(</span><em>q_c</em>, <em>p_c</em>, <em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.state.State.coherent" title="Permalink to this definition">¶</a></dt>
+<code class="descname">coherent</code><span class="sig-paren">(</span><em>q_c</em>, <em>p_c</em>, <em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.state.State.coherent" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>minimum-uncertainty Gaussian wave packet centered at (q_c,p_c, x)</p>
 <div class="math">
 \[\langle x | \psi \rangle = \exp[-(x-q_c)^2/2\hbar + p_c(x-q_c)/\hbar]\]</div>
 <div class="admonition warning">
-<p class="first admonition-title">Warning</p>
+<p class="first admonition-title">警告</p>
 <p class="last">周期的境界条件を課してないので特別な理由がない限り使わないで下さい．</p>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
@@ -220,12 +207,12 @@ Note that length data must be same scaleinfo dimnsion.</p>
 
 <dl class="method">
 <dt id="SimpleQmap.state.State.copy">
-<code class="descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.state.State.copy" title="Permalink to this definition">¶</a></dt>
+<code class="descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.state.State.copy" title="この定義へのパーマリンク">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="SimpleQmap.state.State.cs">
-<code class="descname">cs</code><span class="sig-paren">(</span><em>q_c</em>, <em>p_c</em><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.state.State.cs" title="Permalink to this definition">¶</a></dt>
+<code class="descname">cs</code><span class="sig-paren">(</span><em>q_c</em>, <em>p_c</em><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.state.State.cs" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>create new State object which 
 minimum-uncertainty Gaussian wave packet centered at (q_c,p_c) on periodic boundary condition.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -257,26 +244,26 @@ minimum-uncertainty Gaussian wave packet centered at (q_c,p_c) on periodic bound
 </pre></div>
 </div>
 <div class="admonition seealso">
-<p class="first admonition-title">See also</p>
+<p class="first admonition-title">参考</p>
 <p class="last">Module <a href="#id2"><span class="problematic" id="id3">:state:`coherent`</span></a></p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="SimpleQmap.state.State.hsmrep">
-<code class="descname">hsmrep</code><span class="sig-paren">(</span><em>col=50</em>, <em>row=50</em>, <em>region=None</em><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.state.State.hsmrep" title="Permalink to this definition">¶</a></dt>
+<code class="descname">hsmrep</code><span class="sig-paren">(</span><em>col=50</em>, <em>row=50</em>, <em>region=None</em><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.state.State.hsmrep" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Husimi (phase space) representation.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="SimpleQmap.state.State.inner">
-<code class="descname">inner</code><span class="sig-paren">(</span><em>phi</em><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.state.State.inner" title="Permalink to this definition">¶</a></dt>
+<code class="descname">inner</code><span class="sig-paren">(</span><em>phi</em><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.state.State.inner" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>return <span class="math">\(\langle \phi | \psi\rangle\)</span> as complex value constant (numpy.complex128)</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="SimpleQmap.state.State.insert">
-<code class="descname">insert</code><span class="sig-paren">(</span><em>i</em>, <em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.state.State.insert" title="Permalink to this definition">¶</a></dt>
+<code class="descname">insert</code><span class="sig-paren">(</span><em>i</em>, <em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.state.State.insert" title="この定義へのパーマリンク">¶</a></dt>
 <dd><div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">state</span> <span class="kn">import</span> <span class="n">State</span><span class="p">,</span> <span class="n">ScaleInfo</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">scl</span> <span class="o">=</span> <span class="n">ScaleInfo</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">]])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">state</span> <span class="o">=</span> <span class="n">State</span><span class="p">(</span><span class="n">scl</span><span class="p">)</span>
@@ -290,14 +277,14 @@ minimum-uncertainty Gaussian wave packet centered at (q_c,p_c) on periodic bound
 
 <dl class="method">
 <dt id="SimpleQmap.state.State.norm">
-<code class="descname">norm</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.state.State.norm" title="Permalink to this definition">¶</a></dt>
+<code class="descname">norm</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.state.State.norm" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>return <span class="math">\(\sum_x |\langle x | \psi \rangle|^2\)</span> where 
 <span class="math">\(x\)</span> is <span class="math">\(q\)</span> or <span class="math">\(p\)</span> as real value constant (numpy.float64)</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="SimpleQmap.state.State.p2q">
-<code class="descname">p2q</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.state.State.p2q" title="Permalink to this definition">¶</a></dt>
+<code class="descname">p2q</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.state.State.p2q" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Fourier (inverse) transformation from
 the momentum <span class="math">\((p)\)</span> representation to the position <span class="math">\((q)\)</span> representation.</p>
 <div class="math">
@@ -306,13 +293,13 @@ the momentum <span class="math">\((p)\)</span> representation to the position <s
 
 <dl class="method">
 <dt id="SimpleQmap.state.State.prep">
-<code class="descname">prep</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.state.State.prep" title="Permalink to this definition">¶</a></dt>
+<code class="descname">prep</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.state.State.prep" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>return <span class="math">\(\langle p | \psi\rangle\)</span> as a State object</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="SimpleQmap.state.State.q2p">
-<code class="descname">q2p</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.state.State.q2p" title="Permalink to this definition">¶</a></dt>
+<code class="descname">q2p</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.state.State.q2p" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Fourier (forward) transformation from
 the position <span class="math">\((q)\)</span> representation to the momentum <span class="math">\((p)\)</span> representation.</p>
 <div class="math">
@@ -321,13 +308,13 @@ the position <span class="math">\((q)\)</span> representation to the momentum <s
 
 <dl class="method">
 <dt id="SimpleQmap.state.State.qrep">
-<code class="descname">qrep</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.state.State.qrep" title="Permalink to this definition">¶</a></dt>
+<code class="descname">qrep</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.state.State.qrep" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>return <span class="math">\(\langle q | \psi\rangle\)</span> as a State object</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="SimpleQmap.state.State.savetxt">
-<code class="descname">savetxt</code><span class="sig-paren">(</span><em>filename</em>, <em>rep='q'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.state.State.savetxt" title="Permalink to this definition">¶</a></dt>
+<code class="descname">savetxt</code><span class="sig-paren">(</span><em>filename</em>, <em>rep='q'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.state.State.savetxt" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Save an state data to a text file</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -346,14 +333,14 @@ the position <span class="math">\((q)\)</span> representation to the momentum <s
 </tbody>
 </table>
 <div class="admonition seealso">
-<p class="first admonition-title">See also</p>
+<p class="first admonition-title">参考</p>
 <p class="last"><code class="xref py py-obj docutils literal"><span class="pre">numpy.savetxt</span></code></p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="SimpleQmap.state.State.toarray">
-<code class="descname">toarray</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.state.State.toarray" title="Permalink to this definition">¶</a></dt>
+<code class="descname">toarray</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.state.State.toarray" title="この定義へのパーマリンク">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -367,38 +354,58 @@ the position <span class="math">\((q)\)</span> representation to the momentum <s
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#"><code class="docutils literal"><span class="pre">state</span></code></a><ul>
-<li><a class="reference internal" href="#scaleinfo"><code class="docutils literal"><span class="pre">ScaleInfo</span></code></a></li>
-<li><a class="reference internal" href="#id1"><code class="docutils literal"><span class="pre">State</span></code></a></li>
+<p class="logo">
+  <a href="index.html">
+    <img class="logo" src="_static/logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=hanada-yasutaka&repo=SimpleQmap&type=watch&count=true&size=large"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="require.html">はじめに</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/std.html">古典写像系</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/qstd.html">量子写像系</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/newmap.html">写像系を定義し量子論の計算をおこなう</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/saveload.html">波動関数の保存及び読み込み</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/integ.html">可積分極限</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/nonuni.html">非ユニタリー系</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href=""><code class="docutils literal"><span class="pre">state</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#scaleinfo"><code class="docutils literal"><span class="pre">ScaleInfo</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1"><code class="docutils literal"><span class="pre">State</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="maps.html"><code class="docutils literal"><span class="pre">maps</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="qmap.html"><code class="docutils literal"><span class="pre">qmap</span></code></a></li>
+</ul>
+<ul class="simple">
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="tutorial/saveload.html"
-                        title="previous chapter">波動関数の保存及び読み込み</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="maps.html"
-                        title="next chapter"><code class="docutils literal"><span class="pre">maps</span></code></a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/state.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
+
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3>クイック検索</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <input type="submit" value="検索" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
     <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
+    モジュール、クラス、または関数名を入力してください
     </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
@@ -406,27 +413,20 @@ the position <span class="math">\((q)\)</span> representation to the momentum <s
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="maps.html" title="maps"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="tutorial/saveload.html" title="波動関数の保存及び読み込み"
-             >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">SimpleQmap  documentation</a> &raquo;</li> 
-      </ul>
+    <div class="footer">
+      &copy;2013, Yasutaka Hanada.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="_sources/state.txt"
+          rel="nofollow">Page source</a>
     </div>
-    <div class="footer" role="contentinfo">
-        &copy; Copyright 2013, Yasutaka Hanada.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
-    </div>
+
+    
+
+    
   </body>
 </html>

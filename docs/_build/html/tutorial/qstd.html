@@ -6,15 +6,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>量子写像系 &mdash; SimpleQmap  documentation</title>
+    <title>量子写像系 &mdash; SimpleQmap 0.2[alpha] ドキュメント</title>
     
-    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '',
+        VERSION:     '0.2[alpha]',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,30 +23,17 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="SimpleQmap  documentation" href="../index.html" />
+    <link rel="top" title="SimpleQmap 0.2[alpha] ドキュメント" href="../index.html" />
     <link rel="next" title="写像系を定義し量子論の計算をおこなう" href="newmap.html" />
-    <link rel="prev" title="古典写像系" href="std.html" /> 
+    <link rel="prev" title="古典写像系" href="std.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
   </head>
-  <body role="document">
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="newmap.html" title="写像系を定義し量子論の計算をおこなう"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="std.html" title="古典写像系"
-             accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">SimpleQmap  documentation</a> &raquo;</li> 
-      </ul>
-    </div>  
+  <body role="document">  
 
     <div class="document">
       <div class="documentwrapper">
@@ -69,7 +56,7 @@
 \newcommand{\lambdabar}{\lambda \kern -0.5em\raise 0.5ex \hbox{--}}     %lambda bar
 \)</div>
 <div class="section" id="id1">
-<h1>量子写像系<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<h1>量子写像系<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p>次の時間に依存する量子化されたハミルトニアン</p>
 <div class="math">
 \[\hat{H}(\hat{q},\hat{p},t) = T(\hat{p}) + V(\hat{q})\sum_{n=-\infty}^{\infty}\delta(t-n) \tag{1}\]</div>
@@ -87,12 +74,11 @@
 SimpleQmapを使って量子化された標準写像における状態の時間発展を計算してみます．
 尚<span class="math">\(q\)</span>及び<span class="math">\(p\)</span>は離散フーリエ変換を用いた計算であるため周期境界条件が課されます．</p>
 <div class="section" id="id2">
-<h2>例題1: 時間発展<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<div class="code python highlight-python"><div class="highlight"><pre>%matplotlib inline
+<h2>例題1: 時間発展<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="code python highlight-python"><div class="highlight"><pre># ipython notebook を使用しない場合は下記コマンドは無視して下さい
+%matplotlib inline
 </pre></div>
 </div>
-<p>(上記%matplotlib inlineは本ページを作る都合(ipython
-notebookを利用)で記載していますので無視して下さい)</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">SimpleQmap</span> <span class="kn">as</span> <span class="nn">sq</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
@@ -128,7 +114,7 @@ notebookを利用)で記載していますので無視して下さい)</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="../_images/qstd_3_0.png" src="../_images/qstd_3_0.png" />
+<img alt="../_images/qstd_2_0.png" src="../_images/qstd_2_0.png" />
 <p>波動関数を保存する場合savetxt関数を使う事をおすすめします． 1step
 毎にデータを確認したいならば， fig.axs = plt.subplot(1,2)
 以降の行を次の様に置き換えればよいでしょう．
@@ -158,7 +144,7 @@ notebookを利用)で記載していますので無視して下さい)</p>
 </div>
 </div>
 <div class="section" id="id3">
-<h2>伏見表示<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<h2>伏見表示<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>通常の量子力学では不確定性関係に<span class="math">\(q\)</span>- 及び
 <span class="math">\(p\)</span>-表示しか気にしませんが，(擬)位相空間表示である伏見表示やWigner表示は量子古典対応を考える上で非常に強力な表示とないます．
 Wigner表示は実装していないのでここでは伏見表示のみ説明します．</p>
@@ -221,16 +207,11 @@ Wigner表示は実装していないのでここでは伏見表示のみ説明�
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>/home/hanada/anaconda3/lib/python3.4/site-packages/matplotlib/collections.py:650: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
-  if self._edgecolors_original != str(&#39;face&#39;):
-/home/hanada/anaconda3/lib/python3.4/site-packages/matplotlib/collections.py:590: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
-  if self._edgecolors == str(&#39;face&#39;):
-</pre></div>
-</div>
-<img alt="../_images/qstd_7_1.png" src="../_images/qstd_7_1.png" />
-<p>(上記 FutherWarning は気にしないで下さい) 一応
+<img alt="../_images/qstd_6_0.png" src="../_images/qstd_6_0.png" />
+<p>一応
 SimpleQmapでは伏見表示及びq,p表示を同時に表示する方法も提供しています．
-サンプルプログラムは以下の通りです．</p>
+サンプルプログラムは以下の通りです(ipython notebook
+環境では動かないとおもいます)．</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">SimpleQmap</span> <span class="kn">as</span> <span class="nn">sq</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
@@ -307,7 +288,7 @@ SimpleQmapでは伏見表示及びq,p表示を同時に表示する方法も提�
 </div>
 </div>
 <div class="section" id="id4">
-<h2>例題2: 固有値問題<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<h2>例題2: 固有値問題<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p><span class="math">\(\hat{U}\)</span>の固有値問題を</p>
 <div class="math">
 \[\hat{U}\ket{\Psi_j} = u_j \ket{\Psi_j}, \qquad u_j = e^{-\frac{i}{\hbar}E_j}\]</div>
@@ -375,14 +356,8 @@ SimpleQmapでは伏見表示及びq,p表示を同時に表示する方法も提�
     <span class="k">break</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>/home/hanada/anaconda3/lib/python3.4/site-packages/matplotlib/collections.py:650: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
-  if self._edgecolors_original != str(&#39;face&#39;):
-/home/hanada/anaconda3/lib/python3.4/site-packages/matplotlib/collections.py:590: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
-  if self._edgecolors == str(&#39;face&#39;):
-</pre></div>
-</div>
-<img alt="../_images/qstd_11_1.png" src="../_images/qstd_11_1.png" />
-<p>固有値が求まったので，時間発展は次のようにして求めれば良いであろう．</p>
+<img alt="../_images/qstd_10_0.png" src="../_images/qstd_10_0.png" />
+<p>固有値が求まっているので，時間発展は次のようにして求めれば良いであろう．</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">evolve</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">init</span><span class="p">,</span> <span class="n">evals</span><span class="p">,</span> <span class="n">evecs</span><span class="p">):</span>
     <span class="n">coeff</span> <span class="o">=</span><span class="p">[</span><span class="n">init</span><span class="o">.</span><span class="n">inner</span><span class="p">(</span><span class="n">psi</span><span class="p">)</span> <span class="k">for</span> <span class="n">psi</span> <span class="ow">in</span> <span class="n">evecs</span><span class="p">]</span> <span class="c"># list of &lt;psi_j | init&gt;</span>
     <span class="n">term</span> <span class="o">=</span> <span class="p">[</span><span class="n">evals</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">**</span><span class="n">n</span><span class="o">*</span><span class="n">coeff</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">psi</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">psi</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">evecs</span><span class="p">)]</span>
@@ -410,13 +385,7 @@ SimpleQmapでは伏見表示及びq,p表示を同時に表示する方法も提�
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>/home/hanada/anaconda3/lib/python3.4/site-packages/matplotlib/collections.py:650: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
-  if self._edgecolors_original != str(&#39;face&#39;):
-/home/hanada/anaconda3/lib/python3.4/site-packages/matplotlib/collections.py:590: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
-  if self._edgecolors == str(&#39;face&#39;):
-</pre></div>
-</div>
-<img alt="../_images/qstd_13_1.png" src="../_images/qstd_13_1.png" />
+<img alt="../_images/qstd_12_0.png" src="../_images/qstd_12_0.png" />
 <p>numpy では数値対角化(lapack)は比較的容易に提供されており，
 固有ベクトルの取得は容易ですが，行列の次元が増大すると対角化に要する時間が大きくなります．
 また，数値的に固有ベクトルが求まったっとしても固有ベクトルの解釈が単純ではありません．
@@ -432,39 +401,59 @@ SimpleQmapでは伏見表示及びq,p表示を同時に表示する方法も提�
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">量子写像系</a><ul>
-<li><a class="reference internal" href="#id2">例題1: 時間発展</a></li>
-<li><a class="reference internal" href="#id3">伏見表示</a></li>
-<li><a class="reference internal" href="#id4">例題2: 固有値問題</a></li>
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=hanada-yasutaka&repo=SimpleQmap&type=watch&count=true&size=large"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../require.html">はじめに</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="std.html">古典写像系</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">量子写像系</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">例題1: 時間発展</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">伏見表示</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">例題2: 固有値問題</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="newmap.html">写像系を定義し量子論の計算をおこなう</a></li>
+<li class="toctree-l1"><a class="reference internal" href="saveload.html">波動関数の保存及び読み込み</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integ.html">可積分極限</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nonuni.html">非ユニタリー系</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../state.html"><code class="docutils literal"><span class="pre">state</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../maps.html"><code class="docutils literal"><span class="pre">maps</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../qmap.html"><code class="docutils literal"><span class="pre">qmap</span></code></a></li>
+</ul>
+<ul class="simple">
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="std.html"
-                        title="previous chapter">古典写像系</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="newmap.html"
-                        title="next chapter">写像系を定義し量子論の計算をおこなう</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/tutorial/qstd.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
+
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3>クイック検索</h3>
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <input type="submit" value="検索" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
     <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
+    モジュール、クラス、または関数名を入力してください
     </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
@@ -472,27 +461,20 @@ SimpleQmapでは伏見表示及びq,p表示を同時に表示する方法も提�
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="newmap.html" title="写像系を定義し量子論の計算をおこなう"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="std.html" title="古典写像系"
-             >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">SimpleQmap  documentation</a> &raquo;</li> 
-      </ul>
+    <div class="footer">
+      &copy;2013, Yasutaka Hanada.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="../_sources/tutorial/qstd.txt"
+          rel="nofollow">Page source</a>
     </div>
-    <div class="footer" role="contentinfo">
-        &copy; Copyright 2013, Yasutaka Hanada.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
-    </div>
+
+    
+
+    
   </body>
 </html>

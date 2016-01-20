@@ -72,15 +72,7 @@
         break 
 
 
-.. parsed-literal::
 
-    /home/hanada/anaconda3/lib/python3.4/site-packages/matplotlib/collections.py:650: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
-      if self._edgecolors_original != str('face'):
-    /home/hanada/anaconda3/lib/python3.4/site-packages/matplotlib/collections.py:590: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
-      if self._edgecolors == str('face'):
-
-
-
-.. image:: newmap_files/newmap_2_1.png
+.. image:: newmap_files/newmap_2_0.png
 
 

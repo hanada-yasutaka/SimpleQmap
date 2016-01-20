@@ -6,15 +6,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>qmap &mdash; SimpleQmap  documentation</title>
+    <title>qmap &mdash; SimpleQmap 0.2[alpha] ドキュメント</title>
     
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '',
+        VERSION:     '0.2[alpha]',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,30 +23,16 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="SimpleQmap  documentation" href="index.html" />
-    <link rel="next" title="References" href="readme.html" />
-    <link rel="prev" title="maps" href="maps.html" /> 
+    <link rel="top" title="SimpleQmap 0.2[alpha] ドキュメント" href="index.html" />
+    <link rel="prev" title="maps" href="maps.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
   </head>
-  <body role="document">
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="readme.html" title="References"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="maps.html" title="maps"
-             accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">SimpleQmap  documentation</a> &raquo;</li> 
-      </ul>
-    </div>  
+  <body role="document">  
 
     <div class="document">
       <div class="documentwrapper">
@@ -69,7 +55,7 @@
 \newcommand{\lambdabar}{\lambda \kern -0.5em\raise 0.5ex \hbox{--}}     %lambda bar
 \)</div>
 <div class="section" id="qmap">
-<h1><code class="xref py py-mod docutils literal"><span class="pre">qmap</span></code><a class="headerlink" href="#qmap" title="Permalink to this headline">¶</a></h1>
+<h1><code class="xref py py-mod docutils literal"><span class="pre">qmap</span></code><a class="headerlink" href="#qmap" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <span class="target" id="module-SimpleQmap.qmap"></span><p>qmap.py</p>
 <p>author: Yasutaka Hanada (2013/05/17)</p>
 <p>量子系の計算を行います．
@@ -81,75 +67,75 @@
 </ol>
 </div></blockquote>
 <div class="section" id="id1">
-<h2><a class="reference internal" href="SimpleQmap.html#SimpleQmap.qmap.Qmap" title="SimpleQmap.qmap.Qmap"><code class="xref py py-class docutils literal"><span class="pre">Qmap</span></code></a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<h2><a class="reference internal" href="SimpleQmap.html#SimpleQmap.qmap.Qmap" title="SimpleQmap.qmap.Qmap"><code class="xref py py-class docutils literal"><span class="pre">Qmap</span></code></a><a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <dl class="class">
 <dt id="SimpleQmap.qmap.Qmap">
-<em class="property">class </em><code class="descclassname">SimpleQmap.qmap.</code><code class="descname">Qmap</code><span class="sig-paren">(</span><em>map</em>, <em>dim</em>, <em>domain</em><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.qmap.Qmap" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<em class="property">class </em><code class="descclassname">SimpleQmap.qmap.</code><code class="descname">Qmap</code><span class="sig-paren">(</span><em>map</em>, <em>dim</em>, <em>domain</em><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.qmap.Qmap" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>ベースクラス: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p class="rubric">Methods</p>
 <dl class="method">
 <dt id="SimpleQmap.qmap.Qmap.eigen">
-<code class="descname">eigen</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.qmap.Qmap.eigen" title="Permalink to this definition">¶</a></dt>
+<code class="descname">eigen</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.qmap.Qmap.eigen" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>return eigenvalues and eigenvectors of time evolution operator matrix</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="SimpleQmap.qmap.Qmap.evolve">
-<code class="descname">evolve</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.qmap.Qmap.evolve" title="Permalink to this definition">¶</a></dt>
+<code class="descname">evolve</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.qmap.Qmap.evolve" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>iteative operation of <span class="math">\(\hat{U}\)</span> for a given initial state</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="SimpleQmap.qmap.Qmap.getIn">
-<code class="descname">getIn</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.qmap.Qmap.getIn" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getIn</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.qmap.Qmap.getIn" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>return previous state of time evolution</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="SimpleQmap.qmap.Qmap.getMatrix">
-<code class="descname">getMatrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.qmap.Qmap.getMatrix" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getMatrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.qmap.Qmap.getMatrix" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>return time evolution operator matrix</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="SimpleQmap.qmap.Qmap.getOut">
-<code class="descname">getOut</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.qmap.Qmap.getOut" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getOut</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.qmap.Qmap.getOut" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>return time evolved state</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="SimpleQmap.qmap.Qmap.getState">
-<code class="descname">getState</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.qmap.Qmap.getState" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getState</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.qmap.Qmap.getState" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>return null state</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="SimpleQmap.qmap.Qmap.op0">
-<code class="descname">op0</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.qmap.Qmap.op0" title="Permalink to this definition">¶</a></dt>
+<code class="descname">op0</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.qmap.Qmap.op0" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>make operator <span class="math">\(\exp[-\frac{i}{\hbar}V(\hat{q})]\)</span></p>
 </dd></dl>
 
 <dl class="method">
 <dt id="SimpleQmap.qmap.Qmap.op1">
-<code class="descname">op1</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.qmap.Qmap.op1" title="Permalink to this definition">¶</a></dt>
+<code class="descname">op1</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.qmap.Qmap.op1" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>make operator <span class="math">\(\exp[-\frac{i}{\hbar}T(\hat{p})]\)</span></p>
 </dd></dl>
 
 <dl class="method">
 <dt id="SimpleQmap.qmap.Qmap.operate">
-<code class="descname">operate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.qmap.Qmap.operate" title="Permalink to this definition">¶</a></dt>
+<code class="descname">operate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.qmap.Qmap.operate" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>time evolution of a given state <span class="math">\(|\psi_0\rangle\)</span></p>
 <div class="math">
 \[\langle q | \psi_1 \rangle = \langle q |\hat{U} | \psi_0 \rangle\]</div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
+<p class="first admonition-title">注釈</p>
 <p class="last">特に理由がなければ時間発展にはevolve() を使ってください．</p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="SimpleQmap.qmap.Qmap.pull">
-<code class="descname">pull</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.qmap.Qmap.pull" title="Permalink to this definition">¶</a></dt>
+<code class="descname">pull</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.qmap.Qmap.pull" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>substitution time evolved state into previous state</p>
 <div class="math">
 </div>
@@ -158,7 +144,7 @@
 
 <dl class="method">
 <dt id="SimpleQmap.qmap.Qmap.setInit">
-<code class="descname">setInit</code><span class="sig-paren">(</span><em>state</em><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.qmap.Qmap.setInit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">setInit</code><span class="sig-paren">(</span><em>state</em><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.qmap.Qmap.setInit" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>set initial state</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -172,7 +158,7 @@
 
 <dl class="method">
 <dt id="SimpleQmap.qmap.Qmap.setMatrix">
-<code class="descname">setMatrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.qmap.Qmap.setMatrix" title="Permalink to this definition">¶</a></dt>
+<code class="descname">setMatrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.qmap.Qmap.setMatrix" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>make time evolution operator matrix in position representation</p>
 <div class="math">
 \[\langle q_1 | \hat{U} | q_0\rangle\]</div>
@@ -183,10 +169,10 @@
 
 <dl class="method">
 <dt id="SimpleQmap.qmap.Qmap.setOperate">
-<code class="descname">setOperate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.qmap.Qmap.setOperate" title="Permalink to this definition">¶</a></dt>
+<code class="descname">setOperate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SimpleQmap.qmap.Qmap.setOperate" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>make operators</p>
 <div class="admonition seealso">
-<p class="first admonition-title">See also</p>
+<p class="first admonition-title">参考</p>
 <p class="last">Module <a href="#id6"><span class="problematic" id="id7">:qmap:Qmap:`op0`</span></a> and Module <a href="#id8"><span class="problematic" id="id9">:qmap:Qmap:`op1`</span></a></p>
 </div>
 </dd></dl>
@@ -202,37 +188,57 @@
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#"><code class="docutils literal"><span class="pre">qmap</span></code></a><ul>
-<li><a class="reference internal" href="#id1"><code class="docutils literal"><span class="pre">Qmap</span></code></a></li>
+<p class="logo">
+  <a href="index.html">
+    <img class="logo" src="_static/logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=hanada-yasutaka&repo=SimpleQmap&type=watch&count=true&size=large"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="require.html">はじめに</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/std.html">古典写像系</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/qstd.html">量子写像系</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/newmap.html">写像系を定義し量子論の計算をおこなう</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/saveload.html">波動関数の保存及び読み込み</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/integ.html">可積分極限</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/nonuni.html">非ユニタリー系</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="state.html"><code class="docutils literal"><span class="pre">state</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="maps.html"><code class="docutils literal"><span class="pre">maps</span></code></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href=""><code class="docutils literal"><span class="pre">qmap</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1"><code class="docutils literal"><span class="pre">Qmap</span></code></a></li>
 </ul>
 </li>
 </ul>
+<ul class="simple">
+</ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="maps.html"
-                        title="previous chapter"><code class="docutils literal"><span class="pre">maps</span></code></a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="readme.html"
-                        title="next chapter">References</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/qmap.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
+
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3>クイック検索</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <input type="submit" value="検索" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
     <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
+    モジュール、クラス、または関数名を入力してください
     </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
@@ -240,27 +246,20 @@
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="readme.html" title="References"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="maps.html" title="maps"
-             >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">SimpleQmap  documentation</a> &raquo;</li> 
-      </ul>
+    <div class="footer">
+      &copy;2013, Yasutaka Hanada.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="_sources/qmap.txt"
+          rel="nofollow">Page source</a>
     </div>
-    <div class="footer" role="contentinfo">
-        &copy; Copyright 2013, Yasutaka Hanada.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
-    </div>
+
+    
+
+    
   </body>
 </html>

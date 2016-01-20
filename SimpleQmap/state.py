@@ -359,8 +359,8 @@ class State(numpy.ndarray):
         """
         if region==None:
             region = self.scaleinfo.domain
-        else:
-            region = hsm_region
+        #else:
+        #    region = hsm_region
         import SimpleQmap
         from SimpleQmap.ctypes_wrapper import wrapper
         import os, glob
