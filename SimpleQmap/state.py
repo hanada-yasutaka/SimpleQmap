@@ -51,17 +51,26 @@ def loadtxt(title,verbose=True):
 class HilbertSpace(object):
     def __init__(self, dim, domain):
         """
-    Base class for state class 
-    
-    Parameters
-    ----------
-    dim : positive int
-        Hilbert dimension
-    domain: 2x2 list such as [[qmin, qmax], [pmin,pmax]]
-        qmin, qmax: domain of q-direction
-        pmin, pmax: domain of p-direction
+        Base class for state class 
+        
+        Parameters
+        ----------
+        dim : positive int
+            Hilbert dimension
+        domain: 2x2 list such as [[qmin, qmax], [pmin,pmax]]
+            qmin, qmax: domain of q-direction
+            pmin, pmax: domain of p-direction
+
+        >>> H = state.HilbertSpace(10, [[0,1],[0,1]] )
+        >>> H.dim
+        10
+        >>> H.h
+        0.1
+        >>> H.x
+        [array([ 0. ,  0.1,  0.2,  0.3,  0.4,  0.5,  0.6,  0.7,  0.8,  0.9]), array([ 0. ,  0.1,  0.2,  0.3,  0.4,  0.5,  0.6,  0.7,  0.8,  0.9])]
         
         """
+        
         self.dim = self._setDim(dim)
         self.domain = self._setDomain(domain)
         self.h = self._setPlanck()
@@ -449,9 +458,6 @@ class State(numpy.ndarray):
     def toarray(self):
         return numpy.array(self.tolist())
     
-def _test():
+if __name__ == "__main__":
     import doctest
     doctest.testmod()
-
-if __name__ == "__main__":
-    _test()

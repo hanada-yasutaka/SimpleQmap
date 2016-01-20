@@ -125,6 +125,7 @@ html_theme_options = {
     'github_user': 'hanada-yasutaka',
     'github_repo': 'SimpleQmap',
     'font_family': "'Hiragino Kaku Gothic Pro','メイリオ', sans-serif",
+    #'footer_text': 'Last up date',
     #'head_font_family':"'Hiragino Mincho Gothic ProN','メイリオ', sans-serif",
     #'sidebar_includehidden':False,
 }
@@ -173,7 +174,7 @@ html_static_path = ['_static']
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.
-#html_last_updated_fmt = '%b %d, %Y'
+html_last_updated_fmt = '%b %d, %Y'
 
 # If true, SmartyPants will be used to convert quotes and dashes to
 # typographically correct entities.
