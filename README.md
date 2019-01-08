@@ -1,6 +1,7 @@
 # SimpleQmap
 
 SimpleQmap is an (ugly implemented and derelict) python package for calculating the quantum/classical mapping systems.
+This is a testing branch.
 
 Documentation <http://simpleqmap.appspot.com/index.html>
 
