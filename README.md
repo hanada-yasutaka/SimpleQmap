@@ -1,6 +1,6 @@
 # SimpleQmap
 
-SimpleQmap is a small python package to calculate quantum/classical chaotic map.
+SimpleQmap is an (ugly implemented and derelict) python package for calculating the quantum/classical mapping systems.
 
 Documentation <http://simpleqmap.appspot.com/index.html>
 
