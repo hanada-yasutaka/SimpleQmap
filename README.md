@@ -34,3 +34,4 @@ see also [Documentation](http://simpleqmap.appspot.com/index.html) (Japanese onl
 * version 0.1.1 release on Sep. 26, 2013
 * version 0.1.2 release on Sep. 28, 2013
 * version 0.2.1 release on Jan. 18, 2015
+* version 0.3.1 release on Sep. 11, 2020
