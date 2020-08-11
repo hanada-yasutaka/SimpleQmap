@@ -96,6 +96,9 @@ class ScaleInfo(object):
         """ return [q, p] """
         return self.x
 
+    def state(self):
+        return State(self)
+
 class State(numpy.ndarray):
     """
     
@@ -391,7 +394,7 @@ class State(numpy.ndarray):
         return :math:`|\\langle x | \\psi \\rangle|^2` where :math:`x` is :math:`q` or :math:`p` as numpy.array object
         """
         data = self*numpy.conj(self)
-        return numpy.array(numpy.abs(data))
+        return numpy.abs(data)
 
     def norm(self):
         """
@@ -406,7 +409,8 @@ class State(numpy.ndarray):
         return :math:`\\langle \\phi | \\psi\\rangle` as complex value constant (numpy.complex128)
         """
         res = numpy.sum(self*numpy.conj(phi))
-        return numpy.complex128(res)
+        return State(self.scaleinfo, res)
+
     
     def copy(self):
         return State(self.scaleinfo, self.toarray())
@@ -418,6 +422,8 @@ class State(numpy.ndarray):
 class Matrix(numpy.matrix):
     def __new__(cls, mat, scaleinfo):
         cls.scaleinfo = scaleinfo
+        cls.hbar = cls.scaleinfo.hbar
+        cls.x = cls.scaleinfo.x
         return super(Matrix, cls).__new__(cls, mat)
 
     def eigh(self):
