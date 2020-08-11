@@ -15,6 +15,68 @@ import numpy
 from SimpleQmap.state import *
 twopi = 2.0*numpy.pi
 
+
+class SplitHamiltonian(ScaleInfo):
+    def __init__(self, dim, domain):
+        super().__init__(dim, domain)
+        self.scaleinfo = ScaleInfo(dim, domain)
+
+    def matVqrep(self, V):
+        q,p = self.x
+        mat = numpy.diag(V(q))
+        return Matrix(mat, self.scaleinfo)
+
+    def matTqrep(self, T):
+        q,p = self.x
+        dim = self.dim
+        eye = numpy.eye(dim, dtype=numpy.complex)
+        mat = numpy.zeros((dim,dim), dtype=numpy.complex)
+        for i, x in enumerate(eye):
+            pvec = numpy.fft.fft(x)
+            if p[0]*p[-1] < 0:
+                pvec = numpy.fft.fftshift( T(p) ) * pvec
+            else:
+                pvec = T(p) * pvec
+            mat[:,i] = numpy.fft.ifft(pvec)
+        return Matrix(mat, self.scaleinfo)
+
+class SplitUnitary(ScaleInfo):
+    def __init__(self, dim, domain):
+        super().__init__(dim, domain)
+        self.scaleinfo = ScaleInfo(dim, domain)
+
+    def TVmatrix(self, T, V):
+        mat = numpy.zeros([self.dim, self.dim],dtype=numpy.complex128)        
+        for i in range(self.dim):
+            vec = State(self.scaleinfo)
+            vec[i] = 1
+            mat[:,i] = self.TVevolve(T, V, vec)
+        return Matrix(mat, self.scaleinfo)
+
+
+    def VTmatrix(self, T, V):
+        mat = numpy.zeros([self.dim, self.dim],dtype=numpy.complex128)        
+        for i in range(self.dim):
+            vec = State(self.scaleinfo)
+            vec[i] = 1
+            mat[:,i] = self.VTevolve(T, V, vec)
+        return Matrix(mat, self.scaleinfo)
+
+    def TVevolve(self, T, V, vec):
+        q,p = self.x
+        hbar = self.hbar
+        qvec = numpy.exp(-1.j*V(q)/hbar) * vec 
+        pvec = numpy.exp(-1.j*T(p)/hbar) * qvec.q2p()
+        return pvec.p2q()
+    
+    def VTevolve(self, T, V, vec):
+        q,p = self.x
+        hbar = self.hbar
+        pvec = numpy.exp(-1.j*T(p)/hbar) * vec.q2p() 
+        qvec = numpy.exp(-1.j*V(q)/hbar) * pvec.p2q()
+        return qvec
+            
+        
 class Qmap(object):
     def __init__(self, map, dim, domain):
         """
