@@ -85,6 +85,7 @@ class ScaleInfo(object):
         self.domain = domain
         self.x = [numpy.linspace(self.domain[i][0], self.domain[i][1], self.dim, endpoint=False) for i in range(2)]
         self.h = self.getPlanck()
+        self.hbar = self.h/twopi
 
     def getPlanck(self):
         """ return effective planck constant """
@@ -152,14 +153,16 @@ class State(numpy.ndarray):
         if not isinstance(scaleinfo , ScaleInfo): raise TypeError("expected type ScaleInfo", type(scaleinfo))
         if data is None:
             data = numpy.zeros(scaleinfo.dim)
-        obj = numpy.asarray(data, dtype=numpy.complex128).view(cls)
-        obj.scaleinfo = scaleinfo
-        obj.x = scaleinfo.x
+        cls.scaleinfo = scaleinfo
+        cls.x = scaleinfo.x            
+        cls.domain = scaleinfo.domain
+        cls.hbar = scaleinfo.hbar
+        obj = numpy.asarray(data, dtype=numpy.complex128).view(cls)        
         return obj
 
     def __array_finalize__(self, obj):
         if obj is None: return
-        self.scaleinfo = getattr(obj, 'scaleinfo',None)
+        #self.scaleinfo = getattr(obj, 'scaleinfo', None)
 
     def savetxt(self, filename, rep='q',**kwargs):
         """ 
@@ -410,6 +413,33 @@ class State(numpy.ndarray):
     
     def toarray(self):
         return numpy.array(self.tolist())
+
+
+class Matrix(numpy.matrix):
+    def __new__(cls, mat, scaleinfo):
+        cls.scaleinfo = scaleinfo
+        return super(Matrix, cls).__new__(cls, mat)
+
+    def eigh(self):
+        data = numpy.squeeze(numpy.asarray(self))
+        (evals, V) = numpy.linalg.eigh(data)
+        index = numpy.argsort(evals)
+        evecs = []
+        for i in index:
+            evecs.append( State(self.scaleinfo, V[:, i]) )
+        return evals, evecs
+
+    def eig(self):
+        data = numpy.squeeze(numpy.asarray(self))
+        (evals, V) = numpy.linalg.eig(data)
+        evecs = []
+        for i in range(len(evals)):
+            evecs.append( State(self.scaleinfo, V[:, i]))
+        return  evals, evecs
+
+
+
+
     
 def _test():
     import doctest
