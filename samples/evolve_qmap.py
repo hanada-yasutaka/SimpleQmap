@@ -11,13 +11,8 @@ qmin, qmax = -np.pi, np.pi
 pmin, pmax = -np.pi, np.pi
 
 domain = np.array([[qmin,qmax],[pmin,pmax]])
-scaleinfo = sq.ScaleInfo(dim, domain)
-#qmap = sq.Qmap(map, dim, domain) # defines the quantum system
-#evals, evecs = qmap.eigen() # return eigenvalues and list of eigenvector of the system.
 
-Hsol = sq.SplitHamiltonian(dim, domain)
 Usol = sq.SplitUnitary(dim, domain)
-state = sq.State(scaleinfo)
 T = lambda x: x**2/2
 V = lambda x: np.cos(x)
 
@@ -33,11 +28,11 @@ x = np.linspace(domain[0,0], domain[0,1], 100)
 y = np.linspace(domain[1,0], domain[1,1], 100)
 Q,P = np.meshgrid(x,y)
 
-vec1 = state.cs(-np.pi,0)
+state = Usol.state()
+vec = state.cs(-3,0)
 
-for j in range(10):
+for t in range(10):
 
-    #vec = sq.State(scaleinfo, vec)
     
     x,y,z = vec.hsmrep()
     ax[0].contourf(x,y,z, cmap=plt.cm.Oranges)
@@ -55,9 +50,9 @@ for j in range(10):
     ax[2].set_xlim(1e-30, 1)    
 
 
-    #fig.suptitle("%d-th eigenstate, E_n=%f" % (i, evals[i]))
+    fig.suptitle("%d-th iteration" % (t))
     fig.canvas.draw()
-    _ = input()
+    _ = input("press enter to the next:")
     for a in ax:
         a.cla()
     vec = Usol.TVevolve(T,V, vec)        

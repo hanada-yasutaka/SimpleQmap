@@ -12,22 +12,24 @@ domain = np.array([qrange, prange])
 scaleinfo = sq.ScaleInfo(dim, domain)
 
 Hsol = sq.SplitHamiltonian(dim, domain)
-Usol = sq.SplitUnitary(dim, domain)
 T = lambda x: x**2/2
 V = lambda x: np.cos(x)
 
+#Usol = sq.SplitUnitary(dim, domain)
+#U = Uso.TVmatrix(T, V)
+#uevals, uevecs = U.eig()
 matT = Hsol.matTqrep(T)
 matV = Hsol.matVqrep(V)
 hbar = Hsol.hbar
 s = (-1.j/hbar)
-matHam1 = matT +  matV
-matHam2 = (matT * matV - matV * matT)/2
-matHam = matHam1 + s * matHam2 
-
+matHam = matT + matV
 evals, evecs = matHam.eigh()
-state = sq.State(scaleinfo)
-init_vec = state.cs(-np.pi, 0)
-coeff = np.array([init_vec.inner(evec) for evec in evecs])
+
+
+state = Hsol.state()
+init_vec = state.cs(-2, 0)
+
+coeff = np.array([init_vec.inner(evec) for evec in evecs]) #< evec | init_vec>
 
 x = np.linspace(domain[0,0], domain[0,1], 100)
 y = np.linspace(domain[1,0], domain[1,1], 100)
@@ -61,9 +63,9 @@ for t in range(10):
     ax[2].set_xlim(1e-30, 1)    
 
 
-    #fig.suptitle("%d-th eigenstate, E_n=%f" % (i, evals[i]))
+    fig.suptitle("%d-th iteration" % (t))
     fig.canvas.draw()
-    _ = input()
+    _ = input("press enter to the next:")
     for a in ax:
         a.cla()
     

@@ -11,30 +11,22 @@ qmin, qmax = -np.pi, np.pi
 pmin, pmax = -np.pi, np.pi
 
 domain = np.array([[qmin,qmax],[pmin,pmax]])
-scaleinfo = sq.ScaleInfo(dim, domain)
-#qmap = sq.Qmap(map, dim, domain) # defines the quantum system
-#evals, evecs = qmap.eigen() # return eigenvalues and list of eigenvector of the system.
 
-Solver = sq.qmap.TVHamiltonian(dim, domain)
+Solver = sq.SplitHamiltonian(dim, domain)
 T = lambda x: x**2/2
 V = lambda x: np.cos(x)
 
 matT = Solver.matTqrep(T)
 matV = Solver.matVqrep(V)
 hbar = Solver.hbar
-s = (-1.j/hbar)
-matHam1 = matT +  matV
-matHam2 = (matT * matV - matV * matT)/2
-matHam = matHam1 + s * matHam2 
+matHam = matT + matV
+evals, evecs = matHam.eigh()
 
 from SimpleQmap.utility import hsm_axes
 fig = plt.figure()
 ax1, ax2, ax3 = hsm_axes(fig)
 ax = [ax1, ax2, ax3]
 
-evals, evecs = matHam.eigh()
-#init_vec = sq.State(scaleinfo)
-#coef = np.array([vec.inner(init), ]a
 
 plt.ion()
 plt.show()

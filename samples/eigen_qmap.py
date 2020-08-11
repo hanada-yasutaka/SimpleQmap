@@ -4,6 +4,26 @@ import matplotlib.pyplot as plt
 
 twopi = 2.0*np.pi
 
+def qnum_index(uevecs, bchevecs):
+    index = []
+    duplicate = False
+    idx = None
+    for bchvec in bchevecs:
+        ovl2 = np.array([bchvec.inner(uvec).abs2() for uvec in uevecs])
+        idx = ovl2.argmax()
+        while idx in index:
+            ovl2 = np.delete(ovl2, idx)
+            try:
+                idx = ovl2.argmax()
+            except ValueError:
+                findex = set(np.arange(len(bchevecs)))
+                sindex = set(index)
+                diff = list(findex - sindex)[0]
+                index.append(diff)
+                break
+        index.append(idx)
+    return index
+
 
 dim = 30
 k = 1
@@ -11,15 +31,24 @@ qmin, qmax = -np.pi, np.pi
 pmin, pmax = -np.pi, np.pi
 
 domain = np.array([[qmin,qmax],[pmin,pmax]])
-scaleinfo = sq.ScaleInfo(dim, domain)
 
 Hsol = sq.SplitHamiltonian(dim, domain)
 Usol = sq.SplitUnitary(dim, domain)
-state = sq.State(scaleinfo)
+
 T = lambda x: x**2/2
 V = lambda x: np.cos(x)
-mat = Usol.VTmatrix(T,V)        
-evals, evecs = mat.eig()
+mat = Usol.TVmatrix(T,V)        
+uevals, uevecs = mat.eig()
+hbar = Hsol.hbar
+matT = Hsol.matTqrep(T)
+matV = Hsol.matVqrep(V)
+matH = matT + matV + (matT*matV - matV*matT)/2 *(-1.j/hbar)
+bchevals, bchevecs = matH.eigh()
+
+index = qnum_index(uevecs, bchevecs)
+uevals = uevals[index]
+uevecs = [uevecs[i] for i in index]
+
 
 from SimpleQmap.utility import hsm_axes
 fig = plt.figure()
@@ -33,15 +62,12 @@ x = np.linspace(domain[0,0], domain[0,1], 100)
 y = np.linspace(domain[1,0], domain[1,1], 100)
 Q,P = np.meshgrid(x,y)
 
-vec = state.cs(-np.pi,0)
-
-for vec in evecs:
+for i, vec in enumerate(uevecs):
 
     #vec = sq.State(scaleinfo, vec)
     
     x,y,z = vec.hsmrep()
     ax[0].contourf(x,y,z, cmap=plt.cm.Oranges)
-    ax[0].contour(Q, P, T(P)+V(Q), 10)
 
     q = vec.x[0]    
     ax[1].plot(q, vec.abs2(), "-")
@@ -55,9 +81,9 @@ for vec in evecs:
     ax[2].set_xlim(1e-30, 1)    
 
 
-    #fig.suptitle("%d-th eigenstate, E_n=%f" % (i, evals[i]))
+    fig.suptitle("%d-th eigenstate" % i)
     fig.canvas.draw()
-    _ = input()
+    _ = input("press enter to the next:")
     for a in ax:
         a.cla()
 
