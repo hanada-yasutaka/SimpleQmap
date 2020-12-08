@@ -19,13 +19,13 @@ def loadtxt(title,verbose=True):
     with open(title, "r") as file:
         for i, line in enumerate(file):
             if re.search('DIM', line):
-                dim = int(line.split(" ")[2])        
+                dim = int(line.split(" ")[2])
             if re.search('QMIN', line):
                 qmin = float(line.split(" ")[2])
             if re.search('QMAX', line):
                 qmax = float(line.split(" ")[2])
             if re.search('PMIN', line):
-                pmin = float(line.split(" ")[2])                
+                pmin = float(line.split(" ")[2])
             if re.search('PMAX', line):
                 pmax = float(line.split(" ")[2])
             if re.search('REP', line):
@@ -33,7 +33,7 @@ def loadtxt(title,verbose=True):
 
     if rep not in ["q","p"]:
         raise TypeError("must be q-rep or p-rep text file")
-    
+
     data = numpy.loadtxt(title).transpose()
     vec = data[2] + 1.j*data[3]
     scl = ScaleInfo(dim, [[qmin,qmax], [pmin, pmax]])
@@ -48,19 +48,19 @@ def loadtxt(title,verbose=True):
         print(t)
     return state
 
-        
+
 class ScaleInfo(object):
     """
-    
+
     ScaleInfoは位相空間の定義域を設定するためのclassです．
-    
+
     Parameters
     ----------
     dim : int
         Hilbert Space dimension
     domain: list
         domain of phase space. expected 2 by 2 list, e.g., [[qmin,qmax], [pmin, pmax]]
-    
+
     Examples
     ----------
     >>> from qmap import ScaleInfo
@@ -75,13 +75,13 @@ class ScaleInfo(object):
     def __init__(self, dim, domain):
         self.dim = dim
         self.__setDomain(domain)
-    
+
     def __setDomain(self, domain):
         if domain[0][0] > domain[0][1]:
             raise ValueError("qmin > qmax")
         if domain[1][0] > domain[1][1]:
             raise ValueError("pmin < qmax")
-        
+
         self.domain = domain
         self.x = [numpy.linspace(self.domain[i][0], self.domain[i][1], self.dim, endpoint=False) for i in range(2)]
         self.h = self.getPlanck()
@@ -101,30 +101,30 @@ class ScaleInfo(object):
 
 class State(numpy.ndarray):
     """
-    
+
     State はScaleInfoで定義された上で波動関数 :math:`| \psi\\rangle` を提供します．
     表示は :math:`q-` 表示，すなわち :math:`\\langle q | \\psi\\rangle` を採用し，
     各種変換を定義しています．
     numpy.ndarrayを継承しています．
-        
-    
+
+
     Parameters
     ----------
     scaleinfo : ScaleInfo instance
                 input scaleinfo instance
     data     : State, optional
                  if data is None, return a new array of given scaleinfo, filled with zeros.
-                 if data is not None, return a new array of given data, 
+                 if data is not None, return a new array of given data,
                  Note that length data must be same scaleinfo dimnsion.
-    
+
     See Also
     --------
     numpy.ndarray : subclassing ndarray <http://docs.scipy.org/doc/numpy/user/basics.subclassing.html>
-    
-    
+
+
     Examples
     ----------
-    
+
     >>> from qmap import State, ScaleInfo
     >>> scl = ScaleInfo(10, [[0,1],[-0.5,0.5]])
     >>> State(scl, range(10))
@@ -149,18 +149,18 @@ class State(numpy.ndarray):
     >>> newvec
     State([ 1.+0.j,  0.+0.j,  0.+0.j,  0.+0.j,  0.+0.j,  0.+0.j,  0.+0.j,
             0.+0.j,  0.+0.j,  0.+0.j])
-    
+
     """
-    
+
     def __new__(cls, scaleinfo, data=None):
         if not isinstance(scaleinfo , ScaleInfo): raise TypeError("expected type ScaleInfo", type(scaleinfo))
         if data is None:
             data = numpy.zeros(scaleinfo.dim)
         cls.scaleinfo = scaleinfo
-        cls.x = scaleinfo.x            
+        cls.x = scaleinfo.x
         cls.domain = scaleinfo.domain
         cls.hbar = scaleinfo.hbar
-        obj = numpy.asarray(data, dtype=numpy.complex128).view(cls)        
+        obj = numpy.asarray(data, dtype=numpy.complex128).view(cls)
         return obj
 
     def __array_finalize__(self, obj):
@@ -168,21 +168,21 @@ class State(numpy.ndarray):
         #self.scaleinfo = getattr(obj, 'scaleinfo', None)
 
     def savetxt(self, filename, rep='q',**kwargs):
-        """ 
-        Save an state data to a text file 
-        
+        """
+        Save an state data to a text file
+
         Parameters
         ----------
         filename: str
             file name
-        rep: str 
+        rep: str
             'q', 'p' or 'hsm'
-        
+
         See Also
         ----------
         numpy.savetxt <http://docs.scipy.org/doc/numpy/reference/generated/numpy.savetxt.html>
         """
-        ann = self.__annotate(rep)            
+        ann = self.__annotate(rep)
 #        abs2 = numpy.abs(self*numpy.conj(self))
         if rep in ["q", "p"]:
             x = self.scaleinfo.x[0] if rep == "q" else self.scaleinfo.x[1]
@@ -200,7 +200,7 @@ class State(numpy.ndarray):
         else:
             raise TypeError('rep is "p", "q" or "hsm"')
 
-    
+
     def __annotate(self,rep):
         import datetime
         ann ="DATE: %s\n" % datetime.datetime.now()
@@ -212,10 +212,10 @@ class State(numpy.ndarray):
         ann += "PMAX %s\n" % self.scaleinfo.domain[1][1]
         ann += "REP %s" % rep
         return ann
-    
+
     def insert(self, i, x):
         """
-        
+
         >>> from state import State, ScaleInfo
         >>> scl = ScaleInfo(10, [[0,1],[-0.5,0.5]])
         >>> state = State(scl)
@@ -223,52 +223,52 @@ class State(numpy.ndarray):
         >>> print(state)
         [ 0.+0.j  0.+0.j  2.+1.j  0.+0.j  0.+0.j  0.+0.j  0.+0.j  0.+0.j  0.+0.j
           0.+0.j]
-        
+
         """
         if not isinstance(i, int): raise ValueError("excepted: integer")
         self[i] = x
-    
+
     def coherent(self, q_c, p_c, x):
-        """ 
-        
+        """
+
         minimum-uncertainty Gaussian wave packet centered at (q_c,p_c, x)
-        
-        .. math:: 
-        
+
+        .. math::
+
             \langle x | \psi \\rangle = \exp[-(x-q_c)^2/2\hbar + p_c(x-q_c)/\hbar]
-            
+
         .. warning::
-        
+
             周期的境界条件を課してないので特別な理由がない限り使わないで下さい．
-        
+
         Parameters
         ----------
-        
+
         q_c, p_c : float
             Centroid (q_c,p_c,x) of the wave packet
         x : array
-        """ 
-        
+        """
+
         re = -(x - q_c)*(x - q_c)*numpy.pi/(self.scaleinfo.h)
         im = (x - q_c)*p_c*twopi/self.scaleinfo.h
         res = State(self.scaleinfo, data = numpy.exp(re+ 1.j*im))
-        norm2 = numpy.abs(res.inner(res)) 
+        norm2 = numpy.abs(res.inner(res))
         return res/numpy.sqrt(norm2)
 
     def cs(self, q_c, p_c):
-        """ 
-        create new State object which 
+        """
+        create new State object which
         minimum-uncertainty Gaussian wave packet centered at (q_c,p_c) on periodic boundary condition.
-                
+
         Parameters
         ----------
-        
+
         q_c, p_c : float
             Centroid (q_c,p_c) of wave packet
-        
+
         Examples
         ----------
-        
+
         >>> from state import State, ScaleInfo
         >>> scl = ScaleInfo(10, [[0,1],[-0.5,0.5]])
         >>> state = State(scl)
@@ -282,80 +282,80 @@ class State(numpy.ndarray):
                  3.95164004e-01 +2.87103454e-01j,
                  5.88151479e-02 +1.81014412e-01j,
                 -1.22265106e-02 +3.76293303e-02j,  -3.55650243e-03 +2.58395027e-03j])
-                
-        .. seealso:: 
-        
+
+        .. seealso::
+
             Module :state:`coherent`
-        
-        """         
-        
+
+        """
+
         qrange = self.scaleinfo.domain[0]
         d = qrange[1] - qrange[0]
         lqmin, lqmax = qrange[0] - 2*d, qrange[1] + 2*d
         long_q = numpy.linspace(lqmin, lqmax, 5*self.scaleinfo.dim, endpoint=False)
-        
+
         coh_state = self.coherent(q_c, p_c, long_q)
 
-        vec = numpy.zeros(self.scaleinfo.dim, dtype=numpy.complex128) 
+        vec = numpy.zeros(self.scaleinfo.dim, dtype=numpy.complex128)
         m = int(len(coh_state)/self.scaleinfo.dim)
         coh_state = coh_state.reshape(m,self.scaleinfo.dim)
-        
+
         for i in range(m):
             vec += coh_state[i][::1]
         norm2 = numpy.dot(vec, numpy.conj(vec))
-        
+
         return State(self.scaleinfo, vec/numpy.sqrt(norm2))
-        
+
     def qrep(self):
         """
         return :math:`\\langle q | \\psi\\rangle` as a State object
         """
         return State(self.scaleinfo, self)
-        
+
     def prep(self):
         """
         return :math:`\\langle p | \\psi\\rangle` as a State object
         """
         return State(self.scaleinfo, self.q2p())
-        
+
 
     def p2q(self):
         """
         Fourier (inverse) transformation from
         the momentum :math:`(p)` representation to the position :math:`(q)` representation.
-        
+
         .. math::
-        
+
             \\langle q | \\psi\\rangle = \\sum_p \\langle q | p\\rangle \\!\\langle p | \\psi \\rangle
-            
+
         """
-        
+
         data = State(self.scaleinfo, self)
         if self.scaleinfo.domain[1][0]*self.scaleinfo.domain[1][1] < 0:
-            data = numpy.fft.fftshift(data)        
-        data = numpy.fft.ifft(data)*numpy.sqrt(self.scaleinfo.dim)#/numpy.sqrt(self.scaleinfo.dim)        
+            data = numpy.fft.fftshift(data)
+        data = numpy.fft.ifft(data)*numpy.sqrt(self.scaleinfo.dim)#/numpy.sqrt(self.scaleinfo.dim)
         return State(self.scaleinfo, data)
-        
+
     def q2p(self):
         """
         Fourier (forward) transformation from
-        the position :math:`(q)` representation to the momentum :math:`(p)` representation. 
-        
+        the position :math:`(q)` representation to the momentum :math:`(p)` representation.
+
         .. math::
-        
+
             \\langle p | \\psi\\rangle = \\sum_q \\langle p | q\\rangle \\!\\langle q | \\psi \\rangle
-            
+
         """
         data = numpy.fft.fft(self)/numpy.sqrt(self.scaleinfo.dim)
         if self.scaleinfo.domain[1][0]*self.scaleinfo.domain[1][1] < 0:
             data = numpy.fft.fftshift(data)
         return State(self.scaleinfo, data) #*numpy.sqrt(self.scaleinfo.dim)
-        
+
     def hsmrep(self, col=50, row=50, region=None):
         """
-        
+
         Husimi (phase space) representation.
-        
+
         Parameter
         ----------
         col, row: int
@@ -371,7 +371,7 @@ class State(numpy.ndarray):
         from SimpleQmap.ctypes_wrapper import wrapper
         import os, glob
         #path = os.environ['PYTHONPATH'].split(":")
-        
+
         for path in glob.glob(SimpleQmap.__path__[0] + "/shared/libhsm*.so"):
             if os.path.exists(path):
                 break
@@ -379,16 +379,16 @@ class State(numpy.ndarray):
             cw = wrapper.call_hsm_rep(path)
         except NameError:
             raise RuntimeError("libhsm.so not found.")
-            
+
         hsm_imag = cw.husimi_rep(self, self.scaleinfo.dim, self.scaleinfo.domain, region, [row,col])
 
         x = numpy.linspace(region[0][0], region[0][1], row)
         y = numpy.linspace(region[1][0], region[1][1], col)
 
         X,Y = numpy.meshgrid(x,y)
-        return X,Y,hsm_imag    	
-        
-        
+        return X,Y,hsm_imag
+
+
     def abs2(self):
         """
         return :math:`|\\langle x | \\psi \\rangle|^2` where :math:`x` is :math:`q` or :math:`p` as numpy.array object
@@ -398,7 +398,7 @@ class State(numpy.ndarray):
 
     def norm(self):
         """
-        return :math:`\\sum_x |\\langle x | \\psi \\rangle|^2` where 
+        return :math:`\\sum_x |\\langle x | \\psi \\rangle|^2` where
         :math:`x` is :math:`q` or :math:`p` as real value constant (numpy.float64)
         """
         norm = numpy.abs(numpy.sum(self*numpy.conj(self)))
@@ -411,10 +411,10 @@ class State(numpy.ndarray):
         res = numpy.sum(self*numpy.conj(phi))
         return State(self.scaleinfo, res)
 
-    
+
     def copy(self):
         return State(self.scaleinfo, self.toarray())
-    
+
     def toarray(self):
         return numpy.array(self.tolist())
 
@@ -443,10 +443,16 @@ class Matrix(numpy.matrix):
             evecs.append( State(self.scaleinfo, V[:, i]))
         return  evals, evecs
 
+    def eigmat(self):
+        data = numpy.squeeze(numpy.asarray(self))
+        (evals, V) = numpy.linalg.eig(data)
+        return numpy.matrix(numpy.diag(evals)), numpy.matrix(V)
 
 
 
-    
+
+
+
 def _test():
     import doctest
     doctest.testmod()
