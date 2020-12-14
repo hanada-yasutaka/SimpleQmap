@@ -96,8 +96,11 @@ class ScaleInfo(object):
         """ return [q, p] """
         return self.x
 
-    def state(self):
-        return State(self)
+    def state(self, data=[]):
+        if len(data) == 0:
+            return State(self)
+        else:
+            return State(self, data)
 
 class State(numpy.ndarray):
     """
@@ -351,7 +354,7 @@ class State(numpy.ndarray):
             data = numpy.fft.fftshift(data)
         return State(self.scaleinfo, data) #*numpy.sqrt(self.scaleinfo.dim)
 
-    def hsmrep(self, col=50, row=50, region=None):
+    def hsmrep(self, col=50, row=50, region=[]):
         """
 
         Husimi (phase space) representation.
@@ -363,7 +366,7 @@ class State(numpy.ndarray):
         region: 2 by 2 list
             Husimi plot range. expected 2 by 2 list, e.g., [[qmin,qmax], [pmin, pmax]]
         """
-        if region==None:
+        if len(region) == 0:
             region = self.scaleinfo.domain
         #else:
         #    region = hsm_region
@@ -442,13 +445,6 @@ class Matrix(numpy.matrix):
         for i in range(len(evals)):
             evecs.append( State(self.scaleinfo, V[:, i]))
         return  evals, evecs
-
-    def eigmat(self):
-        data = numpy.squeeze(numpy.asarray(self))
-        (evals, V) = numpy.linalg.eig(data)
-        return numpy.matrix(numpy.diag(evals)), numpy.matrix(V)
-
-
 
 
 
