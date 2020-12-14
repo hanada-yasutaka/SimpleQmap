@@ -41,8 +41,9 @@ class SplitHamiltonian(ScaleInfo):
         return Matrix(mat, self.scaleinfo)
 
 class SplitUnitary(ScaleInfo):
-    def __init__(self, dim, domain):
+    def __init__(self, dim, domain, tau = 1):
         super().__init__(dim, domain)
+        self.tau = tau
         self.scaleinfo = ScaleInfo(dim, domain)
 
     def TVmatrix(self, T, V):
@@ -65,15 +66,15 @@ class SplitUnitary(ScaleInfo):
     def TVevolve(self, T, V, vec):
         q,p = self.x
         hbar = self.hbar
-        qvec = numpy.exp(-1.j*V(q)/hbar) * vec
-        pvec = numpy.exp(-1.j*T(p)/hbar) * qvec.q2p()
+        qvec = numpy.exp(-1.j*V(q)/hbar * self.tau) * vec
+        pvec = numpy.exp(-1.j*T(p)/hbar * self.tau) * qvec.q2p()
         return pvec.p2q()
 
     def VTevolve(self, T, V, vec):
         q,p = self.x
         hbar = self.hbar
-        pvec = numpy.exp(-1.j*T(p)/hbar) * vec.q2p()
-        qvec = numpy.exp(-1.j*V(q)/hbar) * pvec.p2q()
+        pvec = numpy.exp(-1.j*T(p)/hbar * self.tau) * vec.q2p()
+        qvec = numpy.exp(-1.j*V(q)/hbar * self.tau) * pvec.p2q()
         return qvec
 
 
